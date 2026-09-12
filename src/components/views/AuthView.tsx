@@ -8,12 +8,9 @@ import {
   Mail, 
   User as UserIcon, 
   Phone, 
-  Globe, 
   KeyRound, 
-  CheckCircle2, 
   AlertCircle, 
   ArrowRight,
-  Sparkles,
   Ticket
 } from 'lucide-react';
 
@@ -140,7 +137,8 @@ export const AuthView: React.FC<AuthViewProps> = ({ mode: initialMode, onNavigat
       email,
       phone: fullPhone,
       country,
-      invitationCode: invitationCode.trim().toUpperCase()
+      invitationCode: invitationCode.trim().toUpperCase(),
+      password
     });
 
     if (res.success && res.user) {
@@ -149,11 +147,6 @@ export const AuthView: React.FC<AuthViewProps> = ({ mode: initialMode, onNavigat
     } else {
       setRegisterError(res.error || 'Failed to complete registration.');
     }
-  };
-
-  const fillDemoCustomer = () => {
-    setLoginEmail('alex.crypto@gmail.com');
-    setLoginPassword('password123');
   };
 
   return (
@@ -245,22 +238,10 @@ export const AuthView: React.FC<AuthViewProps> = ({ mode: initialMode, onNavigat
 
               <button
                 type="submit"
-                className="w-full py-3.5 rounded-xl font-bold text-sm text-white cb-blue-gradient cb-blue-gradient-hover cb-glow shadow-lg transition-all flex items-center justify-center gap-2"
+                className="w-full py-3.5 rounded-xl font-bold text-sm text-white cb-blue-gradient cb-blue-gradient-hover cb-glow shadow-lg transition-all flex items-center justify-center gap-2 mt-2"
               >
                 Sign In to Account <ArrowRight className="w-4 h-4" />
               </button>
-
-              {/* Quick Fill Demo Customer */}
-              <div className="pt-2 border-t border-white/5 text-center">
-                <button
-                  type="button"
-                  onClick={fillDemoCustomer}
-                  className="text-xs text-slate-400 hover:text-blue-400 transition-colors flex items-center justify-center gap-1.5 mx-auto font-mono"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                  Quick fill demo trader: alex.crypto@gmail.com
-                </button>
-              </div>
             </form>
           ) : (
             /* REGISTER FORM */
@@ -344,24 +325,14 @@ export const AuthView: React.FC<AuthViewProps> = ({ mode: initialMode, onNavigat
                 <input
                   type="text"
                   required
-                  placeholder="e.g. CB-AG001"
+                  placeholder="Enter invitation code"
                   value={invitationCode}
                   onChange={(e) => setInvitationCode(e.target.value.toUpperCase())}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-blue-500/40 text-white font-mono uppercase tracking-widest text-sm focus:outline-none focus:border-blue-400 transition-colors"
                 />
-                <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-slate-400">
-                  <span>Available Sub-Agent codes for testing:</span>
-                  {['CB-AG001', 'CB-AG002', 'CB-AG003'].map(c => (
-                    <button
-                      key={c}
-                      type="button"
-                      onClick={() => setInvitationCode(c)}
-                      className="px-1.5 py-0.5 rounded bg-blue-600/30 text-blue-300 font-mono text-[10px] hover:bg-blue-600/50"
-                    >
-                      {c}
-                    </button>
-                  ))}
-                </div>
+                <p className="text-[11px] text-slate-400 pt-1 font-mono">
+                  Enter the invitation code issued by your accredited institutional agent or account representative.
+                </p>
               </div>
 
               {/* Password & Confirm */}
