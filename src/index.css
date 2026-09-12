@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #050b18;
+    color: #f1f5f9;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom scrollbars */
+.cb-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.cb-scroll::-webkit-scrollbar-track {
+  background: rgba(5, 11, 24, 0.6);
+}
+.cb-scroll::-webkit-scrollbar-thumb {
+  background: rgba(33, 150, 243, 0.25);
+  border-radius: 4px;
+}
+.cb-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(33, 150, 243, 0.45);
+}
+
+/* Glassmorphism and Neon accents */
+.cb-glass {
+  background: rgba(10, 20, 42, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+}
+
+.cb-glass-card {
+  background: linear-gradient(135deg, rgba(13, 27, 56, 0.75) 0%, rgba(8, 16, 36, 0.85) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(59, 130, 246, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.cb-glass-subtle {
+  background: rgba(15, 30, 60, 0.4);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.cb-glow {
+  box-shadow: 0 0 24px -2px rgba(0, 82, 255, 0.45);
+}
+
+.cb-glow-emerald {
+  box-shadow: 0 0 20px -2px rgba(16, 185, 129, 0.4);
+}
+
+.cb-glow-rose {
+  box-shadow: 0 0 20px -2px rgba(244, 63, 94, 0.4);
+}
+
+.cb-blue-gradient {
+  background: linear-gradient(135deg, #0052FF 0%, #0045d8 50%, #002e99 100%);
+}
+
+.cb-blue-gradient-hover:hover {
+  background: linear-gradient(135deg, #1a65ff 0%, #0052FF 100%);
+}
+
+.cb-grid-bg {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(59, 130, 246, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(59, 130, 246, 0.04) 1px, transparent 1px);
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.cb-pulse-dot {
+  animation: pulseDot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes tickerMarquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.cb-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: tickerMarquee 40s linear infinite;
+}
+
+.cb-ticker-track:hover {
+  animation-play-state: paused;
+}
+

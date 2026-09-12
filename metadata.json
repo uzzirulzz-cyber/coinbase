@@ -1,0 +1,6 @@
+{
+  "name": "Coin Base",
+  "description": "Enterprise cryptocurrency trading platform featuring Customer, Sub-Agent, and Super Admin roles, invitation-code registration, technical chart indicators, real-time wallet transactions, and multi-tier management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
