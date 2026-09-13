@@ -21,15 +21,17 @@ import {
   Globe, 
   Plus, 
   Copy,
-  Terminal
+  Terminal,
+  Radio
 } from 'lucide-react';
+import { DeviceAnalyticsSection } from './DeviceAnalyticsSection';
 
 interface AuditSecuritySectionProps {
   onShowToast: (msg: string) => void;
 }
 
 export const AuditSecuritySection: React.FC<AuditSecuritySectionProps> = ({ onShowToast }) => {
-  const [subTab, setSubTab] = useState<'AUDIT' | 'LOGINS' | 'API_WEBHOOKS' | 'PERMISSIONS'>('AUDIT');
+  const [subTab, setSubTab] = useState<'AUDIT' | 'DEVICES' | 'LOGINS' | 'API_WEBHOOKS' | 'PERMISSIONS'>('AUDIT');
   const [logs, setLogs] = useState<AuditLog[]>(() => storage.getAuditLogs());
   const [loginHistory, setLoginHistory] = useState<LoginHistoryItem[]>(() => storage.getLoginHistory());
   const [apiKeys, setApiKeys] = useState<ApiKeyItem[]>(() => storage.getApiKeys());
@@ -147,6 +149,15 @@ export const AuditSecuritySection: React.FC<AuditSecuritySectionProps> = ({ onSh
             Audit Logs ({logs.length})
           </button>
           <button
+            onClick={() => setSubTab('DEVICES')}
+            className={`px-3 py-1.5 rounded-lg transition-colors font-bold flex items-center gap-1.5 ${
+              subTab === 'DEVICES' ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Radio className="w-3 h-3 text-cyan-400 animate-pulse" />
+            <span>Active Running Devices</span>
+          </button>
+          <button
             onClick={() => setSubTab('LOGINS')}
             className={`px-3 py-1.5 rounded-lg transition-colors font-bold ${
               subTab === 'LOGINS' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
@@ -262,6 +273,11 @@ export const AuditSecuritySection: React.FC<AuditSecuritySectionProps> = ({ onSh
             </table>
           </div>
         </div>
+      )}
+
+      {/* ACTIVE RUNNING DEVICES & LOCATION TELEMETRY TAB */}
+      {subTab === 'DEVICES' && (
+        <DeviceAnalyticsSection onShowToast={onShowToast} />
       )}
 
       {/* 2. SIGN-IN ACTIVITY TAB */}

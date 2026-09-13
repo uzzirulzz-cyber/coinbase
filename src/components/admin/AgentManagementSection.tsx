@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { User, Trade } from '../../types';
 import { storage } from '../../lib/storage';
+import { CountdownTimer } from '../common/CountdownTimer';
 import { 
   Users, 
   UserPlus, 
@@ -19,7 +20,10 @@ import {
   TrendingUp,
   Mail,
   Phone,
-  Globe
+  Globe,
+  AlertTriangle,
+  Clock,
+  Ban
 } from 'lucide-react';
 
 interface AgentManagementSectionProps {
@@ -65,6 +69,18 @@ export const AgentManagementSection: React.FC<AgentManagementSectionProps> = ({ 
     storage.updateUser(agent.id, { status: nextStatus });
     setUsers(storage.getUsers());
     onShowToast(`Agent ${agent.name} status updated to ${nextStatus}`);
+  };
+
+  const handleRevokePower = (agent: User) => {
+    storage.revokeAgentPower(agent.id, 210, 'Revoked by Super Administrator. Set to View-Only mode for 3 hours 30 minutes.');
+    setUsers(storage.getUsers());
+    onShowToast(`Revoked all powers for ${agent.name} (${agent.invitationCode}). Set to VIEW-ONLY (3h 30m countdown starts now).`);
+  };
+
+  const handleRestorePower = (agent: User) => {
+    storage.restoreAgentPower(agent.id);
+    setUsers(storage.getUsers());
+    onShowToast(`Restored full operational powers for ${agent.name} (${agent.invitationCode}).`);
   };
 
   const handleResetPassword = (agent: User) => {
@@ -170,16 +186,26 @@ export const AgentManagementSection: React.FC<AgentManagementSectionProps> = ({ 
           const clientTrades = trades.filter(t => clientIds.has(t.userId));
           const commissionPct = Math.round((ag.commissionRate || 0.20) * 100);
           const isFrozen = ag.status === 'FROZEN';
+          const isViewOnly = ag.status === 'VIEW_ONLY';
 
           return (
             <div 
               key={ag.id} 
-              className="p-5 rounded-2xl bg-slate-900/80 border border-purple-500/20 hover:border-purple-500/40 transition-all space-y-4 shadow-lg"
+              className={`p-5 rounded-2xl border transition-all space-y-4 shadow-lg ${
+                isViewOnly 
+                  ? 'bg-slate-900/90 border-amber-500/40 shadow-[0_0_15px_rgba(245,158,11,0.15)]' 
+                  : 'bg-slate-900/80 border-purple-500/20 hover:border-purple-500/40'
+              }`}
             >
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="font-bold text-white text-sm flex items-center gap-1.5">
                     {ag.name}
+                    {isViewOnly && (
+                      <span className="px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 text-[9px] font-mono border border-amber-500/30">
+                        VIEW ONLY
+                      </span>
+                    )}
                   </h3>
                   <div className="text-xs font-mono text-purple-300">
                     Username: <span className="font-bold text-white">{ag.username}</span>
@@ -190,11 +216,34 @@ export const AgentManagementSection: React.FC<AgentManagementSectionProps> = ({ 
                 </div>
 
                 <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
-                  isFrozen ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                  isViewOnly
+                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                    : isFrozen 
+                    ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' 
+                    : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                 }`}>
                   {ag.status}
                 </span>
               </div>
+
+              {/* View-Only Countdown Lockout Box */}
+              {isViewOnly && (
+                <div className="p-3 rounded-xl bg-amber-950/60 border border-amber-500/40 space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-bold text-amber-400 flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5 animate-pulse text-amber-400" />
+                      LOCKOUT COUNTDOWN
+                    </span>
+                    <CountdownTimer 
+                      targetDateIso={ag.viewOnlyCountdownEndsAt}
+                      className="text-xs text-amber-300 font-mono font-bold"
+                    />
+                  </div>
+                  <p className="text-[10px] text-slate-300 leading-tight">
+                    All administrative and broker privileges revoked. 3 hours 30 minutes observation period active.
+                  </p>
+                </div>
+              )}
 
               {/* Code Box */}
               <div className="p-2.5 rounded-xl bg-slate-950 border border-purple-500/30 flex items-center justify-between">
@@ -230,7 +279,7 @@ export const AgentManagementSection: React.FC<AgentManagementSectionProps> = ({ 
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center justify-between gap-2 pt-2 border-t border-white/5">
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/5">
                 <button
                   onClick={() => setSelectedAgentClients(ag)}
                   className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-mono transition-colors flex items-center gap-1"
@@ -247,17 +296,37 @@ export const AgentManagementSection: React.FC<AgentManagementSectionProps> = ({ 
                     <KeyRound className="w-3.5 h-3.5" />
                   </button>
 
-                  <button
-                    onClick={() => handleToggleAgentStatus(ag)}
-                    className={`px-2 py-1.5 rounded-lg text-xs font-mono font-bold transition-colors flex items-center gap-1 ${
-                      isFrozen
-                        ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30'
-                        : 'bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30'
-                    }`}
-                  >
-                    {isFrozen ? <Unlock className="w-3 h-3" /> : <Lock className="w-3 h-3" />}
-                    {isFrozen ? 'Unfreeze' : 'Freeze'}
-                  </button>
+                  {isViewOnly ? (
+                    <button
+                      onClick={() => handleRestorePower(ag)}
+                      className="px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 transition-colors flex items-center gap-1"
+                      title="Restore full agent powers"
+                    >
+                      <ShieldCheck className="w-3 h-3" /> Restore Powers
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleRevokePower(ag)}
+                      className="px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 transition-colors flex items-center gap-1"
+                      title="Revoke powers & set to View-Only (3h 30m)"
+                    >
+                      <Ban className="w-3 h-3" /> Revoke (3.5h)
+                    </button>
+                  )}
+
+                  {!isViewOnly && (
+                    <button
+                      onClick={() => handleToggleAgentStatus(ag)}
+                      className={`px-2 py-1.5 rounded-lg text-xs font-mono font-bold transition-colors flex items-center gap-1 ${
+                        isFrozen
+                          ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30'
+                          : 'bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30'
+                      }`}
+                    >
+                      {isFrozen ? <Unlock className="w-3 h-3" /> : <Lock className="w-3 h-3" />}
+                      {isFrozen ? 'Unfreeze' : 'Freeze'}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

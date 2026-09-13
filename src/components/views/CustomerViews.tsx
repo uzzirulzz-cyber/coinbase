@@ -22,7 +22,12 @@ import {
   AlertCircle, 
   QrCode, 
   ExternalLink,
-  CheckCircle2
+  CheckCircle2,
+  Radio,
+  Globe,
+  Laptop,
+  Smartphone,
+  ShieldAlert
 } from 'lucide-react';
 
 interface CustomerViewProps {
@@ -732,6 +737,72 @@ export const CustomerViews: React.FC<CustomerViewProps> = ({
                 className="px-5 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold"
               >
                 Update Password
+              </button>
+            </div>
+          </div>
+
+          {/* Actively Running Devices & Locations Card */}
+          <div className="rounded-2xl cb-glass-card border border-blue-500/20 p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-white/5 pb-3">
+              <div className="flex items-center gap-2">
+                <Radio className="w-4 h-4 text-cyan-400 animate-pulse" />
+                <h3 className="text-sm font-bold text-white tracking-tight">Actively Running Devices & Locations</h3>
+              </div>
+              <span className="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold font-mono">
+                TELEMETRY ACTIVE
+              </span>
+            </div>
+
+            <p className="text-xs text-slate-400">
+              Your account is currently accessed and verified from the following authorized locations and active devices:
+            </p>
+
+            {/* Current Device Session */}
+            <div className="p-3.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Laptop className="w-4 h-4 text-emerald-400" />
+                  <span className="text-xs font-bold text-white">Current Running Browser Session</span>
+                </div>
+                <span className="px-2 py-0.5 rounded-full bg-emerald-500 text-slate-950 font-black text-[9px] font-mono animate-pulse">
+                  THIS DEVICE (LIVE)
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-[11px] font-mono text-slate-400 pt-1">
+                <div>IP: <span className="text-blue-400">94.200.12.84</span></div>
+                <div>Location: <span className="text-slate-200">Dubai, United Arab Emirates</span></div>
+                <div>Platform: <span className="text-slate-200">macOS / Chrome 124.0</span></div>
+                <div>Status: <span className="text-emerald-400 font-bold">Actively Running</span></div>
+              </div>
+            </div>
+
+            {/* Other Active Devices */}
+            <div className="space-y-2 pt-1">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block font-mono">
+                Other Authorized Active Sessions
+              </span>
+              <div className="p-3 rounded-xl bg-slate-900/60 border border-white/5 flex items-center justify-between text-xs font-mono">
+                <div className="flex items-center gap-2.5">
+                  <Smartphone className="w-4 h-4 text-blue-400" />
+                  <div>
+                    <div className="text-white font-bold">iPhone 15 Pro • Safari Mobile</div>
+                    <div className="text-[11px] text-slate-400">Abu Dhabi, UAE • Last active 4 mins ago</div>
+                  </div>
+                </div>
+                <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-[10px] font-bold">
+                  STANDBY
+                </span>
+              </div>
+            </div>
+
+            <div className="pt-2 flex items-center justify-between border-t border-white/5">
+              <span className="text-[11px] text-slate-500 font-mono">Don't recognize a device? Revoke it immediately.</span>
+              <button
+                type="button"
+                onClick={() => triggerToast('Successfully logged out of all other remote device sessions.')}
+                className="px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 text-xs font-bold transition-colors cursor-pointer"
+              >
+                Terminate Other Sessions
               </button>
             </div>
           </div>

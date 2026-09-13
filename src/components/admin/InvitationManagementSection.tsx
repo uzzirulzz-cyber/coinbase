@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { InvitationCode, User } from '../../types';
 import { storage } from '../../lib/storage';
+import { CountdownTimer } from '../common/CountdownTimer';
 import { 
   KeyRound, 
   Plus, 
@@ -16,7 +17,8 @@ import {
   Sparkles,
   Layers,
   Calendar,
-  Eye
+  Eye,
+  AlertTriangle
 } from 'lucide-react';
 
 interface InvitationManagementSectionProps {
@@ -196,6 +198,15 @@ export const InvitationManagementSection: React.FC<InvitationManagementSectionPr
                         </span>
                       )}
                     </div>
+                    {inv.status === 'REVOKED' && (
+                      <div className="mt-1 flex items-center gap-1.5">
+                        <CountdownTimer 
+                          targetDateIso={inv.viewOnlyCountdownEndsAt}
+                          prefix="Lockout: "
+                          className="text-[10px] text-amber-300 bg-amber-950/70 border border-amber-500/40 px-1.5 py-0.5 rounded"
+                        />
+                      </div>
+                    )}
                   </td>
                   <td className="py-3 px-3">
                     <div className="text-white font-medium">{inv.agentName}</div>
@@ -212,11 +223,17 @@ export const InvitationManagementSection: React.FC<InvitationManagementSectionPr
                     <span className="text-slate-500"> / {inv.type === 'ONE_TIME' ? 1 : inv.maxUses}</span>
                   </td>
                   <td className="py-3 px-3">
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                      isActive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
-                    }`}>
-                      {inv.status}
-                    </span>
+                    {inv.status === 'REVOKED' ? (
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                        REVOKED / VIEW-ONLY
+                      </span>
+                    ) : (
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                        isActive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
+                      }`}>
+                        {inv.status}
+                      </span>
+                    )}
                   </td>
                   <td className="py-3 px-3 text-slate-400 text-[11px]">
                     {inv.expiresAt ? new Date(inv.expiresAt).toLocaleDateString() : 'Never'}

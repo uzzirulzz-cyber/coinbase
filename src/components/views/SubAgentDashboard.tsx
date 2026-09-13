@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { User, Trade } from '../../types';
-import { storage } from '../../lib/storage';
+import { storage, getOrSetAgent5CountdownEnd } from '../../lib/storage';
 import { formatPrice } from '../../lib/market-data';
+import { CountdownTimer } from '../common/CountdownTimer';
 import { 
   Users, 
   DollarSign, 
@@ -17,7 +18,9 @@ import {
   Share2,
   BarChart3,
   CheckCircle2,
-  Calendar
+  Calendar,
+  AlertTriangle,
+  Info
 } from 'lucide-react';
 
 interface SubAgentDashboardProps {
@@ -30,6 +33,7 @@ export const SubAgentDashboard: React.FC<SubAgentDashboardProps> = ({ currentUse
   const [allUsers, setAllUsers] = useState<User[]>(() => storage.getUsers());
   const [allTrades, setAllTrades] = useState<Trade[]>(() => storage.getTrades());
   const [actionNotice, setActionNotice] = useState<string | null>(null);
+  const [showRevokeInfoModal, setShowRevokeInfoModal] = useState(false);
 
   useEffect(() => {
     return storage.subscribe(() => {
@@ -39,6 +43,13 @@ export const SubAgentDashboard: React.FC<SubAgentDashboardProps> = ({ currentUse
   }, []);
 
   const agentCode = currentUser.invitationCode || 'CB-AG001';
+  const isPowerRevoked = 
+    currentUser.status === 'VIEW_ONLY' || 
+    currentUser.username === 'agentae005' || 
+    currentUser.invitationCode === 'PBD-AGENT-ae005' ||
+    Boolean(currentUser.permissions?.includes('VIEW_ONLY'));
+
+  const countdownTarget = currentUser.viewOnlyCountdownEndsAt || getOrSetAgent5CountdownEnd();
 
   // Strict Data Isolation: ONLY customers linked to this Sub-Agent's code
   const myCustomers = allUsers.filter(u => 
@@ -68,6 +79,12 @@ export const SubAgentDashboard: React.FC<SubAgentDashboardProps> = ({ currentUse
   };
 
   const handleToggleFreeze = (cust: User) => {
+    if (isPowerRevoked) {
+      setActionNotice('⚠️ Action Denied: All operational powers for Agent 5 have been revoked. View-only mode enforced.');
+      setTimeout(() => setActionNotice(null), 4000);
+      return;
+    }
+
     const nextStatus = cust.status === 'ACTIVE' ? 'FROZEN' : 'ACTIVE';
     storage.updateUser(cust.id, { status: nextStatus });
     
@@ -87,30 +104,86 @@ export const SubAgentDashboard: React.FC<SubAgentDashboardProps> = ({ currentUse
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* REVOCATION / VIEW-ONLY ALERT BANNER FOR AGENT 5 */}
+      {isPowerRevoked && (
+        <div className="p-5 rounded-2xl bg-gradient-to-r from-rose-950/80 via-amber-950/70 to-slate-900 border border-amber-500/50 shadow-2xl space-y-3 relative overflow-hidden">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <div className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400 shrink-0 mt-0.5">
+                <AlertTriangle className="w-6 h-6 animate-pulse" />
+              </div>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded bg-rose-500/30 text-rose-300 border border-rose-500/40 text-[10px] font-mono font-black uppercase tracking-wider">
+                    POWERS REVOKED
+                  </span>
+                  <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-mono font-bold">
+                    VIEW-ONLY MODE ACTIVE
+                  </span>
+                </div>
+                <h3 className="text-base md:text-lg font-black text-white tracking-tight">
+                  Operational Powers Revoked — Restricted to Observation Desk
+                </h3>
+                <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
+                  Super Administrator has revoked execution privileges for <strong>{currentUser.name}</strong> (Code: <code>{agentCode}</code>).
+                  Client freeze controls, code generation, and trade staking actions are suspended.
+                </p>
+              </div>
+            </div>
+
+            {/* Countdown Badge */}
+            <div className="flex flex-col sm:items-end gap-1.5 p-3 rounded-xl bg-slate-950/90 border border-amber-500/40 shrink-0">
+              <span className="text-[10px] uppercase font-mono text-amber-400 font-bold">
+                Lockout Countdown Ticking
+              </span>
+              <CountdownTimer 
+                targetDateIso={countdownTarget}
+                className="text-amber-300 text-lg md:text-xl font-mono tracking-widest"
+              />
+              <span className="text-[10px] text-slate-400 font-mono">
+                Duration: 3 hrs 30 mins (starts now)
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Sub-Agent Header & Invitation Code Card */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
         <div className="lg:col-span-2 space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono font-bold">
             <Activity className="w-3.5 h-3.5 text-purple-400" />
-            SUB-AGENT BROKER DESK
+            {isPowerRevoked ? 'SUB-AGENT DESK (READ-ONLY)' : 'SUB-AGENT BROKER DESK'}
           </div>
           <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight">
             Welcome, {currentUser.name}
           </h1>
           <p className="text-slate-400 text-sm max-w-xl">
-            Manage your invited customer book, monitor live trading volume, and administer customer account access under your exclusive broker code.
+            {isPowerRevoked
+              ? 'Monitoring view active. You can inspect customer activity and trade history in real-time, but operational modifications are disabled.'
+              : 'Manage your invited customer book, monitor live trading volume, and administer customer account access under your exclusive broker code.'}
           </p>
         </div>
 
         {/* Shareable Invitation Code Card */}
-        <div className="p-5 rounded-2xl bg-gradient-to-br from-purple-950/60 via-slate-900/90 to-blue-950/60 border border-purple-500/30 shadow-xl space-y-3">
+        <div className={`p-5 rounded-2xl border shadow-xl space-y-3 ${
+          isPowerRevoked 
+            ? 'bg-gradient-to-br from-rose-950/50 via-slate-900/90 to-amber-950/40 border-amber-500/40' 
+            : 'bg-gradient-to-br from-purple-950/60 via-slate-900/90 to-blue-950/60 border-purple-500/30'
+        }`}>
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-purple-300">
               Your Invitation Code
             </span>
-            <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-200 text-[10px] font-mono font-bold">
-              VERIFIED BROKER
-            </span>
+            {isPowerRevoked ? (
+              <span className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] font-mono font-bold">
+                REVOKED / LOCKED
+              </span>
+            ) : (
+              <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-200 text-[10px] font-mono font-bold">
+                VERIFIED BROKER
+              </span>
+            )}
           </div>
 
           <div className="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 border border-purple-500/30">
@@ -128,7 +201,9 @@ export const SubAgentDashboard: React.FC<SubAgentDashboardProps> = ({ currentUse
           </div>
 
           <p className="text-[11px] text-slate-400 leading-relaxed">
-            Customers must input this code during registration to be routed to your desk.
+            {isPowerRevoked
+              ? '⚠️ New registrations with this code are suspended while under view-only lockout.'
+              : 'Customers must input this code during registration to be routed to your desk.'}
           </p>
         </div>
       </div>
@@ -263,14 +338,22 @@ export const SubAgentDashboard: React.FC<SubAgentDashboardProps> = ({ currentUse
                       </td>
                       <td className="py-3.5 px-3 text-right">
                         <button
+                          disabled={isPowerRevoked}
                           onClick={() => handleToggleFreeze(cust)}
+                          title={isPowerRevoked ? 'Action disabled: Agent 5 powers revoked (View-Only mode)' : undefined}
                           className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors inline-flex items-center gap-1 ${
-                            isFrozen
+                            isPowerRevoked
+                              ? 'bg-slate-800/80 text-slate-500 cursor-not-allowed border border-white/5'
+                              : isFrozen
                               ? 'bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/30'
                               : 'bg-rose-600/30 hover:bg-rose-600/50 text-rose-300 border border-rose-500/30'
                           }`}
                         >
-                          {isFrozen ? (
+                          {isPowerRevoked ? (
+                            <>
+                              <Lock className="w-3 h-3 text-slate-500" /> View Only
+                            </>
+                          ) : isFrozen ? (
                             <>
                               <Unlock className="w-3 h-3" /> Unfreeze
                             </>

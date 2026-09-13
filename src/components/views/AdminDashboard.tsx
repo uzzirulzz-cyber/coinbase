@@ -59,7 +59,8 @@ import {
   Coins,
   Server,
   ShieldAlert,
-  Sparkles
+  Sparkles,
+  Radio
 } from 'lucide-react';
 import { AgentManagementSection } from '../admin/AgentManagementSection';
 import { InvitationManagementSection } from '../admin/InvitationManagementSection';
@@ -68,6 +69,7 @@ import { AuditSecuritySection } from '../admin/AuditSecuritySection';
 import { ReportsExportSection } from '../admin/ReportsExportSection';
 import { DueDiligenceSection } from '../admin/DueDiligenceSection';
 import { BitVistaOverviewSection } from '../admin/BitVistaOverviewSection';
+import { DeviceAnalyticsSection } from '../admin/DeviceAnalyticsSection';
 import { generateComprehensivePlatformPDF } from '../../lib/pdfReportGenerator';
 import { PaymentGatewayConfig, SystemSettings } from '../../types';
 
@@ -77,6 +79,7 @@ interface AdminDashboardProps {
 
 type AdminSection = 
   | 'dashboard'
+  | 'analytics'
   | 'duediligence'
   | 'users'
   | 'agents'
@@ -102,7 +105,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ currentUser }) =
   const [gateways, setGateways] = useState<PaymentGatewayConfig[]>(() => storage.getPaymentGateways());
   const [systemSettings, setSystemSettings] = useState<SystemSettings>(() => storage.getSystemSettings());
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [dashboardSubView, setDashboardSubView] = useState<'due_diligence' | 'bitvista' | 'operations'>('bitvista');
+  const [dashboardSubView, setDashboardSubView] = useState<'due_diligence' | 'bitvista' | 'operations' | 'analytics'>('analytics');
   const [isExportingPDF, setIsExportingPDF] = useState(false);
 
   const handleDownloadPDF = () => {
@@ -172,6 +175,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ currentUser }) =
 
   const navMenuItems = [
     { id: 'dashboard', label: 'Operations Dashboard', icon: LayoutDashboard },
+    { id: 'analytics', label: 'Device & Location Analytics', icon: Radio, badge: storage.getActiveDevices().filter(d => d.status === 'ONLINE').length },
     { id: 'bitvista', label: 'BitVista Business Overview', icon: Sparkles },
     { id: 'duediligence', label: 'Due Diligence & AML', icon: ShieldAlert, badge: 190 },
     { id: 'users', label: 'User Directory', icon: Users },
@@ -429,6 +433,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ currentUser }) =
                     <TrendingUp className="w-3.5 h-3.5 text-blue-400" />
                     <span>Trading Operations & Settlement Metrics</span>
                   </button>
+
+                  <button
+                    onClick={() => setDashboardSubView('analytics')}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                      dashboardSubView === 'analytics'
+                        ? 'bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 text-white shadow-[0_0_20px_rgba(0,82,255,0.4)]'
+                        : 'text-slate-400 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+                    <span>Actively Running Devices & Locations</span>
+                    <span className="px-1.5 py-0.5 rounded-full bg-emerald-500/30 text-emerald-300 text-[9px] font-mono font-black border border-emerald-500/40">
+                      LIVE
+                    </span>
+                  </button>
                 </div>
 
                 <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400 pr-3 hidden sm:flex">
@@ -441,6 +460,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ currentUser }) =
                 <BitVistaOverviewSection currentUser={currentUser} users={users} trades={trades} transactions={transactions} onShowToast={showToast} />
               ) : dashboardSubView === 'due_diligence' ? (
                 <DueDiligenceSection currentUser={currentUser} users={users} transactions={transactions} />
+              ) : dashboardSubView === 'analytics' ? (
+                <DeviceAnalyticsSection onShowToast={showToast} />
               ) : (
                 <div className="space-y-6">
                   {/* 8 KPI Cards */}
@@ -532,6 +553,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ currentUser }) =
                 </div>
               )}
             </div>
+          )}
+
+          {/* SECTION: DEVICE & GEOLOCATION ANALYTICS */}
+          {activeSection === 'analytics' && (
+            <DeviceAnalyticsSection onShowToast={showToast} />
           )}
 
           {/* SECTION 1.4: BITVISTA BUSINESS OVERVIEW */}

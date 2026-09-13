@@ -123,8 +123,75 @@ export const AdminLoginView: React.FC<AdminLoginViewProps> = ({ onNavigate, onSu
             </button>
           </form>
 
+          {/* Quick-Fill Credentials Card */}
+          <div className="pt-4 border-t border-white/10 space-y-2.5">
+            <div className="flex items-center justify-between text-[11px] font-mono">
+              <span className="text-amber-400 font-bold uppercase tracking-wider">Quick Fill Authorized Accounts:</span>
+              <span className="text-slate-500">Tap to fill</span>
+            </div>
+            
+            <div className="space-y-1.5 text-xs font-mono">
+              {/* Super Admin */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIdentifier('admin@coinbase.ae');
+                  setPassword('coinbaseeae11');
+                }}
+                className="w-full text-left p-2 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-200 transition-colors flex items-center justify-between"
+              >
+                <span><strong>Super Admin:</strong> admin@coinbase.ae</span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/30 text-amber-100 font-bold">FULL ACCESS</span>
+              </button>
+
+              {/* Sub-Agents 1-5 */}
+              <div className="grid grid-cols-2 gap-1.5">
+                {[
+                  { num: 1, u: 'agentae001', p: 'Agentae@001', code: 'PBD-AGENT-ae001', note: 'Active' },
+                  { num: 2, u: 'agentae002', p: 'Agentae@002', code: 'PBD-AGENT-ae002', note: 'Active' },
+                  { num: 3, u: 'agentae003', p: 'Agentae@003', code: 'PBD-AGENT-ae003', note: 'Active' },
+                  { num: 4, u: 'agentae004', p: 'Agentae@004', code: 'PBD-AGENT-ae004', note: 'Active' },
+                ].map(ag => (
+                  <button
+                    key={ag.u}
+                    type="button"
+                    onClick={() => {
+                      setIdentifier(ag.u);
+                      setPassword(ag.p);
+                    }}
+                    className="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-white/10 text-slate-300 hover:text-white transition-colors text-left"
+                  >
+                    <div className="font-bold text-[11px] text-white">Agent {ag.num}</div>
+                    <div className="text-[10px] text-slate-400">{ag.u}</div>
+                  </button>
+                ))}
+              </div>
+
+              {/* Agent 5 Highlighted as Revoked / View-Only */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIdentifier('agentae005');
+                  setPassword('Agentae@005');
+                }}
+                className="w-full text-left p-2 rounded-lg bg-rose-950/40 hover:bg-rose-950/60 border border-amber-500/40 text-amber-200 transition-colors flex items-center justify-between"
+              >
+                <div>
+                  <div className="font-bold text-[11px] text-white flex items-center gap-1.5">
+                    Agent 5 (agentae005)
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-300 font-mono font-bold">
+                      POWERS REVOKED
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-slate-400">Code: PBD-AGENT-ae005</div>
+                </div>
+                <span className="text-[10px] text-amber-300 font-mono font-bold">VIEW-ONLY (3.5h)</span>
+              </button>
+            </div>
+          </div>
+
           {/* Discrete Security Footer */}
-          <div className="pt-4 border-t border-white/10 text-center">
+          <div className="pt-2 border-t border-white/10 text-center">
             <div className="text-[11px] font-mono text-slate-500 flex items-center justify-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500/70" />
               <span>Hardware token & multi-factor verification enforced.</span>

@@ -46,7 +46,7 @@ export interface User {
   linkedSubAgentId?: string; // For Customers who registered with a code
   phone?: string;
   country?: string;
-  status: 'ACTIVE' | 'FROZEN' | 'SUSPENDED';
+  status: 'ACTIVE' | 'FROZEN' | 'SUSPENDED' | 'VIEW_ONLY' | 'REVOKED';
   kycStatus: 'VERIFIED' | 'PENDING' | 'UNVERIFIED';
   walletLocked: boolean;
   registeredAt: string;
@@ -58,6 +58,8 @@ export interface User {
   mustChangePassword?: boolean;
   commissionRate?: number; // e.g. 0.20 (20%)
   permissions?: string[];
+  viewOnlyCountdownEndsAt?: string;
+  revocationReason?: string;
 }
 
 export type TradeDirection = 'UP' | 'DOWN';
@@ -199,6 +201,9 @@ export interface InvitationCode {
   expiresAt: string | null;
   status: 'ACTIVE' | 'REVOKED' | 'EXPIRED';
   createdAt: string;
+  revokedAt?: string;
+  viewOnlyCountdownEndsAt?: string;
+  revocationReason?: string;
   usedByUsers: {
     userId: string;
     userName: string;
@@ -267,6 +272,34 @@ export interface LoginHistoryItem {
   browser: string;
   location: string;
   status: 'SUCCESS' | 'FAILED';
+}
+
+export interface ActiveDeviceSession {
+  id: string;
+  userId: string;
+  username: string;
+  userRole: 'SUPER_ADMIN' | 'SUB_AGENT' | 'CUSTOMER' | string;
+  deviceName: string;
+  deviceType: 'DESKTOP' | 'MOBILE' | 'TABLET' | 'SERVER';
+  os: string;
+  browser: string;
+  ipAddress: string;
+  location: {
+    city: string;
+    country: string;
+    countryCode: string;
+    flag: string;
+    isp: string;
+    lat?: number;
+    lng?: number;
+  };
+  status: 'ONLINE' | 'IDLE' | 'SUSPENDED';
+  isCurrentDevice?: boolean;
+  startedAt: string;
+  lastActiveAt: string;
+  pingMs: number;
+  fingerprintHash: string;
+  riskScore: 'LOW' | 'MEDIUM' | 'HIGH';
 }
 
 export interface ApiKeyItem {

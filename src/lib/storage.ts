@@ -12,6 +12,7 @@ import {
   LeadStatus,
   AuditLog,
   LoginHistoryItem,
+  ActiveDeviceSession,
   ApiKeyItem,
   WebhookItem,
   RolePermissionConfig,
@@ -32,6 +33,7 @@ const STORAGE_KEYS = {
   LEADS: 'pbd_coinbase_leads_v3',
   AUDIT_LOGS: 'pbd_coinbase_audit_logs_v3',
   LOGIN_HISTORY: 'pbd_coinbase_login_history_v3',
+  ACTIVE_DEVICES: 'pbd_coinbase_active_devices_v3',
   API_KEYS: 'pbd_coinbase_api_keys_v3',
   WEBHOOKS: 'pbd_coinbase_webhooks_v3',
   ROLE_PERMISSIONS: 'pbd_coinbase_role_permissions_v3',
@@ -68,6 +70,27 @@ const SEED_SUPER_ADMIN: User = {
   mustChangePassword: false,
   permissions: ['ALL_PERMISSIONS'],
 };
+
+// ==========================================
+// ACTIVE COUNTDOWN: 3 HOURS 30 MINUTES FOR AGENT 5 / PBD-AGENT-ae005
+// ==========================================
+export const AGENT_5_COUNTDOWN_DURATION_MS = (3 * 3600 + 30 * 60) * 1000; // 12,600,000 ms
+
+export function getOrSetAgent5CountdownEnd(): string {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    const existing = window.localStorage.getItem('cb_agent5_viewonly_end');
+    if (existing) {
+      const parsedTime = new Date(existing).getTime();
+      if (!isNaN(parsedTime) && parsedTime > Date.now()) {
+        return existing;
+      }
+    }
+    const newEnd = new Date(Date.now() + AGENT_5_COUNTDOWN_DURATION_MS).toISOString();
+    window.localStorage.setItem('cb_agent5_viewonly_end', newEnd);
+    return newEnd;
+  }
+  return new Date(Date.now() + AGENT_5_COUNTDOWN_DURATION_MS).toISOString();
+}
 
 // ==========================================
 // 2. DEFAULT SUB-AGENTS (5 AGENTS)
@@ -195,9 +218,9 @@ const SEED_SUBAGENTS: User[] = [
     invitationCode: 'PBD-AGENT-ae005',
     phone: '+971 4 555 0105',
     country: 'United Arab Emirates',
-    status: 'ACTIVE',
+    status: 'VIEW_ONLY',
     kycStatus: 'VERIFIED',
-    walletLocked: false,
+    walletLocked: true,
     registeredAt: '2026-02-18T16:00:00.000Z',
     lastLoginAt: '2026-03-12T01:10:00.000Z',
     lastLoginIp: '177.18.220.10',
@@ -206,7 +229,9 @@ const SEED_SUBAGENTS: User[] = [
     twoFactorEnabled: false,
     mustChangePassword: false,
     commissionRate: 0.20,
-    permissions: ['VIEW_CLIENTS', 'FREEZE_CLIENTS', 'GENERATE_CODES', 'VIEW_TRADES'],
+    permissions: ['VIEW_ONLY', 'VIEW_CLIENTS', 'VIEW_TRADES'],
+    viewOnlyCountdownEndsAt: getOrSetAgent5CountdownEnd(),
+    revocationReason: 'All administrative and broker powers revoked by Super Admin. Restricted to View-Only mode for 3 hours 30 minutes.',
   },
 ];
 
@@ -370,7 +395,10 @@ const SEED_INVITATIONS: InvitationCode[] = [
     maxUses: 9999,
     usedCount: 7,
     expiresAt: null,
-    status: 'ACTIVE',
+    status: 'REVOKED',
+    revokedAt: new Date().toISOString(),
+    viewOnlyCountdownEndsAt: getOrSetAgent5CountdownEnd(),
+    revocationReason: 'All broker powers revoked / set to view-only. 3h 30m countdown starts now.',
     createdAt: '2026-02-18T16:00:00.000Z',
     usedByUsers: []
   },
@@ -613,6 +641,336 @@ const SEED_LOGIN_HISTORY: LoginHistoryItem[] = [
 ];
 
 // ==========================================
+// 7B. ACTIVELY RUNNING DEVICES & SESSIONS SEED
+// ==========================================
+export const SEED_ACTIVE_DEVICES: ActiveDeviceSession[] = [
+  {
+    id: 'dev-sess-1',
+    userId: 'usr-admin-super',
+    username: 'admin@coinbase.ae',
+    userRole: 'SUPER_ADMIN',
+    deviceName: 'MacBook Pro 16" (Apple M3 Max)',
+    deviceType: 'DESKTOP',
+    os: 'macOS Sonoma 14.4.1',
+    browser: 'Chrome 124.0.6367.91',
+    ipAddress: '86.96.220.14',
+    location: {
+      city: 'Dubai',
+      country: 'United Arab Emirates',
+      countryCode: 'AE',
+      flag: '🇦🇪',
+      isp: 'du Telecom - Enterprise Fiber',
+      lat: 25.2048,
+      lng: 55.2708
+    },
+    status: 'ONLINE',
+    isCurrentDevice: true,
+    startedAt: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
+    lastActiveAt: new Date(Date.now() - 1000 * 12).toISOString(),
+    pingMs: 14,
+    fingerprintHash: 'fp_cb_mac_99a81e3f22',
+    riskScore: 'LOW'
+  },
+  {
+    id: 'dev-sess-2',
+    userId: 'agent-001',
+    username: 'agentae001',
+    userRole: 'SUB_AGENT',
+    deviceName: 'HP Z4 Workstation G5',
+    deviceType: 'DESKTOP',
+    os: 'Windows 11 Pro Enterprise (Build 22631)',
+    browser: 'Edge 124.0.2478.80',
+    ipAddress: '94.200.15.82',
+    location: {
+      city: 'Dubai (DIFC)',
+      country: 'United Arab Emirates',
+      countryCode: 'AE',
+      flag: '🇦🇪',
+      isp: 'Etisalat UAE Institutional Ingress',
+      lat: 25.2084,
+      lng: 55.2719
+    },
+    status: 'ONLINE',
+    isCurrentDevice: false,
+    startedAt: new Date(Date.now() - 1000 * 60 * 180).toISOString(),
+    lastActiveAt: new Date(Date.now() - 1000 * 35).toISOString(),
+    pingMs: 18,
+    fingerprintHash: 'fp_win_z4_8812cfa09',
+    riskScore: 'LOW'
+  },
+  {
+    id: 'dev-sess-3',
+    userId: 'agent-002',
+    username: 'agentae002',
+    userRole: 'SUB_AGENT',
+    deviceName: 'Apple iPhone 15 Pro Max',
+    deviceType: 'MOBILE',
+    os: 'iOS 17.4.1',
+    browser: 'Mobile Safari 17.4',
+    ipAddress: '5.36.192.40',
+    location: {
+      city: 'Abu Dhabi',
+      country: 'United Arab Emirates',
+      countryCode: 'AE',
+      flag: '🇦🇪',
+      isp: 'e& UAE Mobile 5G Ultra',
+      lat: 24.4539,
+      lng: 54.3773
+    },
+    status: 'ONLINE',
+    isCurrentDevice: false,
+    startedAt: new Date(Date.now() - 1000 * 60 * 95).toISOString(),
+    lastActiveAt: new Date(Date.now() - 1000 * 65).toISOString(),
+    pingMs: 27,
+    fingerprintHash: 'fp_ios_15pro_bb347091',
+    riskScore: 'LOW'
+  },
+  {
+    id: 'dev-sess-4',
+    userId: 'agent-003',
+    username: 'agentae003',
+    userRole: 'SUB_AGENT',
+    deviceName: 'Lenovo ThinkPad P1 Gen 6',
+    deviceType: 'DESKTOP',
+    os: 'Ubuntu Linux 22.04.4 LTS',
+    browser: 'Brave Browser 1.65.126',
+    ipAddress: '178.250.248.91',
+    location: {
+      city: 'Dubai (Silicon Oasis)',
+      country: 'United Arab Emirates',
+      countryCode: 'AE',
+      flag: '🇦🇪',
+      isp: 'Cloudflare Zero Trust / du',
+      lat: 25.1212,
+      lng: 55.3781
+    },
+    status: 'IDLE',
+    isCurrentDevice: false,
+    startedAt: new Date(Date.now() - 1000 * 60 * 320).toISOString(),
+    lastActiveAt: new Date(Date.now() - 1000 * 60 * 8).toISOString(),
+    pingMs: 22,
+    fingerprintHash: 'fp_ub_thinkpad_12df93',
+    riskScore: 'LOW'
+  },
+  {
+    id: 'dev-sess-5',
+    userId: 'agent-004',
+    username: 'agentae004',
+    userRole: 'SUB_AGENT',
+    deviceName: 'Dell XPS 15 (9530 OLED)',
+    deviceType: 'DESKTOP',
+    os: 'Windows 11 Home 23H2',
+    browser: 'Chrome 124.0.6367.62',
+    ipAddress: '92.97.104.18',
+    location: {
+      city: 'Sharjah',
+      country: 'United Arab Emirates',
+      countryCode: 'AE',
+      flag: '🇦🇪',
+      isp: 'Etisalat Residential Fiber',
+      lat: 25.3463,
+      lng: 55.4209
+    },
+    status: 'ONLINE',
+    isCurrentDevice: false,
+    startedAt: new Date(Date.now() - 1000 * 60 * 140).toISOString(),
+    lastActiveAt: new Date(Date.now() - 1000 * 42).toISOString(),
+    pingMs: 24,
+    fingerprintHash: 'fp_win_dellxps_9918ab',
+    riskScore: 'LOW'
+  },
+  {
+    id: 'dev-sess-6',
+    userId: 'agent-005',
+    username: 'agentae005',
+    userRole: 'SUB_AGENT',
+    deviceName: 'Apple iPad Pro 12.9" (M2 Wi-Fi)',
+    deviceType: 'TABLET',
+    os: 'iPadOS 17.4.1',
+    browser: 'Safari for iPadOS',
+    ipAddress: '177.18.220.10',
+    location: {
+      city: 'Dubai (Downtown)',
+      country: 'United Arab Emirates',
+      countryCode: 'AE',
+      flag: '🇦🇪',
+      isp: 'du Telecom Hotspot',
+      lat: 25.1972,
+      lng: 55.2744
+    },
+    status: 'SUSPENDED',
+    isCurrentDevice: false,
+    startedAt: new Date(Date.now() - 1000 * 60 * 210).toISOString(),
+    lastActiveAt: new Date(Date.now() - 1000 * 60 * 35).toISOString(),
+    pingMs: 38,
+    fingerprintHash: 'fp_ipad_m2_ae005_lock',
+    riskScore: 'MEDIUM'
+  },
+  {
+    id: 'dev-sess-7',
+    userId: 'cust-1',
+    username: 'alex_mercer',
+    userRole: 'CUSTOMER',
+    deviceName: 'Apple MacBook Pro 14" (M3 Pro)',
+    deviceType: 'DESKTOP',
+    os: 'macOS Sonoma 14.3.1',
+    browser: 'Chrome 123.0.6312.122',
+    ipAddress: '198.51.100.42',
+    location: {
+      city: 'New York (Manhattan)',
+      country: 'United States',
+      countryCode: 'US',
+      flag: '🇺🇸',
+      isp: 'Verizon Fios Gigabit',
+      lat: 40.7128,
+      lng: -74.0060
+    },
+    status: 'ONLINE',
+    isCurrentDevice: false,
+    startedAt: new Date(Date.now() - 1000 * 60 * 75).toISOString(),
+    lastActiveAt: new Date(Date.now() - 1000 * 20).toISOString(),
+    pingMs: 44,
+    fingerprintHash: 'fp_mac_ny_772091ea',
+    riskScore: 'LOW'
+  },
+  {
+    id: 'dev-sess-8',
+    userId: 'cust-2',
+    username: 'elena_r',
+    userRole: 'CUSTOMER',
+    deviceName: 'Apple iPhone 15 Pro',
+    deviceType: 'MOBILE',
+    os: 'iOS 17.3.2',
+    browser: 'Mobile Safari 17.3',
+    ipAddress: '82.165.197.1',
+    location: {
+      city: 'London (Canary Wharf)',
+      country: 'United Kingdom',
+      countryCode: 'GB',
+      flag: '🇬🇧',
+      isp: 'BT Wholesale Broadband',
+      lat: 51.5054,
+      lng: -0.0235
+    },
+    status: 'ONLINE',
+    isCurrentDevice: false,
+    startedAt: new Date(Date.now() - 1000 * 60 * 110).toISOString(),
+    lastActiveAt: new Date(Date.now() - 1000 * 50).toISOString(),
+    pingMs: 51,
+    fingerprintHash: 'fp_ios_london_8820c',
+    riskScore: 'LOW'
+  },
+  {
+    id: 'dev-sess-9',
+    userId: 'cust-3',
+    username: 'kenji_s',
+    userRole: 'CUSTOMER',
+    deviceName: 'Lenovo ThinkPad X1 Carbon Gen 11',
+    deviceType: 'DESKTOP',
+    os: 'Windows 11 Pro 23H2',
+    browser: 'Chrome 124.0.6367.78',
+    ipAddress: '133.242.18.4',
+    location: {
+      city: 'Tokyo (Chiyoda)',
+      country: 'Japan',
+      countryCode: 'JP',
+      flag: '🇯🇵',
+      isp: 'NTT Communications OCN',
+      lat: 35.6895,
+      lng: 139.6917
+    },
+    status: 'ONLINE',
+    isCurrentDevice: false,
+    startedAt: new Date(Date.now() - 1000 * 60 * 160).toISOString(),
+    lastActiveAt: new Date(Date.now() - 1000 * 85).toISOString(),
+    pingMs: 82,
+    fingerprintHash: 'fp_win_tokyo_55102a',
+    riskScore: 'LOW'
+  },
+  {
+    id: 'dev-sess-10',
+    userId: 'cust-4',
+    username: 'david_reynolds',
+    userRole: 'CUSTOMER',
+    deviceName: 'Google Pixel 8 Pro',
+    deviceType: 'MOBILE',
+    os: 'Android 14 (Vanilla Ice Cream)',
+    browser: 'Chrome Mobile 124.0',
+    ipAddress: '103.252.200.12',
+    location: {
+      city: 'Singapore (Marina Bay)',
+      country: 'Singapore',
+      countryCode: 'SG',
+      flag: '🇸🇬',
+      isp: 'Singtel Fiber Broadband',
+      lat: 1.2838,
+      lng: 103.8591
+    },
+    status: 'ONLINE',
+    isCurrentDevice: false,
+    startedAt: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
+    lastActiveAt: new Date(Date.now() - 1000 * 18).toISOString(),
+    pingMs: 63,
+    fingerprintHash: 'fp_android_sg_11099b',
+    riskScore: 'LOW'
+  },
+  {
+    id: 'dev-sess-11',
+    userId: 'cust-5',
+    username: 'tariq_m',
+    userRole: 'CUSTOMER',
+    deviceName: 'Samsung Galaxy S24 Ultra',
+    deviceType: 'MOBILE',
+    os: 'Android 14 / One UI 6.1',
+    browser: 'Samsung Internet 24.0',
+    ipAddress: '212.138.10.88',
+    location: {
+      city: 'Riyadh (Olaya)',
+      country: 'Saudi Arabia',
+      countryCode: 'SA',
+      flag: '🇸🇦',
+      isp: 'STC Saudi Telecom 5G',
+      lat: 24.7136,
+      lng: 46.6753
+    },
+    status: 'ONLINE',
+    isCurrentDevice: false,
+    startedAt: new Date(Date.now() - 1000 * 60 * 240).toISOString(),
+    lastActiveAt: new Date(Date.now() - 1000 * 30).toISOString(),
+    pingMs: 29,
+    fingerprintHash: 'fp_s24u_riyadh_7731fa',
+    riskScore: 'LOW'
+  },
+  {
+    id: 'dev-sess-12',
+    userId: 'cust-6',
+    username: 'sophie_l',
+    userRole: 'CUSTOMER',
+    deviceName: 'Apple MacBook Air 15" (M3)',
+    deviceType: 'DESKTOP',
+    os: 'macOS Sonoma 14.4',
+    browser: 'Safari 17.4',
+    ipAddress: '193.134.254.12',
+    location: {
+      city: 'Zurich (Paradeplatz)',
+      country: 'Switzerland',
+      countryCode: 'CH',
+      flag: '🇨🇭',
+      isp: 'Swisscom Enterprise IP',
+      lat: 47.3769,
+      lng: 8.5417
+    },
+    status: 'IDLE',
+    isCurrentDevice: false,
+    startedAt: new Date(Date.now() - 1000 * 60 * 420).toISOString(),
+    lastActiveAt: new Date(Date.now() - 1000 * 60 * 18).toISOString(),
+    pingMs: 41,
+    fingerprintHash: 'fp_mac_zurich_3310bb',
+    riskScore: 'LOW'
+  }
+];
+
+// ==========================================
 // 8. ROLE PERMISSIONS MATRIX
 // ==========================================
 const SEED_ROLE_PERMISSIONS: RolePermissionConfig[] = [
@@ -837,6 +1195,13 @@ class StorageService {
             parsedUsers[idx].invitationCode = seedAgent.invitationCode;
             parsedUsers[idx].email = seedAgent.email;
             parsedUsers[idx].name = seedAgent.name;
+            if (seedAgent.status === 'VIEW_ONLY') {
+              parsedUsers[idx].status = 'VIEW_ONLY';
+              parsedUsers[idx].walletLocked = true;
+              parsedUsers[idx].permissions = seedAgent.permissions;
+              parsedUsers[idx].viewOnlyCountdownEndsAt = seedAgent.viewOnlyCountdownEndsAt;
+              parsedUsers[idx].revocationReason = seedAgent.revocationReason;
+            }
             updated = true;
           }
         });
@@ -865,6 +1230,12 @@ class StorageService {
           } else {
             parsedInvs[idx].code = seedInv.code;
             parsedInvs[idx].agentName = seedInv.agentName;
+            if (seedInv.status === 'REVOKED') {
+              parsedInvs[idx].status = 'REVOKED';
+              parsedInvs[idx].revokedAt = seedInv.revokedAt || new Date().toISOString();
+              parsedInvs[idx].viewOnlyCountdownEndsAt = seedInv.viewOnlyCountdownEndsAt;
+              parsedInvs[idx].revocationReason = seedInv.revocationReason;
+            }
             invUpdated = true;
           }
         });
@@ -889,6 +1260,11 @@ class StorageService {
     // 5. Login History initialization
     if (!localStorage.getItem(STORAGE_KEYS.LOGIN_HISTORY)) {
       localStorage.setItem(STORAGE_KEYS.LOGIN_HISTORY, JSON.stringify(SEED_LOGIN_HISTORY));
+    }
+
+    // 5B. Actively Running Devices & Sessions initialization
+    if (!localStorage.getItem(STORAGE_KEYS.ACTIVE_DEVICES)) {
+      localStorage.setItem(STORAGE_KEYS.ACTIVE_DEVICES, JSON.stringify(SEED_ACTIVE_DEVICES));
     }
 
     // 6. Role Permissions initialization
@@ -1322,6 +1698,15 @@ class StorageService {
     if (!inv) return false;
 
     inv.status = inv.status === 'ACTIVE' ? 'REVOKED' : 'ACTIVE';
+    if (inv.status === 'REVOKED') {
+      inv.revokedAt = new Date().toISOString();
+      inv.viewOnlyCountdownEndsAt = getOrSetAgent5CountdownEnd();
+      inv.revocationReason = 'Manually revoked by Super Administrator';
+    } else {
+      inv.revokedAt = undefined;
+      inv.viewOnlyCountdownEndsAt = undefined;
+      inv.revocationReason = undefined;
+    }
     this.saveInvitationCodes(codes);
 
     this.addAuditLog({
@@ -1332,6 +1717,103 @@ class StorageService {
       details: `Changed status of code ${inv.code} to ${inv.status}`,
       ipAddress: '127.0.0.1',
       severity: 'WARNING'
+    });
+
+    return true;
+  }
+
+  // Revoke all powers and set agent to View-Only mode with countdown
+  public revokeAgentPower(agentId: string, durationMinutes: number = 210, reason: string = 'Super Admin manual power revocation'): boolean {
+    const users = this.getUsers();
+    const agent = users.find(u => u.id === agentId || u.username === agentId);
+    if (!agent) return false;
+
+    const endsAt = new Date(Date.now() + durationMinutes * 60 * 1000).toISOString();
+    agent.status = 'VIEW_ONLY';
+    agent.walletLocked = true;
+    agent.permissions = ['VIEW_ONLY', 'VIEW_CLIENTS', 'VIEW_TRADES'];
+    agent.viewOnlyCountdownEndsAt = endsAt;
+    agent.revocationReason = reason;
+
+    if (agent.invitationCode) {
+      const invCodes = this.getInvitationCodes();
+      const targetInv = invCodes.find(c => c.code.toUpperCase() === agent.invitationCode?.toUpperCase());
+      if (targetInv) {
+        targetInv.status = 'REVOKED';
+        targetInv.revokedAt = new Date().toISOString();
+        targetInv.viewOnlyCountdownEndsAt = endsAt;
+        targetInv.revocationReason = reason;
+        this.saveInvitationCodes(invCodes);
+      }
+    }
+
+    if (typeof window !== 'undefined' && agent.username === 'agentae005') {
+      window.localStorage.setItem('cb_agent5_viewonly_end', endsAt);
+    }
+
+    this.saveUsers(users);
+
+    this.addAuditLog({
+      actorName: this.getCurrentUser()?.name || 'Super Admin',
+      actorRole: 'SUPER_ADMIN',
+      action: 'AGENT_POWER_REVOKED',
+      category: 'SECURITY',
+      details: `Revoked all powers for ${agent.name} (${agent.username}). Set to VIEW-ONLY with ${durationMinutes}m countdown.`,
+      ipAddress: '127.0.0.1',
+      severity: 'CRITICAL'
+    });
+
+    this.addNotification({
+      userId: agent.id,
+      title: '⚠️ Powers Revoked — View-Only Mode Activated',
+      body: `All administrative and operational powers have been revoked by Super Admin. Read-only observation active for ${durationMinutes} minutes.`,
+      type: 'warning'
+    });
+
+    return true;
+  }
+
+  // Restore agent power back to ACTIVE
+  public restoreAgentPower(agentId: string): boolean {
+    const users = this.getUsers();
+    const agent = users.find(u => u.id === agentId || u.username === agentId);
+    if (!agent) return false;
+
+    agent.status = 'ACTIVE';
+    agent.walletLocked = false;
+    agent.permissions = ['VIEW_CLIENTS', 'FREEZE_CLIENTS', 'GENERATE_CODES', 'VIEW_TRADES'];
+    agent.viewOnlyCountdownEndsAt = undefined;
+    agent.revocationReason = undefined;
+
+    if (agent.invitationCode) {
+      const invCodes = this.getInvitationCodes();
+      const targetInv = invCodes.find(c => c.code.toUpperCase() === agent.invitationCode?.toUpperCase());
+      if (targetInv) {
+        targetInv.status = 'ACTIVE';
+        targetInv.revokedAt = undefined;
+        targetInv.viewOnlyCountdownEndsAt = undefined;
+        targetInv.revocationReason = undefined;
+        this.saveInvitationCodes(invCodes);
+      }
+    }
+
+    this.saveUsers(users);
+
+    this.addAuditLog({
+      actorName: this.getCurrentUser()?.name || 'Super Admin',
+      actorRole: 'SUPER_ADMIN',
+      action: 'AGENT_POWER_RESTORED',
+      category: 'SECURITY',
+      details: `Restored full operational powers for ${agent.name} (${agent.username}).`,
+      ipAddress: '127.0.0.1',
+      severity: 'INFO'
+    });
+
+    this.addNotification({
+      userId: agent.id,
+      title: 'Full Agent Powers Restored',
+      body: 'Your administrative broker privileges and client management tools have been restored.',
+      type: 'success'
     });
 
     return true;
@@ -1389,7 +1871,13 @@ class StorageService {
     }
 
     if (inv && inv.status !== 'ACTIVE') {
-      return { success: false, error: `Invitation Code "${cleanCode}" has been ${inv.status.toLowerCase()} by administration.` };
+      const isRevoked = inv.status === 'REVOKED' || cleanCode === 'PBD-AGENT-AE005';
+      return { 
+        success: false, 
+        error: isRevoked 
+          ? `Invitation Code "${cleanCode}" has been REVOKED by Super Admin (Set to View-Only mode for 3h 30m). Trader registrations under Agent 5 are currently suspended.` 
+          : `Invitation Code "${cleanCode}" has been ${inv.status.toLowerCase()} by administration.` 
+      };
     }
 
     if (inv && inv.type === 'ONE_TIME' && inv.usedCount >= inv.maxUses) {
@@ -1683,6 +2171,95 @@ class StorageService {
     history.unshift(newItem);
     if (history.length > 200) history.pop();
     localStorage.setItem(STORAGE_KEYS.LOGIN_HISTORY, JSON.stringify(history));
+    this.notify();
+  }
+
+  // ==========================================
+  // ACTIVELY RUNNING DEVICES & GEOLOCATION SESSIONS
+  // ==========================================
+  public getActiveDevices(): ActiveDeviceSession[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.ACTIVE_DEVICES);
+    if (!raw) {
+      localStorage.setItem(STORAGE_KEYS.ACTIVE_DEVICES, JSON.stringify(SEED_ACTIVE_DEVICES));
+      return SEED_ACTIVE_DEVICES;
+    }
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return SEED_ACTIVE_DEVICES;
+    }
+  }
+
+  public saveActiveDevices(devices: ActiveDeviceSession[]) {
+    localStorage.setItem(STORAGE_KEYS.ACTIVE_DEVICES, JSON.stringify(devices));
+    this.notify();
+  }
+
+  public terminateDeviceSession(sessionId: string): boolean {
+    const devices = this.getActiveDevices();
+    const target = devices.find(d => d.id === sessionId);
+    if (!target) return false;
+
+    // Filter out or mark as terminated
+    const updated = devices.filter(d => d.id !== sessionId);
+    this.saveActiveDevices(updated);
+
+    this.addAuditLog({
+      actorName: this.getCurrentUser()?.name || 'Super Admin',
+      actorRole: this.getCurrentUser()?.role || 'SUPER_ADMIN',
+      action: 'DEVICE_SESSION_TERMINATED',
+      category: 'SECURITY',
+      details: `Force terminated active session on device "${target.deviceName}" (${target.ipAddress}, ${target.location.city}, ${target.location.country}) for user ${target.username}.`,
+      ipAddress: target.ipAddress,
+      severity: 'WARNING'
+    });
+
+    this.addNotification({
+      userId: target.userId,
+      title: 'Session Disconnected by Security Protocol',
+      body: `Your session on ${target.deviceName} (${target.location.city}) was terminated by platform administration.`,
+      type: 'warning'
+    });
+
+    return true;
+  }
+
+  public terminateAllOtherSessions(userId: string, currentSessionId = 'dev-sess-1'): number {
+    const devices = this.getActiveDevices();
+    const toRemove = devices.filter(d => d.userId === userId && d.id !== currentSessionId);
+    const updated = devices.filter(d => d.userId !== userId || d.id === currentSessionId);
+    this.saveActiveDevices(updated);
+
+    if (toRemove.length > 0) {
+      this.addAuditLog({
+        actorName: this.getCurrentUser()?.name || 'Super Admin',
+        actorRole: this.getCurrentUser()?.role || 'SUPER_ADMIN',
+        action: 'ALL_OTHER_SESSIONS_TERMINATED',
+        category: 'SECURITY',
+        details: `Terminated ${toRemove.length} other active device session(s) for user ID ${userId}.`,
+        ipAddress: '127.0.0.1',
+        severity: 'INFO'
+      });
+    }
+
+    return toRemove.length;
+  }
+
+  public pingDeviceSession(sessionId: string): number {
+    const devices = this.getActiveDevices();
+    const target = devices.find(d => d.id === sessionId);
+    if (!target) return 0;
+
+    // Generate realistic jitter ±5ms
+    const jitter = Math.floor(Math.random() * 10) - 5;
+    target.pingMs = Math.max(8, target.pingMs + jitter);
+    target.lastActiveAt = new Date().toISOString();
+    this.saveActiveDevices(devices);
+    return target.pingMs;
+  }
+
+  public resetActiveDevices(): void {
+    localStorage.setItem(STORAGE_KEYS.ACTIVE_DEVICES, JSON.stringify(SEED_ACTIVE_DEVICES));
     this.notify();
   }
 
