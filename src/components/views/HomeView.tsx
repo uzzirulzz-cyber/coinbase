@@ -11,7 +11,9 @@ import {
   BarChart2, 
   Lock, 
   ChevronRight,
-  Sparkles
+  Sparkles,
+  Construction,
+  AlertTriangle
 } from 'lucide-react';
 
 interface HomeViewProps {
@@ -28,7 +30,35 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const topCoins = INITIAL_COINS.slice(0, 4);
 
   return (
-    <div className="space-y-16 py-8">
+    <div className="space-y-12 py-6">
+      {/* High-Visibility Center Construction Notice */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative rounded-3xl bg-gradient-to-b from-amber-950/70 via-amber-900/30 to-slate-950 border-2 border-amber-500/80 p-8 sm:p-12 text-center shadow-[0_0_50px_rgba(245,158,11,0.35)] backdrop-blur-md overflow-hidden">
+          {/* Ambient Glow */}
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col items-center justify-center space-y-4 max-w-3xl mx-auto">
+            {/* Pulsing Pill Badge */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 text-xs sm:text-sm font-mono font-bold tracking-wider uppercase">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
+              <Construction className="w-4 h-4 text-amber-400" />
+              NOTICE: WORK IN PROGRESS
+              <AlertTriangle className="w-4 h-4 text-amber-400" />
+            </div>
+
+            {/* Big Centered Headline */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-amber-300 tracking-tight leading-tight uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+              THIS IS A TEST PROJECT UNDER CONSTRUCTION
+            </h1>
+
+            {/* Clear Context Subtext */}
+            <p className="text-sm sm:text-base text-amber-100/90 leading-relaxed font-mono max-w-2xl">
+              This system is an experimental staging demonstration environment. All features, market data feeds, simulated balances, and contract options are strictly for testing and development review.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative rounded-3xl cb-glass-card border border-blue-500/30 p-8 sm:p-12 lg:p-16 overflow-hidden shadow-2xl">

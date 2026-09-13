@@ -20,24 +20,24 @@ import {
 } from '../types';
 
 const STORAGE_KEYS = {
-  USERS: 'pbd_coinbase_users_v2',
-  CURRENT_USER: 'pbd_coinbase_current_user_v2',
-  TRADES: 'pbd_coinbase_trades_v2',
-  TRANSACTIONS: 'pbd_coinbase_transactions_v2',
-  NOTIFICATIONS: 'pbd_coinbase_notifications_v2',
-  CONVERSATIONS: 'pbd_coinbase_conversations_v2',
-  MESSAGES: 'pbd_coinbase_messages_v2',
-  WATCHLIST: 'pbd_coinbase_watchlist_v2',
-  INVITATIONS: 'pbd_coinbase_invitations_v2',
-  LEADS: 'pbd_coinbase_leads_v2',
-  AUDIT_LOGS: 'pbd_coinbase_audit_logs_v2',
-  LOGIN_HISTORY: 'pbd_coinbase_login_history_v2',
-  API_KEYS: 'pbd_coinbase_api_keys_v2',
-  WEBHOOKS: 'pbd_coinbase_webhooks_v2',
-  ROLE_PERMISSIONS: 'pbd_coinbase_role_permissions_v2',
-  GATEWAYS: 'pbd_coinbase_gateways_v2',
-  SETTINGS: 'pbd_coinbase_settings_v2',
-  ACTIVE_THEME: 'pbd_coinbase_theme_v2'
+  USERS: 'pbd_coinbase_users_v3',
+  CURRENT_USER: 'pbd_coinbase_current_user_v3',
+  TRADES: 'pbd_coinbase_trades_v3',
+  TRANSACTIONS: 'pbd_coinbase_transactions_v3',
+  NOTIFICATIONS: 'pbd_coinbase_notifications_v3',
+  CONVERSATIONS: 'pbd_coinbase_conversations_v3',
+  MESSAGES: 'pbd_coinbase_messages_v3',
+  WATCHLIST: 'pbd_coinbase_watchlist_v3',
+  INVITATIONS: 'pbd_coinbase_invitations_v3',
+  LEADS: 'pbd_coinbase_leads_v3',
+  AUDIT_LOGS: 'pbd_coinbase_audit_logs_v3',
+  LOGIN_HISTORY: 'pbd_coinbase_login_history_v3',
+  API_KEYS: 'pbd_coinbase_api_keys_v3',
+  WEBHOOKS: 'pbd_coinbase_webhooks_v3',
+  ROLE_PERMISSIONS: 'pbd_coinbase_role_permissions_v3',
+  GATEWAYS: 'pbd_coinbase_gateways_v3',
+  SETTINGS: 'pbd_coinbase_settings_v3',
+  ACTIVE_THEME: 'pbd_coinbase_theme_v3'
 };
 
 // ==========================================
@@ -46,16 +46,16 @@ const STORAGE_KEYS = {
 const SEED_SUPER_ADMIN: User = {
   id: 'usr-admin-super',
   uid: 'CB100001',
-  username: 'superadmin',
-  password: 'coinbasee11',
+  username: 'admin@coinbase.ae',
+  password: 'coinbaseeae11',
   name: 'Super Administrator',
-  email: 'admin@coinbase.io',
+  email: 'admin@coinbase.ae',
   role: 'SUPER_ADMIN',
   balance: 999999.00,
   frozenFunds: 0,
   vipLevel: 99,
-  phone: '+1 415 888 0100',
-  country: 'United States',
+  phone: '+971 4 888 0100',
+  country: 'United Arab Emirates',
   status: 'ACTIVE',
   kycStatus: 'VERIFIED',
   walletLocked: false,
@@ -63,7 +63,7 @@ const SEED_SUPER_ADMIN: User = {
   lastLoginAt: new Date().toISOString(),
   lastLoginIp: '192.168.1.100',
   lastLoginDevice: 'MacBook Pro 16" (macOS / Chrome 124)',
-  lastLoginLocation: 'San Francisco, CA, US',
+  lastLoginLocation: 'Dubai, AE',
   twoFactorEnabled: true,
   mustChangePassword: false,
   permissions: ['ALL_PERMISSIONS'],
@@ -76,17 +76,17 @@ const SEED_SUBAGENTS: User[] = [
   {
     id: 'agent-001',
     uid: 'CB901101',
-    username: 'agent001',
-    password: 'Agent@001',
-    name: 'Marcus Vance (Agent 001)',
-    email: 'agent001@playbeat.digital',
+    username: 'agentae001',
+    password: 'Agentae@001',
+    name: 'Agent 1',
+    email: 'agentae001@coinbase.ae',
     role: 'SUB_AGENT',
     balance: 50000,
     frozenFunds: 0,
     vipLevel: 5,
-    invitationCode: 'PBD-AGENT-001',
-    phone: '+1 212 555 0191',
-    country: 'United States',
+    invitationCode: 'PBD-AGENT-ae001',
+    phone: '+971 4 555 0101',
+    country: 'United Arab Emirates',
     status: 'ACTIVE',
     kycStatus: 'VERIFIED',
     walletLocked: false,
@@ -94,7 +94,7 @@ const SEED_SUBAGENTS: User[] = [
     lastLoginAt: '2026-03-11T14:20:00.000Z',
     lastLoginIp: '72.229.28.185',
     lastLoginDevice: 'Windows 11 PC (Firefox 125)',
-    lastLoginLocation: 'New York, NY, US',
+    lastLoginLocation: 'Dubai, AE',
     twoFactorEnabled: true,
     mustChangePassword: false,
     commissionRate: 0.25, // 25% commission on trade fee volume
@@ -103,17 +103,17 @@ const SEED_SUBAGENTS: User[] = [
   {
     id: 'agent-002',
     uid: 'CB901102',
-    username: 'agent002',
-    password: 'Agent@002',
-    name: 'Elena Rostova (Agent 002)',
-    email: 'agent002@playbeat.digital',
+    username: 'agentae002',
+    password: 'Agentae@002',
+    name: 'Agent 2',
+    email: 'agentae002@coinbase.ae',
     role: 'SUB_AGENT',
     balance: 38500,
     frozenFunds: 0,
     vipLevel: 4,
-    invitationCode: 'PBD-AGENT-002',
-    phone: '+44 20 7946 0912',
-    country: 'United Kingdom',
+    invitationCode: 'PBD-AGENT-ae002',
+    phone: '+971 4 555 0102',
+    country: 'United Arab Emirates',
     status: 'ACTIVE',
     kycStatus: 'VERIFIED',
     walletLocked: false,
@@ -121,7 +121,7 @@ const SEED_SUBAGENTS: User[] = [
     lastLoginAt: '2026-03-10T11:45:00.000Z',
     lastLoginIp: '86.154.12.90',
     lastLoginDevice: 'Apple iMac 27" (Safari 17.4)',
-    lastLoginLocation: 'London, GB',
+    lastLoginLocation: 'Dubai, AE',
     twoFactorEnabled: false,
     mustChangePassword: false,
     commissionRate: 0.20,
@@ -130,17 +130,17 @@ const SEED_SUBAGENTS: User[] = [
   {
     id: 'agent-003',
     uid: 'CB901103',
-    username: 'agent003',
-    password: 'Agent@003',
-    name: 'Kenji Sato (Agent 003)',
-    email: 'agent003@playbeat.digital',
+    username: 'agentae003',
+    password: 'Agentae@003',
+    name: 'Agent 3',
+    email: 'agentae003@coinbase.ae',
     role: 'SUB_AGENT',
     balance: 42000,
     frozenFunds: 0,
     vipLevel: 4,
-    invitationCode: 'PBD-AGENT-003',
-    phone: '+81 3 5555 0144',
-    country: 'Japan',
+    invitationCode: 'PBD-AGENT-ae003',
+    phone: '+971 4 555 0103',
+    country: 'United Arab Emirates',
     status: 'ACTIVE',
     kycStatus: 'VERIFIED',
     walletLocked: false,
@@ -148,7 +148,7 @@ const SEED_SUBAGENTS: User[] = [
     lastLoginAt: '2026-03-12T03:15:00.000Z',
     lastLoginIp: '133.242.18.4',
     lastLoginDevice: 'Ubuntu Linux 24.04 (Brave 1.64)',
-    lastLoginLocation: 'Tokyo, JP',
+    lastLoginLocation: 'Dubai, AE',
     twoFactorEnabled: true,
     mustChangePassword: false,
     commissionRate: 0.20,
@@ -157,16 +157,16 @@ const SEED_SUBAGENTS: User[] = [
   {
     id: 'agent-004',
     uid: 'CB901104',
-    username: 'agent004',
-    password: 'Agent@004',
-    name: 'Amara Diallo (Agent 004)',
-    email: 'agent004@playbeat.digital',
+    username: 'agentae004',
+    password: 'Agentae@004',
+    name: 'Agent 4',
+    email: 'agentae004@coinbase.ae',
     role: 'SUB_AGENT',
     balance: 29000,
     frozenFunds: 0,
     vipLevel: 3,
-    invitationCode: 'PBD-AGENT-004',
-    phone: '+971 4 321 4567',
+    invitationCode: 'PBD-AGENT-ae004',
+    phone: '+971 4 555 0104',
     country: 'United Arab Emirates',
     status: 'ACTIVE',
     kycStatus: 'VERIFIED',
@@ -184,17 +184,17 @@ const SEED_SUBAGENTS: User[] = [
   {
     id: 'agent-005',
     uid: 'CB901105',
-    username: 'agent005',
-    password: 'Agent@005',
-    name: 'Lucas Silva (Agent 005)',
-    email: 'agent005@playbeat.digital',
+    username: 'agentae005',
+    password: 'Agentae@005',
+    name: 'Agent 5',
+    email: 'agentae005@coinbase.ae',
     role: 'SUB_AGENT',
     balance: 35000,
     frozenFunds: 0,
     vipLevel: 4,
-    invitationCode: 'PBD-AGENT-005',
-    phone: '+55 11 98765 4321',
-    country: 'Brazil',
+    invitationCode: 'PBD-AGENT-ae005',
+    phone: '+971 4 555 0105',
+    country: 'United Arab Emirates',
     status: 'ACTIVE',
     kycStatus: 'VERIFIED',
     walletLocked: false,
@@ -202,7 +202,7 @@ const SEED_SUBAGENTS: User[] = [
     lastLoginAt: '2026-03-12T01:10:00.000Z',
     lastLoginIp: '177.18.220.10',
     lastLoginDevice: 'Windows 11 Laptop (Edge 123)',
-    lastLoginLocation: 'São Paulo, BR',
+    lastLoginLocation: 'Dubai, AE',
     twoFactorEnabled: false,
     mustChangePassword: false,
     commissionRate: 0.20,
@@ -220,12 +220,12 @@ const SEED_CUSTOMERS: User[] = [
     username: 'alex_mercer',
     password: 'Password@123',
     name: 'Alexandre Mercer',
-    email: 'customer@coinbase.io', // Primary evaluator customer test
+    email: 'customer@coinbase.io', // Primary customer test
     role: 'CUSTOMER',
     balance: 14250.75,
     frozenFunds: 0,
     vipLevel: 2,
-    linkedSubAgentId: 'PBD-AGENT-001',
+    linkedSubAgentId: 'PBD-AGENT-ae001',
     phone: '+1 646 555 0188',
     country: 'United States',
     status: 'ACTIVE',
@@ -248,7 +248,7 @@ const SEED_CUSTOMERS: User[] = [
     balance: 8900.00,
     frozenFunds: 0,
     vipLevel: 1,
-    linkedSubAgentId: 'PBD-AGENT-001',
+    linkedSubAgentId: 'PBD-AGENT-ae001',
     phone: '+1 415 555 0177',
     country: 'United States',
     status: 'ACTIVE',
@@ -268,7 +268,7 @@ const SEED_CUSTOMERS: User[] = [
     balance: 24100.50,
     frozenFunds: 500,
     vipLevel: 3,
-    linkedSubAgentId: 'PBD-AGENT-002',
+    linkedSubAgentId: 'PBD-AGENT-ae002',
     phone: '+44 7700 900123',
     country: 'United Kingdom',
     status: 'ACTIVE',
@@ -288,7 +288,7 @@ const SEED_CUSTOMERS: User[] = [
     balance: 31200.00,
     frozenFunds: 0,
     vipLevel: 4,
-    linkedSubAgentId: 'PBD-AGENT-004',
+    linkedSubAgentId: 'PBD-AGENT-ae004',
     phone: '+971 50 123 4567',
     country: 'United Arab Emirates',
     status: 'ACTIVE',
@@ -304,9 +304,9 @@ const SEED_CUSTOMERS: User[] = [
 const SEED_INVITATIONS: InvitationCode[] = [
   {
     id: 'inv-001',
-    code: 'PBD-AGENT-001',
+    code: 'PBD-AGENT-ae001',
     agentId: 'agent-001',
-    agentName: 'Marcus Vance (Agent 001)',
+    agentName: 'Agent 1',
     type: 'UNLIMITED',
     maxUses: 9999,
     usedCount: 18,
@@ -320,9 +320,9 @@ const SEED_INVITATIONS: InvitationCode[] = [
   },
   {
     id: 'inv-002',
-    code: 'PBD-AGENT-002',
+    code: 'PBD-AGENT-ae002',
     agentId: 'agent-002',
-    agentName: 'Elena Rostova (Agent 002)',
+    agentName: 'Agent 2',
     type: 'UNLIMITED',
     maxUses: 9999,
     usedCount: 12,
@@ -335,9 +335,9 @@ const SEED_INVITATIONS: InvitationCode[] = [
   },
   {
     id: 'inv-003',
-    code: 'PBD-AGENT-003',
+    code: 'PBD-AGENT-ae003',
     agentId: 'agent-003',
-    agentName: 'Kenji Sato (Agent 003)',
+    agentName: 'Agent 3',
     type: 'UNLIMITED',
     maxUses: 9999,
     usedCount: 9,
@@ -348,9 +348,9 @@ const SEED_INVITATIONS: InvitationCode[] = [
   },
   {
     id: 'inv-004',
-    code: 'PBD-AGENT-004',
+    code: 'PBD-AGENT-ae004',
     agentId: 'agent-004',
-    agentName: 'Amara Diallo (Agent 004)',
+    agentName: 'Agent 4',
     type: 'UNLIMITED',
     maxUses: 9999,
     usedCount: 15,
@@ -363,9 +363,9 @@ const SEED_INVITATIONS: InvitationCode[] = [
   },
   {
     id: 'inv-005',
-    code: 'PBD-AGENT-005',
+    code: 'PBD-AGENT-ae005',
     agentId: 'agent-005',
-    agentName: 'Lucas Silva (Agent 005)',
+    agentName: 'Agent 5',
     type: 'UNLIMITED',
     maxUses: 9999,
     usedCount: 7,
@@ -378,7 +378,7 @@ const SEED_INVITATIONS: InvitationCode[] = [
     id: 'inv-006',
     code: 'VIP-ONETIME-2026',
     agentId: 'agent-001',
-    agentName: 'Marcus Vance (Agent 001)',
+    agentName: 'Agent 1',
     type: 'ONE_TIME',
     maxUses: 1,
     usedCount: 0,
@@ -401,12 +401,12 @@ const SEED_LEADS: Lead[] = [
     country: 'Switzerland',
     source: 'REFERRAL',
     assignedAgentId: 'agent-001',
-    assignedAgentName: 'Marcus Vance (Agent 001)',
+    assignedAgentName: 'Agent 1',
     status: 'QUALIFIED',
     estimatedValue: 150000,
     followUpDate: '2026-03-16',
     notes: [
-      { id: 'n1', author: 'Marcus Vance', content: 'Institutional family office looking to deploy $150k across high-speed binary options and OTC desks.', createdAt: '2026-03-10T14:30:00.000Z' },
+      { id: 'n1', author: 'Agent 1', content: 'Institutional family office looking to deploy $150k across high-speed binary options and OTC desks.', createdAt: '2026-03-10T14:30:00.000Z' },
       { id: 'n2', author: 'Super Admin', content: 'Approved for VIP Level 4 onboarding upon initial $50k deposit.', createdAt: '2026-03-11T09:15:00.000Z' }
     ],
     createdAt: '2026-03-08T11:00:00.000Z'
@@ -419,12 +419,12 @@ const SEED_LEADS: Lead[] = [
     country: 'Canada',
     source: 'WEBSITE',
     assignedAgentId: 'agent-002',
-    assignedAgentName: 'Elena Rostova (Agent 002)',
+    assignedAgentName: 'Agent 2',
     status: 'CONTACTED',
     estimatedValue: 65000,
     followUpDate: '2026-03-14',
     notes: [
-      { id: 'n3', author: 'Elena Rostova', content: 'Scheduled demo call to present automated technical indicators and payout rates.', createdAt: '2026-03-11T16:00:00.000Z' }
+      { id: 'n3', author: 'Agent 2', content: 'Scheduled demo call to present automated technical indicators and payout rates.', createdAt: '2026-03-11T16:00:00.000Z' }
     ],
     createdAt: '2026-03-09T15:20:00.000Z'
   },
@@ -436,7 +436,7 @@ const SEED_LEADS: Lead[] = [
     country: 'Japan',
     source: 'TELEGRAM',
     assignedAgentId: 'agent-003',
-    assignedAgentName: 'Kenji Sato (Agent 003)',
+    assignedAgentName: 'Agent 3',
     status: 'NEW',
     estimatedValue: 80000,
     followUpDate: '2026-03-15',
@@ -451,12 +451,12 @@ const SEED_LEADS: Lead[] = [
     country: 'United Arab Emirates',
     source: 'OFFLINE_EVENT',
     assignedAgentId: 'agent-004',
-    assignedAgentName: 'Amara Diallo (Agent 004)',
+    assignedAgentName: 'Agent 4',
     status: 'QUALIFIED',
     estimatedValue: 200000,
     followUpDate: '2026-03-18',
     notes: [
-      { id: 'n4', author: 'Amara Diallo', content: 'Met at Dubai Crypto Summit 2026. Requested sub-second execution contract test for BTC/USDT pair.', createdAt: '2026-03-10T19:00:00.000Z' }
+      { id: 'n4', author: 'Agent 4', content: 'Met at Dubai Crypto Summit 2026. Requested sub-second execution contract test for BTC/USDT pair.', createdAt: '2026-03-10T19:00:00.000Z' }
     ],
     createdAt: '2026-03-06T13:40:00.000Z'
   },
@@ -468,12 +468,12 @@ const SEED_LEADS: Lead[] = [
     country: 'Italy',
     source: 'LINKEDIN',
     assignedAgentId: 'agent-005',
-    assignedAgentName: 'Lucas Silva (Agent 005)',
+    assignedAgentName: 'Agent 5',
     status: 'CONVERTED',
     estimatedValue: 45000,
     followUpDate: '2026-03-12',
     notes: [
-      { id: 'n5', author: 'Lucas Silva', content: 'Lead converted into active trader account via PBD-AGENT-005 code.', createdAt: '2026-03-08T10:00:00.000Z' }
+      { id: 'n5', author: 'Agent 5', content: 'Lead converted into active trader account via PBD-AGENT-ae005 code.', createdAt: '2026-03-08T10:00:00.000Z' }
     ],
     createdAt: '2026-03-02T09:00:00.000Z'
   }
@@ -486,7 +486,7 @@ const SEED_AUDIT_LOGS: AuditLog[] = [
   {
     id: 'aud-901',
     timestamp: new Date(Date.now() - 1000 * 60 * 12).toISOString(),
-    actorName: 'superadmin',
+    actorName: 'admin@coinbase.ae',
     actorRole: 'SUPER_ADMIN',
     action: 'SESSION_AUTHENTICATED',
     category: 'SECURITY',
@@ -497,18 +497,18 @@ const SEED_AUDIT_LOGS: AuditLog[] = [
   {
     id: 'aud-902',
     timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
-    actorName: 'agent001',
+    actorName: 'agentae001',
     actorRole: 'SUB_AGENT',
     action: 'INVITATION_GENERATED',
     category: 'INVITATION',
-    details: 'Generated high-priority broker invitation code PBD-AGENT-001 with unlimited usage capability',
+    details: 'Generated high-priority broker invitation code PBD-AGENT-ae001 with unlimited usage capability',
     ipAddress: '72.229.28.185',
     severity: 'INFO'
   },
   {
     id: 'aud-903',
     timestamp: new Date(Date.now() - 1000 * 60 * 110).toISOString(),
-    actorName: 'superadmin',
+    actorName: 'admin@coinbase.ae',
     actorRole: 'SUPER_ADMIN',
     action: 'WALLET_DEPOSIT_APPROVED',
     category: 'WALLET',
@@ -519,11 +519,11 @@ const SEED_AUDIT_LOGS: AuditLog[] = [
   {
     id: 'aud-904',
     timestamp: new Date(Date.now() - 1000 * 60 * 240).toISOString(),
-    actorName: 'superadmin',
+    actorName: 'admin@coinbase.ae',
     actorRole: 'SUPER_ADMIN',
     action: 'KYC_STATUS_UPDATED',
     category: 'USER',
-    details: 'Approved institutional KYC Level 2 documentation for David Reynolds (UK Passport + Proof of Address)',
+    details: 'Approved institutional KYC Level 2 documentation for David Reynolds (Passport + Proof of Address)',
     ipAddress: '192.168.1.100',
     severity: 'INFO'
   },
@@ -541,7 +541,7 @@ const SEED_AUDIT_LOGS: AuditLog[] = [
   {
     id: 'aud-906',
     timestamp: new Date(Date.now() - 1000 * 60 * 1440).toISOString(),
-    actorName: 'agent004',
+    actorName: 'agentae004',
     actorRole: 'SUB_AGENT',
     action: 'LEAD_ASSIGNED',
     category: 'LEAD',
@@ -558,34 +558,34 @@ const SEED_LOGIN_HISTORY: LoginHistoryItem[] = [
   {
     id: 'log-1',
     userId: 'usr-admin-super',
-    username: 'superadmin',
+    username: 'admin@coinbase.ae',
     timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
     ipAddress: '192.168.1.100',
     device: 'MacBook Pro 16" (macOS / Chrome)',
     browser: 'Chrome 124.0.0',
-    location: 'San Francisco, CA, US',
+    location: 'Dubai, AE',
     status: 'SUCCESS'
   },
   {
     id: 'log-2',
     userId: 'agent-001',
-    username: 'agent001',
+    username: 'agentae001',
     timestamp: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
     ipAddress: '72.229.28.185',
     device: 'Windows 11 Workstation',
     browser: 'Firefox 125.0',
-    location: 'New York, NY, US',
+    location: 'Dubai, AE',
     status: 'SUCCESS'
   },
   {
     id: 'log-3',
     userId: 'agent-003',
-    username: 'agent003',
+    username: 'agentae003',
     timestamp: new Date(Date.now() - 1000 * 60 * 300).toISOString(),
     ipAddress: '133.242.18.4',
     device: 'Ubuntu Linux Desktop',
     browser: 'Brave 1.64',
-    location: 'Tokyo, JP',
+    location: 'Dubai, AE',
     status: 'SUCCESS'
   },
   {
@@ -789,46 +789,91 @@ class StorageService {
   }
 
   private initSeeds() {
-    // 1. Users initialization with guarantee of superadmin and agent001-agent005
+    // 1. Users initialization with guarantee of superadmin and agentae001-agentae005
     const existingUsersRaw = localStorage.getItem(STORAGE_KEYS.USERS);
     if (!existingUsersRaw) {
       const allUsers = [SEED_SUPER_ADMIN, ...SEED_SUBAGENTS, ...SEED_CUSTOMERS];
       localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(allUsers));
     } else {
-      // Ensure superadmin and 5 default agents exist
+      // Ensure superadmin and 5 default agents exist with exact credentials
       try {
         const parsedUsers: User[] = JSON.parse(existingUsersRaw);
         let updated = false;
 
-        if (!parsedUsers.some(u => u.username === 'superadmin' || u.email === 'admin@coinbase.io')) {
+        const superAdminIdx = parsedUsers.findIndex(u => 
+          u.role === 'SUPER_ADMIN' || 
+          u.username === 'admin@coinbase.ae' || 
+          u.email === 'admin@coinbase.ae' ||
+          u.username === 'superadmin' ||
+          u.email === 'admin@coinbase.io'
+        );
+
+        if (superAdminIdx === -1) {
           parsedUsers.unshift(SEED_SUPER_ADMIN);
+          updated = true;
+        } else {
+          parsedUsers[superAdminIdx].username = SEED_SUPER_ADMIN.username;
+          parsedUsers[superAdminIdx].email = SEED_SUPER_ADMIN.email;
+          parsedUsers[superAdminIdx].password = SEED_SUPER_ADMIN.password;
+          parsedUsers[superAdminIdx].role = 'SUPER_ADMIN';
           updated = true;
         }
 
-        SEED_SUBAGENTS.forEach(seedAgent => {
-          const idx = parsedUsers.findIndex(u => u.username === seedAgent.username || u.invitationCode === seedAgent.invitationCode);
+        SEED_SUBAGENTS.forEach((seedAgent, i) => {
+          const idx = parsedUsers.findIndex(u => 
+            u.id === seedAgent.id || 
+            u.username === seedAgent.username || 
+            u.invitationCode === seedAgent.invitationCode ||
+            u.username === `agent00${i + 1}` ||
+            u.invitationCode === `PBD-AGENT-00${i + 1}`
+          );
           if (idx === -1) {
             parsedUsers.push(seedAgent);
             updated = true;
           } else {
-            // Update password & code
+            // Update credentials & code
             parsedUsers[idx].username = seedAgent.username;
             parsedUsers[idx].password = seedAgent.password;
             parsedUsers[idx].invitationCode = seedAgent.invitationCode;
+            parsedUsers[idx].email = seedAgent.email;
+            parsedUsers[idx].name = seedAgent.name;
+            updated = true;
           }
         });
 
         if (updated) {
           localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(parsedUsers));
         }
-      } catch (e) {
+      } catch {
         localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify([SEED_SUPER_ADMIN, ...SEED_SUBAGENTS, ...SEED_CUSTOMERS]));
       }
     }
 
     // 2. Invitations initialization
-    if (!localStorage.getItem(STORAGE_KEYS.INVITATIONS)) {
+    const existingInvsRaw = localStorage.getItem(STORAGE_KEYS.INVITATIONS);
+    if (!existingInvsRaw) {
       localStorage.setItem(STORAGE_KEYS.INVITATIONS, JSON.stringify(SEED_INVITATIONS));
+    } else {
+      try {
+        const parsedInvs: InvitationCode[] = JSON.parse(existingInvsRaw);
+        let invUpdated = false;
+        SEED_INVITATIONS.forEach(seedInv => {
+          const idx = parsedInvs.findIndex(inv => inv.id === seedInv.id || inv.code === seedInv.code);
+          if (idx === -1) {
+            parsedInvs.push(seedInv);
+            invUpdated = true;
+          } else {
+            parsedInvs[idx].code = seedInv.code;
+            parsedInvs[idx].agentName = seedInv.agentName;
+            invUpdated = true;
+          }
+        });
+        if (invUpdated) {
+          localStorage.setItem(STORAGE_KEYS.INVITATIONS, JSON.stringify(parsedInvs));
+        }
+      } catch {
+        localStorage.setItem(STORAGE_KEYS.INVITATIONS, JSON.stringify(SEED_INVITATIONS));
+      }
     }
 
     // 3. Leads initialization
@@ -1064,7 +1109,8 @@ class StorageService {
     // Find user by username or email
     const user = users.find(u => 
       (u.username && u.username.toLowerCase() === cleanId) ||
-      (u.email && u.email.toLowerCase() === cleanId)
+      (u.email && u.email.toLowerCase() === cleanId) ||
+      (cleanId === 'superadmin' && (u.username === 'admin@coinbase.ae' || u.role === 'SUPER_ADMIN'))
     );
 
     if (!user) {
@@ -1338,7 +1384,7 @@ class StorageService {
     if (!inv && !agentUser) {
       return { 
         success: false, 
-        error: `Invalid Invitation Code "${data.invitationCode}". A certified broker invitation code (e.g., PBD-AGENT-001) is strictly required.` 
+        error: `Invalid Invitation Code "${data.invitationCode}". A certified broker invitation code (e.g., PBD-AGENT-ae001) is strictly required.` 
       };
     }
 
@@ -1354,7 +1400,7 @@ class StorageService {
       return { success: false, error: `This invitation code expired on ${new Date(inv.expiresAt).toLocaleDateString()}.` };
     }
 
-    const assignedCode = inv ? inv.code : (agentUser?.invitationCode || 'PBD-AGENT-001');
+    const assignedCode = inv ? inv.code : (agentUser?.invitationCode || 'PBD-AGENT-ae001');
     const assignedAgentName = inv ? inv.agentName : (agentUser?.name || 'Assigned Broker');
 
     const newUser: User = {
@@ -1536,7 +1582,7 @@ class StorageService {
     }
 
     const agent = users.find(u => u.id === lead.assignedAgentId);
-    const invitationCode = agent?.invitationCode || 'PBD-AGENT-001';
+    const invitationCode = agent?.invitationCode || 'PBD-AGENT-ae001';
 
     const newUser: User = {
       id: 'cust-' + Date.now(),

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { storage } from '../../lib/storage';
+import { generateComprehensivePlatformPDF } from '../../lib/pdfReportGenerator';
 import { 
   FileSpreadsheet, 
   Download, 
@@ -12,7 +13,9 @@ import {
   Users,
   CandlestickChart,
   DollarSign,
-  UserCheck
+  UserCheck,
+  Sparkles,
+  ShieldAlert
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -190,6 +193,43 @@ export const ReportsExportSection: React.FC<ReportsExportSectionProps> = ({ onSh
         <p className="text-xs text-slate-400">
           Generate audit-ready spreadsheets, comprehensive transaction ledgers, CRM pipeline logs, and full JSON state snapshots.
         </p>
+      </div>
+
+      {/* Featured All-Sections Combined PDF Export Banner */}
+      <div className="p-5 rounded-2xl bg-gradient-to-r from-[#0E131F] via-[#161C2E] to-[#0A1224] border border-blue-500/40 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-5">
+        <div className="space-y-1.5 max-w-xl">
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 text-[10px] font-mono font-bold">
+            <Sparkles className="w-3 h-3 text-cyan-400" /> ALL-IN-ONE SYSTEM REPORT
+          </div>
+          <h3 className="text-lg font-black text-white tracking-tight">
+            Combined Platform PDF Dossier (Storefront + Admin Panel + Dashboards)
+          </h3>
+          <p className="text-xs text-slate-300">
+            Export a comprehensive, executive-ready multi-page PDF document compiling Storefront specifications, 30s/60s/120s trading models, Candlestick terminal parameters, BitVista Business Overview, Due Diligence & AML risk telemetry (190 alerts), Sub-Agent desk hierarchy, and security audit configurations.
+          </p>
+          <div className="flex items-center gap-3 pt-1 text-[11px] font-mono text-slate-400">
+            <span className="text-emerald-400 font-bold">✓ 7 Full Chapters</span>
+            <span>•</span>
+            <span className="text-cyan-400 font-bold">✓ Vector Data Tables</span>
+            <span>•</span>
+            <span className="text-blue-400 font-bold">✓ Direct PDF Download</span>
+          </div>
+        </div>
+
+        <button
+          onClick={() => {
+            onShowToast('Compiling comprehensive platform PDF...');
+            setTimeout(() => {
+              const { doc, filename } = generateComprehensivePlatformPDF();
+              doc.save(filename);
+              onShowToast(`Success! Downloaded ${filename}`);
+            }, 600);
+          }}
+          className="px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white font-bold text-xs font-mono shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2.5 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer self-start md:self-center"
+        >
+          <Download className="w-4 h-4" />
+          <span>Download Complete PDF Report</span>
+        </button>
       </div>
 
       {/* CSV Export Cards */}

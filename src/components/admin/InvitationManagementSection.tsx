@@ -174,7 +174,7 @@ export const InvitationManagementSection: React.FC<InvitationManagementSectionPr
           <tbody className="divide-y divide-white/5 text-slate-300">
             {filtered.map((inv) => {
               const isActive = inv.status === 'ACTIVE';
-              const isDefault = inv.code.startsWith('PBD-AGENT-00');
+              const isDefault = inv.code.startsWith('PBD-AGENT-ae') || inv.code.startsWith('PBD-AGENT-00');
 
               return (
                 <tr key={inv.id} className="hover:bg-slate-800/30 transition-colors">

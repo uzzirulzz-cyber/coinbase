@@ -58,13 +58,17 @@ import {
   UserCheck,
   Coins,
   Server,
-  ShieldAlert
+  ShieldAlert,
+  Sparkles
 } from 'lucide-react';
 import { AgentManagementSection } from '../admin/AgentManagementSection';
 import { InvitationManagementSection } from '../admin/InvitationManagementSection';
 import { LeadManagementSection } from '../admin/LeadManagementSection';
 import { AuditSecuritySection } from '../admin/AuditSecuritySection';
 import { ReportsExportSection } from '../admin/ReportsExportSection';
+import { DueDiligenceSection } from '../admin/DueDiligenceSection';
+import { BitVistaOverviewSection } from '../admin/BitVistaOverviewSection';
+import { generateComprehensivePlatformPDF } from '../../lib/pdfReportGenerator';
 import { PaymentGatewayConfig, SystemSettings } from '../../types';
 
 interface AdminDashboardProps {
@@ -73,6 +77,7 @@ interface AdminDashboardProps {
 
 type AdminSection = 
   | 'dashboard'
+  | 'duediligence'
   | 'users'
   | 'agents'
   | 'invitations'
@@ -97,6 +102,26 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ currentUser }) =
   const [gateways, setGateways] = useState<PaymentGatewayConfig[]>(() => storage.getPaymentGateways());
   const [systemSettings, setSystemSettings] = useState<SystemSettings>(() => storage.getSystemSettings());
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [dashboardSubView, setDashboardSubView] = useState<'due_diligence' | 'bitvista' | 'operations'>('bitvista');
+  const [isExportingPDF, setIsExportingPDF] = useState(false);
+
+  const handleDownloadPDF = () => {
+    try {
+      setIsExportingPDF(true);
+      showToast('Compiling comprehensive platform PDF (Storefront, Admin & All Dashboards)...');
+      setTimeout(() => {
+        const { doc, filename } = generateComprehensivePlatformPDF({
+          generatedBy: currentUser?.email || 'Super Administrator'
+        });
+        doc.save(filename);
+        setIsExportingPDF(false);
+        showToast(`Success! Downloaded ${filename}`);
+      }, 600);
+    } catch (e) {
+      setIsExportingPDF(false);
+      showToast('Failed to compile PDF report.');
+    }
+  };
 
   // Modals & Action States
   const [searchUser, setSearchUser] = useState('');
@@ -147,6 +172,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ currentUser }) =
 
   const navMenuItems = [
     { id: 'dashboard', label: 'Operations Dashboard', icon: LayoutDashboard },
+    { id: 'bitvista', label: 'BitVista Business Overview', icon: Sparkles },
+    { id: 'duediligence', label: 'Due Diligence & AML', icon: ShieldAlert, badge: 190 },
     { id: 'users', label: 'User Directory', icon: Users },
     { id: 'agents', label: 'Sub-Agents (5 Desks)', icon: ShieldCheck, badge: users.filter(u => u.role === 'SUB_AGENT').length },
     { id: 'invitations', label: 'Invitation Codes', icon: Key },
@@ -269,15 +296,26 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ currentUser }) =
             <ShieldCheck className="w-3.5 h-3.5" /> SUPER ADMIN ENTERPRISE CONTROL
           </div>
           <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-            Coinbase Operations Center
+            Brock Exchange Operations & Compliance Center
           </h1>
           <p className="text-slate-400 text-sm">
-            Institutional monitoring, multi-tier user controls, trade settlement engine, and liquidity management.
+            Institutional compliance, due diligence monitoring, transaction risk analytics, and multi-tier controls.
           </p>
         </div>
 
         {/* Quick System Status Controls */}
         <div className="flex flex-wrap items-center gap-3">
+          {/* Complete Combined Dossier PDF Download */}
+          <button
+            onClick={handleDownloadPDF}
+            disabled={isExportingPDF}
+            className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white font-bold text-xs font-mono shadow-md shadow-blue-500/20 transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+            title="Download complete documentation and report covering storefront, admin and all dashboards"
+          >
+            <Download className={`w-3.5 h-3.5 ${isExportingPDF ? 'animate-bounce' : ''}`} />
+            <span>{isExportingPDF ? 'Compiling PDF...' : 'Download Complete PDF (All Sections)'}</span>
+          </button>
+
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-white/10 text-xs font-mono">
             <span className="text-slate-400">Withdrawal Gateway:</span>
             <button
@@ -350,93 +388,160 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ currentUser }) =
           {/* SECTION 1: DASHBOARD OVERVIEW */}
           {activeSection === 'dashboard' && (
             <div className="space-y-6">
-              {/* 8 KPI Cards */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <div className="p-4 rounded-2xl cb-glass-card border border-blue-500/20 space-y-1">
-                  <span className="text-[11px] text-slate-400 font-mono">Total Users</span>
-                  <div className="text-xl font-black font-mono text-white">{stats.totalUsers}</div>
-                  <span className="text-[10px] text-emerald-400 font-mono">+{stats.activeUsers24h} 24h active</span>
+              {/* Top View Mode Switcher */}
+              <div className="flex items-center justify-between flex-wrap gap-3 p-1.5 rounded-2xl bg-[#090D16] border border-white/10">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <button
+                    onClick={() => setDashboardSubView('bitvista')}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                      dashboardSubView === 'bitvista'
+                        ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(0,82,255,0.4)]'
+                        : 'text-slate-400 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>BitVista Business Overview</span>
+                  </button>
+
+                  <button
+                    onClick={() => setDashboardSubView('due_diligence')}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                      dashboardSubView === 'due_diligence'
+                        ? 'bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white shadow-[0_0_20px_rgba(156,39,176,0.5)]'
+                        : 'text-slate-400 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    <ShieldAlert className="w-3.5 h-3.5 text-[#00E676]" />
+                    <span>Due Diligence & AML</span>
+                    <span className="px-1.5 py-0.5 rounded-full bg-rose-500 text-white text-[9px] font-mono font-black">
+                      190 ALERTS
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={() => setDashboardSubView('operations')}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                      dashboardSubView === 'operations'
+                        ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(0,82,255,0.4)]'
+                        : 'text-slate-400 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    <TrendingUp className="w-3.5 h-3.5 text-blue-400" />
+                    <span>Trading Operations & Settlement Metrics</span>
+                  </button>
                 </div>
 
-                <div className="p-4 rounded-2xl cb-glass-card border border-blue-500/20 space-y-1">
-                  <span className="text-[11px] text-slate-400 font-mono">Platform Revenue</span>
-                  <div className="text-xl font-black font-mono text-emerald-400">
-                    ${stats.platformRevenue.toLocaleString()}
-                  </div>
-                  <span className="text-[10px] text-slate-400 font-mono">Net house surplus</span>
-                </div>
-
-                <div className="p-4 rounded-2xl cb-glass-card border border-blue-500/20 space-y-1">
-                  <span className="text-[11px] text-slate-400 font-mono">Total Contracts</span>
-                  <div className="text-xl font-black font-mono text-blue-400">{stats.totalTrades}</div>
-                  <span className="text-[10px] text-blue-300 font-mono">{stats.activeTrades} active</span>
-                </div>
-
-                <div className="p-4 rounded-2xl cb-glass-card border border-blue-500/20 space-y-1">
-                  <span className="text-[11px] text-slate-400 font-mono">Pending Withdrawals</span>
-                  <div className="text-xl font-black font-mono text-amber-400">{stats.pendingWithdrawalsCount}</div>
-                  <span className="text-[10px] text-amber-300 font-mono">Requires approval</span>
-                </div>
-              </div>
-
-              {/* 7-Day Revenue Area Chart */}
-              <div className="p-6 rounded-2xl cb-glass-card border border-blue-500/20 space-y-4">
-                <div className="flex items-center justify-between border-b border-white/5 pb-3">
-                  <div>
-                    <h3 className="text-sm font-bold text-white uppercase tracking-wider">
-                      7-Day Platform Net Yield & Settlement Volume
-                    </h3>
-                    <p className="text-xs text-slate-400 font-mono">Institutional trading spread and contract payouts</p>
-                  </div>
-                  <span className="text-xs font-mono text-emerald-400 font-bold">
-                    Daily Average: $10,195 USDT
-                  </span>
-                </div>
-
-                <div className="w-full h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={revenueSeries} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-                      <defs>
-                        <linearGradient id="adminRevGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#0052FF" stopOpacity={0.5}/>
-                          <stop offset="95%" stopColor="#0052FF" stopOpacity={0.0}/>
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid stroke="rgba(59, 130, 246, 0.08)" strokeDasharray="3 3" />
-                      <XAxis dataKey="day" stroke="#64748b" tick={{ fontSize: 11 }} />
-                      <YAxis stroke="#64748b" tick={{ fontSize: 11 }} tickFormatter={(v) => `$${v}`} />
-                      <Tooltip contentStyle={{ backgroundColor: '#050b18', borderColor: '#3b82f6', borderRadius: '12px', fontSize: '12px' }} />
-                      <Area type="monotone" dataKey="revenue" stroke="#0052FF" strokeWidth={2.5} fillOpacity={1} fill="url(#adminRevGrad)" />
-                    </AreaChart>
-                  </ResponsiveContainer>
+                <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400 pr-3 hidden sm:flex">
+                  <span>Compliance Engine:</span>
+                  <span className="text-[#00E676] font-bold">FATF Tier-1 AML/CFT Live</span>
                 </div>
               </div>
 
-              {/* Coin Volume Breakdown */}
-              <div className="p-6 rounded-2xl cb-glass-card border border-blue-500/20 space-y-3">
-                <h3 className="text-sm font-bold text-white uppercase tracking-wider border-b border-white/5 pb-2">
-                  Top Active Pair Volumes (24h)
-                </h3>
-                <div className="space-y-3 pt-2">
-                  {[
-                    { pair: 'BTC/USDT', vol: '$34.8B', pct: 64 },
-                    { pair: 'ETH/USDT', vol: '$18.2B', pct: 45 },
-                    { pair: 'SOL/USDT', vol: '$6.5B', pct: 28 },
-                    { pair: 'BNB/USDT', vol: '$1.4B', pct: 14 },
-                  ].map((c) => (
-                    <div key={c.pair} className="space-y-1 font-mono text-xs">
-                      <div className="flex justify-between text-slate-300">
-                        <span className="font-bold">{c.pair}</span>
-                        <span>{c.vol}</span>
-                      </div>
-                      <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-                        <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${c.pct}%` }} />
-                      </div>
+              {dashboardSubView === 'bitvista' ? (
+                <BitVistaOverviewSection currentUser={currentUser} users={users} trades={trades} transactions={transactions} onShowToast={showToast} />
+              ) : dashboardSubView === 'due_diligence' ? (
+                <DueDiligenceSection currentUser={currentUser} users={users} transactions={transactions} />
+              ) : (
+                <div className="space-y-6">
+                  {/* 8 KPI Cards */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div className="p-4 rounded-2xl cb-glass-card border border-blue-500/20 space-y-1">
+                      <span className="text-[11px] text-slate-400 font-mono">Total Users</span>
+                      <div className="text-xl font-black font-mono text-white">{stats.totalUsers}</div>
+                      <span className="text-[10px] text-emerald-400 font-mono">+{stats.activeUsers24h} 24h active</span>
                     </div>
-                  ))}
+
+                    <div className="p-4 rounded-2xl cb-glass-card border border-blue-500/20 space-y-1">
+                      <span className="text-[11px] text-slate-400 font-mono">Platform Revenue</span>
+                      <div className="text-xl font-black font-mono text-emerald-400">
+                        ${stats.platformRevenue.toLocaleString()}
+                      </div>
+                      <span className="text-[10px] text-slate-400 font-mono">Net house surplus</span>
+                    </div>
+
+                    <div className="p-4 rounded-2xl cb-glass-card border border-blue-500/20 space-y-1">
+                      <span className="text-[11px] text-slate-400 font-mono">Total Contracts</span>
+                      <div className="text-xl font-black font-mono text-blue-400">{stats.totalTrades}</div>
+                      <span className="text-[10px] text-blue-300 font-mono">{stats.activeTrades} active</span>
+                    </div>
+
+                    <div className="p-4 rounded-2xl cb-glass-card border border-blue-500/20 space-y-1">
+                      <span className="text-[11px] text-slate-400 font-mono">Pending Withdrawals</span>
+                      <div className="text-xl font-black font-mono text-amber-400">{stats.pendingWithdrawalsCount}</div>
+                      <span className="text-[10px] text-amber-300 font-mono">Requires approval</span>
+                    </div>
+                  </div>
+
+                  {/* 7-Day Revenue Area Chart */}
+                  <div className="p-6 rounded-2xl cb-glass-card border border-blue-500/20 space-y-4">
+                    <div className="flex items-center justify-between border-b border-white/5 pb-3">
+                      <div>
+                        <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                          7-Day Platform Net Yield & Settlement Volume
+                        </h3>
+                        <p className="text-xs text-slate-400 font-mono">Institutional trading spread and contract payouts</p>
+                      </div>
+                      <span className="text-xs font-mono text-emerald-400 font-bold">
+                        Daily Average: $10,195 USDT
+                      </span>
+                    </div>
+
+                    <div className="w-full h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={revenueSeries} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+                          <defs>
+                            <linearGradient id="adminRevGrad" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#0052FF" stopOpacity={0.5}/>
+                              <stop offset="95%" stopColor="#0052FF" stopOpacity={0.0}/>
+                            </linearGradient>
+                          </defs>
+                          <CartesianGrid stroke="rgba(59, 130, 246, 0.08)" strokeDasharray="3 3" />
+                          <XAxis dataKey="day" stroke="#64748b" tick={{ fontSize: 11 }} />
+                          <YAxis stroke="#64748b" tick={{ fontSize: 11 }} tickFormatter={(v) => `$${v}`} />
+                          <Tooltip contentStyle={{ backgroundColor: '#050b18', borderColor: '#3b82f6', borderRadius: '12px', fontSize: '12px' }} />
+                          <Area type="monotone" dataKey="revenue" stroke="#0052FF" strokeWidth={2.5} fillOpacity={1} fill="url(#adminRevGrad)" />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Coin Volume Breakdown */}
+                  <div className="p-6 rounded-2xl cb-glass-card border border-blue-500/20 space-y-3">
+                    <h3 className="text-sm font-bold text-white uppercase tracking-wider border-b border-white/5 pb-2">
+                      Top Active Pair Volumes (24h)
+                    </h3>
+                    <div className="space-y-3 pt-2">
+                      {[
+                        { pair: 'BTC/USDT', vol: '$34.8B', pct: 64 },
+                        { pair: 'ETH/USDT', vol: '$18.2B', pct: 45 },
+                        { pair: 'SOL/USDT', vol: '$6.5B', pct: 28 },
+                        { pair: 'BNB/USDT', vol: '$1.4B', pct: 14 },
+                      ].map((c) => (
+                        <div key={c.pair} className="space-y-1 font-mono text-xs">
+                          <div className="flex justify-between text-slate-300">
+                            <span className="font-bold">{c.pair}</span>
+                            <span>{c.vol}</span>
+                          </div>
+                          <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                            <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${c.pct}%` }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
+          )}
+
+          {/* SECTION 1.4: BITVISTA BUSINESS OVERVIEW */}
+          {activeSection === 'bitvista' && (
+            <BitVistaOverviewSection currentUser={currentUser} users={users} trades={trades} transactions={transactions} onShowToast={showToast} />
+          )}
+
+          {/* SECTION 1.5: DIRECT DUE DILIGENCE & AML SECTION */}
+          {activeSection === 'duediligence' && (
+            <DueDiligenceSection currentUser={currentUser} users={users} transactions={transactions} />
           )}
 
           {/* SECTION 2: USER MANAGEMENT */}

@@ -78,7 +78,7 @@ export const AgentManagementSection: React.FC<AgentManagementSectionProps> = ({ 
     e.preventDefault();
     if (!newAgentName.trim() || !newAgentUsername.trim() || !newAgentEmail.trim()) return;
 
-    const code = newAgentCode.trim().toUpperCase() || `PBD-AGENT-00${subAgents.length + 1}`;
+    const code = newAgentCode.trim().toUpperCase() || `PBD-AGENT-ae00${subAgents.length + 1}`;
     const newAgent: User = {
       id: 'agent-' + Date.now(),
       uid: 'CB' + Math.floor(900000 + Math.random() * 99999),
@@ -383,7 +383,7 @@ export const AgentManagementSection: React.FC<AgentManagementSectionProps> = ({ 
                   <input
                     type="text"
                     required
-                    placeholder="agent006"
+                    placeholder="agentae006"
                     value={newAgentUsername}
                     onChange={(e) => setNewAgentUsername(e.target.value)}
                     className="w-full p-2.5 rounded-xl bg-slate-950 border border-white/10 text-white focus:outline-none focus:border-blue-400"
@@ -393,7 +393,7 @@ export const AgentManagementSection: React.FC<AgentManagementSectionProps> = ({ 
                   <label className="text-slate-300 font-bold">Broker Code</label>
                   <input
                     type="text"
-                    placeholder="PBD-AGENT-006"
+                    placeholder="PBD-AGENT-ae006"
                     value={newAgentCode}
                     onChange={(e) => setNewAgentCode(e.target.value)}
                     className="w-full p-2.5 rounded-xl bg-slate-950 border border-white/10 text-white focus:outline-none focus:border-blue-400 uppercase"
@@ -406,7 +406,7 @@ export const AgentManagementSection: React.FC<AgentManagementSectionProps> = ({ 
                 <input
                   type="email"
                   required
-                  placeholder="agent006@playbeat.digital"
+                  placeholder="agentae006@coinbase.ae"
                   value={newAgentEmail}
                   onChange={(e) => setNewAgentEmail(e.target.value)}
                   className="w-full p-2.5 rounded-xl bg-slate-950 border border-white/10 text-white focus:outline-none focus:border-blue-400"
