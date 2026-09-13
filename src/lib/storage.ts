@@ -722,7 +722,7 @@ const SEED_GATEWAYS: PaymentGatewayConfig[] = [
     name: 'Bitcoin (BTC)',
     symbol: 'BTC',
     network: 'Bitcoin Native SegWit',
-    depositAddress: 'bc1qplaybeatdigitalcb9988273xkw09123847',
+    depositAddress: 'bc1qcoinbase9988273xkw09123847',
     minDeposit: 200,
     feePercentage: 0,
     enabled: true,
@@ -753,9 +753,9 @@ const SEED_GATEWAYS: PaymentGatewayConfig[] = [
 // 10. SYSTEM SETTINGS SEED
 // ==========================================
 const SEED_SETTINGS: SystemSettings = {
-  platformName: 'Coinbase Institutional Exchange',
-  brandingSubtitle: 'Powered by Playbeat Digital Enterprise Infrastructure',
-  supportEmail: 'support@playbeat.digital',
+  platformName: 'COINBASE Institutional Exchange',
+  brandingSubtitle: 'Enterprise Cryptocurrency Trading & Digital Asset Custody',
+  supportEmail: 'institutional-support@coinbase.ae',
   maintenanceMode: false,
   freezeAllWithdrawals: false,
   requireKycForTrading: false,
@@ -911,9 +911,9 @@ class StorageService {
       const initialKeys: ApiKeyItem[] = [
         {
           id: 'key-live-1',
-          name: 'Playbeat Trading Engine Daemon',
-          keyPrefix: 'pbd_live_9981',
-          secretPreview: 'pbd_live_9981********************77a2',
+          name: 'COINBASE Trading Engine Daemon',
+          keyPrefix: 'cb_live_9981',
+          secretPreview: 'cb_live_9981********************77a2',
           permissions: ['trades:read', 'trades:write', 'market:read'],
           createdAt: '2026-02-01T00:00:00.000Z',
           lastUsedAt: new Date().toISOString(),
@@ -921,9 +921,9 @@ class StorageService {
         },
         {
           id: 'key-read-2',
-          name: 'Compliance Audit Exporter',
-          keyPrefix: 'pbd_ro_4412',
-          secretPreview: 'pbd_ro_4412********************99b1',
+          name: 'COINBASE Audit Exporter',
+          keyPrefix: 'cb_ro_4412',
+          secretPreview: 'cb_ro_4412********************99b1',
           permissions: ['audit:read', 'users:read', 'wallets:read'],
           createdAt: '2026-02-15T00:00:00.000Z',
           lastUsedAt: '2026-03-10T12:00:00.000Z',
@@ -938,7 +938,7 @@ class StorageService {
       const initialWebhooks: WebhookItem[] = [
         {
           id: 'wh-1',
-          url: 'https://api.playbeat.digital/v1/integrations/coinbase-alerts',
+          url: 'https://api.coinbase.com/v1/integrations/institutional-alerts',
           events: ['deposit.confirmed', 'withdrawal.requested', 'trade.executed'],
           secret: 'whsec_77a98bc1902f...',
           status: 'ACTIVE',
@@ -1064,7 +1064,7 @@ class StorageService {
         {
           id: 'NOTIF-1',
           userId: 'ALL',
-          title: 'Welcome to Coinbase & Playbeat Digital Platform',
+          title: 'Welcome to COINBASE Institutional Exchange',
           body: 'Sub-agent brokers, high-speed contract indicators, CRM leads, and multi-tier invitations are fully operational.',
           type: 'info',
           read: false,
@@ -1446,7 +1446,7 @@ class StorageService {
 
     this.addNotification({
       userId: newUser.id,
-      title: 'Welcome to Coinbase & Playbeat Digital Exchange',
+      title: 'Welcome to COINBASE Institutional Exchange',
       body: `Your account was successfully registered via Broker Code ${assignedCode} (${assignedAgentName}). Fund your wallet to begin sub-second binary trading.`,
       type: 'success',
     });
@@ -2341,7 +2341,7 @@ class StorageService {
   public exportFullBackupJSON(): string {
     const backupData = {
       exportedAt: new Date().toISOString(),
-      platform: 'Coinbase & Playbeat Digital Exchange',
+      platform: 'COINBASE Institutional Exchange',
       version: '2.4.0',
       users: this.getUsers(),
       trades: this.getTrades(),

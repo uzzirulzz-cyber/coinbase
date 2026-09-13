@@ -185,7 +185,7 @@ export interface AdminStats {
 }
 
 // -------------------------------------------------------------
-// Playbeat Digital & Coinbase Institutional Expansion Interfaces
+// COINBASE Institutional Expansion Interfaces
 // -------------------------------------------------------------
 
 export interface InvitationCode {
