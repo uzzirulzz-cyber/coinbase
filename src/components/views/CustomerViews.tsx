@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { User, AppView, CryptoCoin, Transaction, Trade } from '../../types';
 import { INITIAL_COINS, formatPrice } from '../../lib/market-data';
 import { storage } from '../../lib/storage';
+import { CryptoMarketScreener } from '../trading/CryptoMarketScreener';
 import { 
   Search, 
   Star, 
@@ -137,91 +138,24 @@ export const CustomerViews: React.FC<CustomerViewProps> = ({
       {/* 1. MARKETS VIEW */}
       {view === 'markets' && (
         <div className="space-y-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-black text-white tracking-tight">Cryptocurrency Markets</h1>
-              <p className="text-xs text-slate-400">Institutional real-time pricing and liquidity depth</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="relative w-full sm:w-64">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  placeholder="Search coins (BTC, ETH...)"
-                  value={searchMarket}
-                  onChange={(e) => setSearchMarket(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 bg-slate-900 border border-blue-500/20 rounded-xl text-white text-xs font-mono focus:outline-none focus:border-blue-500"
-                />
-              </div>
+              <h1 className="text-2xl font-black text-white tracking-tight">Cryptocurrency Markets & Screener</h1>
+              <p className="text-xs text-slate-400">Institutional real-time pricing, multi-chain liquidity, and high-frequency order routing</p>
             </div>
           </div>
 
-          <div className="rounded-2xl cb-glass-card border border-blue-500/20 overflow-hidden">
-            <div className="overflow-x-auto cb-scroll">
-              <table className="w-full text-left text-xs font-mono">
-                <thead>
-                  <tr className="border-b border-white/5 text-slate-400 bg-slate-900/40">
-                    <th className="py-3 px-4">Watch</th>
-                    <th className="py-3 px-4">Asset</th>
-                    <th className="py-3 px-4">Last Price</th>
-                    <th className="py-3 px-4">24h Change</th>
-                    <th className="py-3 px-4">24h High / Low</th>
-                    <th className="py-3 px-4">24h Volume</th>
-                    <th className="py-3 px-4 text-right">Quick Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/5 text-slate-300">
-                  {coins
-                    .filter(c => c.name.toLowerCase().includes(searchMarket.toLowerCase()) || c.symbol.toLowerCase().includes(searchMarket.toLowerCase()))
-                    .map(coin => {
-                      const isPositive = coin.change24h >= 0;
-                      const isStarred = watchlist.includes(coin.symbol);
-                      return (
-                        <tr key={coin.symbol} className="hover:bg-slate-800/30 transition-colors">
-                          <td className="py-3.5 px-4">
-                            <button
-                              onClick={() => handleToggleWatchlist(coin.symbol)}
-                              className="text-slate-500 hover:text-amber-400 transition-colors"
-                            >
-                              <Star className={`w-4 h-4 ${isStarred ? 'text-amber-400 fill-amber-400' : ''}`} />
-                            </button>
-                          </td>
-                          <td className="py-3.5 px-4">
-                            <div className="font-bold text-white text-sm">{coin.symbol}</div>
-                            <div className="text-[10px] text-slate-400">{coin.name}</div>
-                          </td>
-                          <td className="py-3.5 px-4 font-bold text-white text-sm">
-                            {formatPrice(coin.currentPrice)}
-                          </td>
-                          <td className="py-3.5 px-4">
-                            <span className={`inline-flex items-center gap-1 font-bold ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {isPositive ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
-                              {isPositive ? '+' : ''}{coin.change24h}%
-                            </span>
-                          </td>
-                          <td className="py-3.5 px-4 text-slate-400">
-                            <div>{formatPrice(coin.high24h)}</div>
-                            <div className="text-[10px] text-slate-500">{formatPrice(coin.low24h)}</div>
-                          </td>
-                          <td className="py-3.5 px-4 text-slate-300">{coin.volume24h}</td>
-                          <td className="py-3.5 px-4 text-right">
-                            <button
-                              onClick={() => {
-                                if (onSelectCoinForTrade) onSelectCoinForTrade(coin.symbol);
-                                onNavigate('trade');
-                              }}
-                              className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md transition-all inline-flex items-center gap-1"
-                            >
-                              Trade <ArrowUpRight className="w-3.5 h-3.5" />
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <CryptoMarketScreener
+            currentUser={currentUser}
+            onNavigate={onNavigate}
+            onSelectCoinForTrade={(symbol) => {
+              if (onSelectCoinForTrade) onSelectCoinForTrade(symbol);
+              onNavigate('trade');
+            }}
+            onOpenSwap={(token) => {
+              onNavigate('swap');
+            }}
+          />
         </div>
       )}
 

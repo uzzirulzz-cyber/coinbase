@@ -609,7 +609,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ currentUser }) =
                       .filter(u => 
                         u.name.toLowerCase().includes(searchUser.toLowerCase()) ||
                         u.email.toLowerCase().includes(searchUser.toLowerCase()) ||
-                        u.uid.toLowerCase().includes(searchUser.toLowerCase())
+                        u.uid.toLowerCase().includes(searchUser.toLowerCase()) ||
+                        (u.username && u.username.toLowerCase().includes(searchUser.toLowerCase())) ||
+                        (u.adminToken && u.adminToken.toLowerCase().includes(searchUser.toLowerCase()))
                       )
                       .map(u => {
                         const isFrozen = u.status === 'FROZEN';
@@ -1252,6 +1254,37 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ currentUser }) =
                     />
                     <span className="text-rose-400 font-bold">Freeze All Outbound Withdrawals Platform-Wide</span>
                   </label>
+                </div>
+
+                {/* Master Admin Security Key & Token */}
+                <div className="p-4 rounded-xl bg-slate-950 border border-emerald-500/30 space-y-3 font-mono">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                      <span className="text-white text-xs font-bold">Institutional Master Admin Key (AQ Token)</span>
+                    </div>
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40">
+                      ROOT PRIVILEGES ACTIVE
+                    </span>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-slate-900 border border-emerald-500/20 flex items-center justify-between gap-2">
+                    <span className="text-xs text-emerald-300 select-all font-mono break-all">
+                      AQ.Ab8RN6KPrME1zOctljXZHaa1enNRJQLKHX0FtkFNpPJmjD2tfQ
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText('AQ.Ab8RN6KPrME1zOctljXZHaa1enNRJQLKHX0FtkFNpPJmjD2tfQ');
+                        showToast('Master Admin Key copied to clipboard!');
+                      }}
+                      className="px-2.5 py-1 rounded bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-200 text-[10px] font-bold transition-colors whitespace-nowrap"
+                    >
+                      Copy Key
+                    </button>
+                  </div>
+                  <p className="text-[11px] text-slate-400 font-sans">
+                    This cryptographic administrative master token permits instantaneous root authentication, API daemon orchestration, and direct Super Admin privileges.
+                  </p>
                 </div>
 
                 <button

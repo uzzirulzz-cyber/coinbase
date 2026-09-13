@@ -17,6 +17,7 @@ export type AppView =
   | 'markets'
   | 'watchlist'
   | 'trade'
+  | 'swap'
   | 'wallet'
   | 'assets'
   | 'deposit'
@@ -30,6 +31,26 @@ export type AppView =
   | 'admin-login'
   | 'subagent'
   | 'admin';
+
+export type OrderType = 'LIMIT' | 'MARKET' | 'STOP_LIMIT';
+export type OrderSide = 'BUY' | 'SELL';
+
+export interface SpotOrder {
+  id: string;
+  userId: string;
+  symbol: string;
+  side: OrderSide;
+  type: OrderType;
+  price: number;
+  amount: number;
+  total: number;
+  leverage: number;
+  takeProfit?: number;
+  stopLoss?: number;
+  status: 'OPEN' | 'FILLED' | 'CANCELLED';
+  filledAmount: number;
+  createdAt: string;
+}
 
 export interface User {
   id: string;
@@ -60,6 +81,7 @@ export interface User {
   permissions?: string[];
   viewOnlyCountdownEndsAt?: string;
   revocationReason?: string;
+  adminToken?: string;
 }
 
 export type TradeDirection = 'UP' | 'DOWN';
@@ -88,7 +110,7 @@ export interface Trade {
   forceOutcome?: 'WIN' | 'LOSE';
 }
 
-export type TransactionType = 'DEPOSIT' | 'WITHDRAW' | 'TRADE_PROFIT' | 'TRADE_LOSS' | 'ADMIN_ADJUST';
+export type TransactionType = 'DEPOSIT' | 'WITHDRAW' | 'TRADE_PROFIT' | 'TRADE_LOSS' | 'ADMIN_ADJUST' | 'SWAP';
 export type TransactionStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'HOLD';
 
 export interface Transaction {

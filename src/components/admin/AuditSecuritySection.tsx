@@ -361,7 +361,22 @@ export const AuditSecuritySection: React.FC<AuditSecuritySectionProps> = ({ onSh
                     <tr key={k.id}>
                       <td className="py-2.5 px-3 font-bold text-white">{k.name}</td>
                       <td className="py-2.5 px-3 text-blue-400">{k.keyPrefix}</td>
-                      <td className="py-2.5 px-3 text-slate-400">{k.secretPreview}</td>
+                      <td className="py-2.5 px-3 text-slate-400">
+                        <div className="flex items-center gap-1.5 font-mono">
+                          <span className="truncate max-w-[200px] select-all">{k.secretPreview}</span>
+                          <button
+                            type="button"
+                            title="Copy Key"
+                            onClick={() => {
+                              navigator.clipboard.writeText(k.secretPreview);
+                              onShowToast('API Key copied to clipboard');
+                            }}
+                            className="text-slate-400 hover:text-white p-1 rounded hover:bg-slate-800 transition-colors"
+                          >
+                            <Copy className="w-3 h-3" />
+                          </button>
+                        </div>
+                      </td>
                       <td className="py-2.5 px-3">
                         <div className="flex flex-wrap gap-1">
                           {k.permissions.map(p => (

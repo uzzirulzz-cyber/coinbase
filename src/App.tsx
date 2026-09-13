@@ -11,6 +11,7 @@ import { SubAgentDashboard } from './components/views/SubAgentDashboard';
 import { AdminDashboard } from './components/views/AdminDashboard';
 import { CustomerViews } from './components/views/CustomerViews';
 import { LiveSupportChat } from './components/chat/LiveSupportChat';
+import { SwapView } from './components/views/SwapView';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(() => storage.getCurrentUser());
@@ -77,6 +78,10 @@ export default function App() {
         onLogout={handleLogout}
         unreadNotifications={unreadNoticeCount}
         unreadMessages={unreadMsgCount}
+        onSelectCoinForTrade={(symbol) => {
+          setSelectedCoinSymbol(symbol);
+          handleNavigate('trade');
+        }}
       />
 
       {/* Main View Router */}
@@ -94,6 +99,14 @@ export default function App() {
 
         {currentView === 'trade' && (
           <TradeView
+            currentUser={currentUser}
+            onNavigate={handleNavigate}
+            selectedSymbol={selectedCoinSymbol}
+          />
+        )}
+
+        {currentView === 'swap' && (
+          <SwapView
             currentUser={currentUser}
             onNavigate={handleNavigate}
             selectedSymbol={selectedCoinSymbol}

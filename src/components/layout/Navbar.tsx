@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CoinbaseLogo } from '../common/CoinbaseLogo';
 import { AppView, User } from '../../types';
+import { CryptoMarketTicker } from '../trading/CryptoMarketTicker';
 import { 
   TrendingUp, 
   Wallet, 
@@ -19,7 +20,8 @@ import {
   ArrowUpFromLine,
   Menu,
   X,
-  MessageSquare
+  MessageSquare,
+  ArrowDownUp
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -30,6 +32,7 @@ interface NavbarProps {
   unreadNotifications: number;
   unreadMessages: number;
   onToggleChat?: () => void;
+  onSelectCoinForTrade?: (symbol: string) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -39,7 +42,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   onLogout,
   unreadNotifications,
   unreadMessages,
-  onToggleChat
+  onToggleChat,
+  onSelectCoinForTrade
 }) => {
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -49,10 +53,12 @@ export const Navbar: React.FC<NavbarProps> = ({
     { label: 'Home', view: 'home' as AppView },
     { label: 'Markets', view: 'markets' as AppView },
     { label: 'Trade', view: 'trade' as AppView },
+    { label: 'DEX Swap', view: 'swap' as AppView },
     { label: 'Wallet', view: 'wallet' as AppView },
   ];
 
   const moreItems = [
+    { label: 'DEX Instant Swap', view: 'swap' as AppView, icon: ArrowDownUp },
     { label: 'Watchlist', view: 'watchlist' as AppView, icon: Star },
     { label: 'Assets & Portfolio', view: 'assets' as AppView, icon: Layers },
     { label: 'Deposit Funds', view: 'deposit' as AppView, icon: ArrowDownToLine },
@@ -65,30 +71,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-blue-900/30 bg-[#050b18]/85 backdrop-blur-xl">
-      {/* Top micro ticker bar */}
-      <div className="hidden lg:flex items-center justify-between px-6 py-1 text-xs border-b border-white/5 bg-[#030712]/60 text-slate-400 font-mono">
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-1.5 text-emerald-400">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 cb-pulse-dot" />
-            <span className="text-slate-300 font-sans">Trading Engine:</span> Optimal (0.4ms)
-          </div>
-          <div className="flex items-center gap-4">
-            <span>BTC: <strong className="text-white">$87,450.00</strong> <span className="text-emerald-400">+3.42%</span></span>
-            <span>ETH: <strong className="text-white">$2,680.50</strong> <span className="text-emerald-400">+2.15%</span></span>
-            <span>SOL: <strong className="text-white">$194.80</strong> <span className="text-emerald-400">+6.84%</span></span>
-          </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="text-slate-500">Official Coinbase Institutional Portal</span>
-          <button 
-            onClick={() => onNavigate('admin-login')}
-            className="hover:text-blue-400 text-slate-400 transition-colors flex items-center gap-1"
-          >
-            <Shield className="w-3 h-3 text-blue-500" />
-            Staff / Agent Login
-          </button>
-        </div>
-      </div>
+      {/* Top micro market ticker bar */}
+      <CryptoMarketTicker
+        onSelectCoin={(symbol) => {
+          onSelectCoinForTrade?.(symbol);
+          onNavigate('trade');
+        }}
+      />
 
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
