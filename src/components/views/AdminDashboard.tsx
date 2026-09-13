@@ -296,7 +296,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ currentUser }) =
             <ShieldCheck className="w-3.5 h-3.5" /> SUPER ADMIN ENTERPRISE CONTROL
           </div>
           <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-            Brock Exchange Operations & Compliance Center
+            COINBASE Operations & Compliance Center
           </h1>
           <p className="text-slate-400 text-sm">
             Institutional compliance, due diligence monitoring, transaction risk analytics, and multi-tier controls.

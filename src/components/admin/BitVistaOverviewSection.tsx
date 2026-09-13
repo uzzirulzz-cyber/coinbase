@@ -158,7 +158,7 @@ export const BitVistaOverviewSection: React.FC<BitVistaOverviewSectionProps> = (
             </h2>
           </div>
           <p className="text-xs text-slate-400 font-mono">
-            Here is an overview of your business · Brock Exchange & BitVista Enterprise Telemetry
+            Here is an overview of your business · COINBASE & BitVista Enterprise Telemetry
           </p>
         </div>
 

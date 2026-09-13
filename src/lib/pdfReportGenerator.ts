@@ -69,7 +69,7 @@ export function generateComprehensivePlatformPDF(options: PDFExportOptions = {})
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(100, 116, 139);
-    doc.text('Brock Exchange & BitVista · Combined Storefront & Admin Operations Dossier', margin, pageHeight - 6);
+    doc.text('COINBASE & BitVista · Combined Storefront & Admin Operations Dossier', margin, pageHeight - 6);
     doc.text(`Page ${pageNum} of ${totalPages}`, pageWidth - margin, pageHeight - 6, { align: 'right' });
   };
 
@@ -101,7 +101,7 @@ export function generateComprehensivePlatformPDF(options: PDFExportOptions = {})
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(28);
   doc.setTextColor(255, 255, 255);
-  doc.text('BROCK EXCHANGE', margin, 42);
+  doc.text('COINBASE', margin, 42);
 
   doc.setFontSize(14);
   doc.setTextColor(0, 145, 255);
@@ -219,7 +219,7 @@ export function generateComprehensivePlatformPDF(options: PDFExportOptions = {})
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
   doc.setTextColor(51, 65, 85);
-  const p1 = 'Brock Exchange provides a high-throughput cryptocurrency spot and binary contract terminal designed for institutional and retail traders. The storefront delivers millisecond-level live ticker updates, responsive market cards, interactive sparkline graphs, and zero-fee internal liquidity pools.';
+  const p1 = 'COINBASE provides a high-throughput cryptocurrency spot and binary contract terminal designed for institutional and retail traders. The storefront delivers millisecond-level live ticker updates, responsive market cards, interactive sparkline graphs, and zero-fee internal liquidity pools.';
   const splitP1 = doc.splitTextToSize(p1, contentWidth);
   doc.text(splitP1, margin, y);
   y += splitP1.length * 4.5 + 4;
@@ -680,7 +680,7 @@ export function generateComprehensivePlatformPDF(options: PDFExportOptions = {})
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
   doc.setTextColor(51, 65, 85);
-  const agentDesc = 'Brock Exchange organizes institutional brokerage access into 5 strict Sub-Agent desks. Each agent desk maintains isolated client rosters. Sub-agents cannot view or modify leads belonging to competing desks, ensuring strict regulatory data fencing.';
+  const agentDesc = 'COINBASE organizes institutional brokerage access into 5 strict Sub-Agent desks. Each agent desk maintains isolated client rosters. Sub-agents cannot view or modify leads belonging to competing desks, ensuring strict regulatory data fencing.';
   doc.text(doc.splitTextToSize(agentDesc, contentWidth), margin, y);
   y += 14;
 
@@ -798,8 +798,8 @@ export function generateComprehensivePlatformPDF(options: PDFExportOptions = {})
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(203, 213, 225);
-  doc.text('This document certifies that the Brock Exchange & BitVista suite has been verified for production readiness.', margin + 8, y + 16);
-  doc.text(`Document Reference: BEX-EXEC-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`, margin + 8, y + 22);
+  doc.text('This document certifies that the COINBASE & BitVista suite has been verified for production readiness.', margin + 8, y + 16);
+  doc.text(`Document Reference: COINBASE-EXEC-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`, margin + 8, y + 22);
   doc.text('Authorized Super Admin: admin@coinbase.ae  |  Cluster: asia-southeast1-docker-run', margin + 8, y + 28);
   doc.text('Integrity Checksum (SHA-256): 9e3a7c02b8d5f412a88e993bcde414f52670014a', margin + 8, y + 33);
 
@@ -812,6 +812,6 @@ export function generateComprehensivePlatformPDF(options: PDFExportOptions = {})
     }
   }
 
-  const filename = `BrockExchange_AllSections_Complete_Dossier_${new Date().toISOString().slice(0, 10)}.pdf`;
+  const filename = `COINBASE_AllSections_Complete_Dossier_${new Date().toISOString().slice(0, 10)}.pdf`;
   return { doc, filename };
 }
