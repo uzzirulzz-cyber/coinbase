@@ -103,7 +103,7 @@ export const SubAgentDashboard: React.FC<SubAgentDashboardProps> = ({ currentUse
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="cb-dashboard-shell cb-agent-shell max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* REVOCATION / VIEW-ONLY ALERT BANNER FOR AGENT 5 */}
       {isPowerRevoked && (
         <div className="p-5 rounded-2xl bg-gradient-to-r from-rose-950/80 via-amber-950/70 to-slate-900 border border-amber-500/50 shadow-2xl space-y-3 relative overflow-hidden">
