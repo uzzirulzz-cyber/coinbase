@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppView, User } from '../../types';
 import { INITIAL_COINS, formatPrice } from '../../lib/market-data';
-import { ArrowUpRight, ShieldCheck, Zap, Users, ChevronRight } from 'lucide-react';
+import { ArrowUpRight, ShieldCheck, Zap, Users, ChevronRight, Activity, Wallet, BarChart3 } from 'lucide-react';
 
 interface HomeViewProps {
   onNavigate: (view: AppView) => void;
@@ -11,71 +11,49 @@ interface HomeViewProps {
 
 export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, currentUser, onSelectCoinForTrade }) => {
   const topCoins = INITIAL_COINS.slice(0, 4);
-
   return (
-    <div className="cb-home-page space-y-12 py-6">
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="cb-hero relative rounded-3xl cb-glass-card border border-blue-500/30 p-8 sm:p-12 lg:p-16 overflow-hidden shadow-2xl">
-          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="relative z-10 max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-bold tracking-wider">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 cb-pulse-dot" />
-              DIGITAL ASSET MARKETS
+    <div className="container-fluid cb-home-page py-4 py-lg-5">
+      <section className="container-xl mb-5">
+        <div className="cb-hero cb-glass-card rounded-4 p-4 p-md-5 p-xl-6 position-relative overflow-hidden">
+          <div className="cb-hero-orb cb-hero-orb-one" /><div className="cb-hero-orb cb-hero-orb-two" />
+          <div className="row align-items-center g-5 position-relative">
+            <div className="col-lg-8">
+              <span className="badge rounded-pill text-bg-primary bg-opacity-25 border border-primary-subtle px-3 py-2 mb-4"><Activity size={14} className="me-2" /> DIGITAL ASSET MARKETS</span>
+              <h1 className="display-4 fw-bold text-white lh-sm mb-3">Your markets. <span className="cb-gradient-text">Your next move.</span></h1>
+              <p className="lead text-white-50 mb-4 cb-hero-copy">Explore cryptocurrency markets, follow the assets you care about, and manage your trading activity from one intuitive workspace.</p>
+              <div className="d-flex flex-wrap gap-3">
+                <button onClick={() => onNavigate('trade')} className="btn btn-primary btn-lg cb-primary-action px-4 py-3 fw-semibold">Open trading terminal <ArrowUpRight size={18} className="ms-2" /></button>
+                {!currentUser ? <button onClick={() => onNavigate('register')} className="btn btn-outline-light btn-lg px-4 py-3">Create an account <ChevronRight size={18} className="ms-1" /></button> : <button onClick={() => onNavigate('wallet')} className="btn btn-outline-light btn-lg px-4 py-3"><Wallet size={18} className="me-2" /> View wallet · \${currentUser.balance.toFixed(2)}</button>}
+              </div>
+              <div className="row g-3 mt-4 pt-4 border-top border-light border-opacity-10">
+                <div className="col-6 col-md-4"><div className="small text-white-50 mb-1">Market access</div><div className="fs-5 fw-bold text-white">Multiple crypto pairs</div></div>
+                <div className="col-6 col-md-4"><div className="small text-white-50 mb-1">Account tools</div><div className="fs-5 fw-bold text-white">Wallet & activity</div></div>
+                <div className="col-12 col-md-4"><div className="small text-white-50 mb-1">Workspace</div><div className="fs-5 fw-bold text-white">Customer · Agent · Admin</div></div>
+              </div>
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
-              Your markets. <span className="cb-gradient-text">Your next move.</span>
-            </h1>
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
-              Explore cryptocurrency markets, follow the assets you care about, and manage your trading activity from one intuitive workspace.
-            </p>
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <button onClick={() => onNavigate('trade')} className="btn btn-primary cb-primary-action px-4 py-3 rounded-xl font-bold text-sm text-white flex items-center gap-2 transition-all">
-                Open trading terminal <ArrowUpRight className="w-4 h-4" />
-              </button>
-              {!currentUser ? (
-                <button onClick={() => onNavigate('register')} className="btn btn-outline-light px-4 py-3 rounded-xl font-bold text-sm flex items-center gap-2">
-                  Create an account <ChevronRight className="w-4 h-4" />
-                </button>
-              ) : (
-                <button onClick={() => onNavigate('wallet')} className="btn btn-outline-light px-4 py-3 rounded-xl font-bold text-sm">
-                  View wallet · ${currentUser.balance.toFixed(2)}
-                </button>
-              )}
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/10">
-              <div><span className="text-xs text-slate-400">Market access</span><div className="text-lg font-bold text-white mt-1">Multiple crypto pairs</div></div>
-              <div><span className="text-xs text-slate-400">Account tools</span><div className="text-lg font-bold text-white mt-1">Wallet & activity</div></div>
-              <div><span className="text-xs text-slate-400">Workspace</span><div className="text-lg font-bold text-white mt-1">Customer · Agent · Admin</div></div>
-            </div>
+            <div className="col-lg-4 d-none d-lg-block"><div className="cb-hero-panel rounded-4 p-4">
+              <div className="d-flex justify-content-between align-items-center mb-3"><span className="small text-white-50">Market overview</span><span className="badge text-bg-success bg-opacity-25 text-success">Watchlist</span></div>
+              {topCoins.slice(0, 3).map(coin => <div key={coin.symbol} className="d-flex justify-content-between align-items-center py-3 border-bottom border-light border-opacity-10"><div><div className="fw-semibold text-white">{coin.symbol}</div><div className="small text-white-50">{coin.name}</div></div><div className="text-end"><div className="fw-semibold text-white">{formatPrice(coin.currentPrice)}</div><div className={coin.change24h >= 0 ? 'small text-success' : 'small text-danger'}>{coin.change24h >= 0 ? '+' : ''}{coin.change24h}%</div></div></div>)}
+              <button onClick={() => onNavigate('markets')} className="btn btn-link link-info text-decoration-none px-0 pt-3">Explore markets <ArrowUpRight size={15} className="ms-1" /></button>
+            </div></div>
           </div>
         </div>
       </section>
-
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-        <div className="flex items-center justify-between gap-3">
-          <div><h2 className="text-xl font-bold text-white tracking-tight">Market highlights</h2><p className="text-xs text-slate-400">Explore available trading pairs</p></div>
-          <button onClick={() => onNavigate('markets')} className="text-xs text-blue-400 hover:text-blue-300 font-bold">All markets →</button>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {topCoins.map(coin => {
-            const isPositive = coin.change24h >= 0;
-            return <button key={coin.symbol} type="button" onClick={() => { onSelectCoinForTrade?.(coin.symbol); onNavigate('trade'); }} className="cb-market-card text-left p-5 rounded-2xl cb-glass-card border border-blue-500/20 hover:border-blue-400/50 transition-all space-y-4 group">
-              <div className="flex justify-between items-start"><div><h3 className="font-bold text-white group-hover:text-blue-300">{coin.symbol}</h3><span className="text-xs text-slate-400">{coin.name}</span></div><span className={`px-2 py-1 rounded-lg text-xs font-bold ${isPositive ? 'bg-emerald-500/15 text-emerald-400' : 'bg-rose-500/15 text-rose-400'}`}>{isPositive ? '+' : ''}{coin.change24h}%</span></div>
-              <div className="text-2xl font-black text-white">{formatPrice(coin.currentPrice)}</div>
-              <div className="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-white/10"><span>24h volume: {coin.volume24h}</span><span className="text-blue-300 font-bold flex items-center gap-1">Trade <ArrowUpRight className="w-3.5 h-3.5" /></span></div>
-            </button>;
-          })}
-        </div>
+      <section className="container-xl mb-5">
+        <div className="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-3"><div><h2 className="h3 fw-bold text-white mb-1">Market highlights</h2><p className="text-white-50 mb-0">Explore available trading pairs</p></div><button onClick={() => onNavigate('markets')} className="btn btn-sm btn-outline-info">All markets <ArrowUpRight size={15} className="ms-1" /></button></div>
+        <div className="row g-3">{topCoins.map(coin => <div className="col-12 col-sm-6 col-xl-3" key={coin.symbol}>
+          <button type="button" className="card cb-market-card h-100 text-start p-3" onClick={() => { onSelectCoinForTrade?.(coin.symbol); onNavigate('trade'); }}>
+            <div className="card-body p-1"><div className="d-flex justify-content-between align-items-start mb-3"><div><div className="fw-bold text-white">{coin.symbol}</div><div className="small text-white-50">{coin.name}</div></div><span className={coin.change24h >= 0 ? 'badge text-bg-success bg-opacity-25' : 'badge text-bg-danger bg-opacity-25'}>{coin.change24h >= 0 ? '+' : ''}{coin.change24h}%</span></div>
+              <div className="fs-3 fw-bold text-white mb-3">{formatPrice(coin.currentPrice)}</div><div className="d-flex justify-content-between align-items-center border-top border-light border-opacity-10 pt-3 small"><span className="text-white-50">24h volume · {coin.volume24h}</span><span className="text-info fw-semibold">Trade <ArrowUpRight size={14} /></span></div>
+            </div>
+          </button>
+        </div>)}</div>
       </section>
-
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="cb-feature-card p-6 rounded-2xl cb-glass-card space-y-3"><div className="w-11 h-11 rounded-xl bg-blue-600/20 flex items-center justify-center text-blue-300"><Zap className="w-5 h-5" /></div><h3 className="font-bold text-white">Trading workspace</h3><p className="text-sm text-slate-400 leading-relaxed">Review supported markets and access the trading interface with clear, focused tools.</p></div>
-          <div className="cb-feature-card p-6 rounded-2xl cb-glass-card space-y-3"><div className="w-11 h-11 rounded-xl bg-violet-600/20 flex items-center justify-center text-violet-300"><Users className="w-5 h-5" /></div><h3 className="font-bold text-white">Account management</h3><p className="text-sm text-slate-400 leading-relaxed">Customer and sub-agent workspaces keep account activity and assigned customer records organized.</p></div>
-          <div className="cb-feature-card p-6 rounded-2xl cb-glass-card space-y-3"><div className="w-11 h-11 rounded-xl bg-emerald-600/20 flex items-center justify-center text-emerald-300"><ShieldCheck className="w-5 h-5" /></div><h3 className="font-bold text-white">Operations controls</h3><p className="text-sm text-slate-400 leading-relaxed">Administrative tools bring user management, transaction review, reporting and platform settings together.</p></div>
-        </div>
-      </section>
+      <section className="container-xl"><div className="row g-3">
+        <div className="col-12 col-md-4"><div className="card cb-feature-card h-100 p-4"><div className="cb-feature-icon mb-3"><Zap size={22} /></div><h3 className="h5 fw-bold text-white">Trading workspace</h3><p className="text-white-50 mb-0">Review supported markets and access the trading interface with clear, focused tools.</p></div></div>
+        <div className="col-12 col-md-4"><div className="card cb-feature-card h-100 p-4"><div className="cb-feature-icon mb-3"><Users size={22} /></div><h3 className="h5 fw-bold text-white">Account management</h3><p className="text-white-50 mb-0">Customer and sub-agent workspaces keep account activity and assigned customer records organized.</p></div></div>
+        <div className="col-12 col-md-4"><div className="card cb-feature-card h-100 p-4"><div className="cb-feature-icon mb-3"><ShieldCheck size={22} /></div><h3 className="h5 fw-bold text-white">Operations controls</h3><p className="text-white-50 mb-0">Administrative tools bring user management, transaction review, reporting and platform settings together.</p></div></div>
+      </div><div className="d-flex align-items-center gap-2 text-white-50 small mt-4"><BarChart3 size={15} /> Market values are indicative; verify quotes before making financial decisions.</div></section>
     </div>
   );
 };

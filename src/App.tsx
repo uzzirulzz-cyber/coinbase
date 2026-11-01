@@ -144,7 +144,7 @@ export default function App() {
         )}
 
         {currentView === 'admin' && currentUser && (
-          <AdminDashboard currentUser={currentUser} />
+          <div className="cb-dashboard-shell cb-admin-shell"><AdminDashboard currentUser={currentUser} /></div>
         )}
 
         {(currentView === 'markets' ||
