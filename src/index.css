@@ -75,3 +75,25 @@
   .cb-home-page { padding-top: 1rem; }
   .cb-home-page .cb-hero { padding: 1.5rem; border-radius: 1.25rem; }
 }
+
+.cb-dashboard-shell { width: min(100% - 2rem, 1440px); }
+.cb-dashboard-shell > * { min-width: 0; }
+.cb-dashboard-shell .cb-glass-card { border-radius: 1rem; }
+.cb-dashboard-shell input, .cb-dashboard-shell select, .cb-dashboard-shell textarea {
+  max-width: 100%; border-radius: .7rem; transition: border-color .18s ease, box-shadow .18s ease;
+}
+.cb-dashboard-shell button { transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease; }
+.cb-admin-shell .grid.grid-cols-1.lg\\:grid-cols-4 { align-items: start; }
+.cb-admin-shell .lg\\:col-span-1 { position: sticky; top: 5.5rem; max-height: calc(100vh - 6.5rem); overflow-y: auto; }
+.cb-admin-shell .lg\\:col-span-1 button { min-height: 2.65rem; }
+.cb-dashboard-shell table { width: 100%; }
+.cb-dashboard-shell th, .cb-dashboard-shell td { vertical-align: middle; }
+.cb-dashboard-shell .overflow-x-auto { scrollbar-width: thin; }
+@media (max-width: 1023px) {
+  .cb-admin-shell .lg\\:col-span-1 { position: static; max-height: none; }
+}
+@media (max-width: 640px) {
+  .cb-dashboard-shell { width: 100%; padding-left: 1rem; padding-right: 1rem; }
+  .cb-dashboard-shell h1 { font-size: 1.45rem; line-height: 1.25; }
+  .cb-dashboard-shell .grid { min-width: 0; }
+}
