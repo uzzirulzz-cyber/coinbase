@@ -144,7 +144,7 @@ export default function App() {
         )}
 
         {currentView === 'admin' && currentUser && (
-          <AdminDashboard currentUser={currentUser} />
+          <div className="admin-bootstrap-shell"><AdminDashboard currentUser={currentUser} /></div>
         )}
 
         {(currentView === 'markets' ||
