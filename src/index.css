@@ -147,3 +147,12 @@
 .cb-capability-card h3 { color: #fff; font-size: 1.05rem; font-weight: 800; }
 .cb-capability-card p { min-height: 4.4rem; color: #91a0b4; font-size: .88rem; line-height: 1.7; }
 @media (max-width: 767px) { .cb-bitcypo-home { padding-top: 1rem; } .cb-bitcypo-hero-wrap { margin-bottom: 3rem; } .cb-hero-trustline { gap: .75rem; } .cb-hero-trustline span { font-size: .73rem; } .cb-home-section { margin-bottom: 3rem; } .cb-capability-card p { min-height: 0; } }
+
+
+/* Carry the template accent through the shared navigation without changing its routes. */
+header.sticky { border-color: rgba(250,206,52,.18) !important; background: rgba(8,13,24,.94) !important; }
+header.sticky nav button[class*="bg-blue-600"] { color: #face34 !important; background: rgba(250,206,52,.09) !important; border-color: rgba(250,206,52,.32) !important; box-shadow: none !important; }
+header.sticky nav button:hover, header.sticky .text-blue-400, header.sticky .text-blue-300 { color: #face34 !important; }
+header.sticky .cb-glass:focus-visible, header.sticky button:focus-visible { outline-color: #face34; }
+header.sticky .cb-blue-gradient { color: #10151d !important; background: #face34 !important; border-color: #face34 !important; box-shadow: none !important; }
+header.sticky .cb-blue-gradient:hover { background: #ffdc65 !important; border-color: #ffdc65 !important; }
