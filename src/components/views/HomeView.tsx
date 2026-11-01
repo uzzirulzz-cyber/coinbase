@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppView, User } from '../../types';
 import { INITIAL_COINS, formatPrice } from '../../lib/market-data';
-import { ArrowUpRight, ShieldCheck, Zap, Users, ChevronRight, Activity, Wallet, BarChart3 } from 'lucide-react';
+import { ArrowUpRight, ShieldCheck, Zap, Users, ChevronRight, Activity, Wallet, BarChart3, TrendingUp, Globe2, LockKeyhole } from 'lucide-react';
 
 interface HomeViewProps {
   onNavigate: (view: AppView) => void;
@@ -11,49 +11,80 @@ interface HomeViewProps {
 
 export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, currentUser, onSelectCoinForTrade }) => {
   const topCoins = INITIAL_COINS.slice(0, 4);
+  const openTrade = (symbol = 'BTC/USDT') => {
+    onSelectCoinForTrade?.(symbol);
+    onNavigate('trade');
+  };
+
   return (
-    <div className="container-fluid cb-home-page py-4 py-lg-5">
-      <section className="container-xl mb-5">
-        <div className="cb-hero cb-glass-card rounded-4 p-4 p-md-5 p-xl-6 position-relative overflow-hidden">
-          <div className="cb-hero-orb cb-hero-orb-one" /><div className="cb-hero-orb cb-hero-orb-two" />
+    <div className="container-fluid cb-bitcypo-home">
+      <section className="container-xl cb-bitcypo-hero-wrap">
+        <div className="cb-bitcypo-hero">
+          <div className="cb-bitcypo-hero-grid" aria-hidden="true" />
           <div className="row align-items-center g-5 position-relative">
-            <div className="col-lg-8">
-              <span className="badge rounded-pill text-bg-primary bg-opacity-25 border border-primary-subtle px-3 py-2 mb-4"><Activity size={14} className="me-2" /> DIGITAL ASSET MARKETS</span>
-              <h1 className="display-4 fw-bold text-white lh-sm mb-3">Your markets. <span className="cb-gradient-text">Your next move.</span></h1>
-              <p className="lead text-white-50 mb-4 cb-hero-copy">Explore cryptocurrency markets, follow the assets you care about, and manage your trading activity from one intuitive workspace.</p>
-              <div className="d-flex flex-wrap gap-3">
-                <button onClick={() => onNavigate('trade')} className="btn btn-primary btn-lg cb-primary-action px-4 py-3 fw-semibold">Open trading terminal <ArrowUpRight size={18} className="ms-2" /></button>
-                {!currentUser ? <button onClick={() => onNavigate('register')} className="btn btn-outline-light btn-lg px-4 py-3">Create an account <ChevronRight size={18} className="ms-1" /></button> : <button onClick={() => onNavigate('wallet')} className="btn btn-outline-light btn-lg px-4 py-3"><Wallet size={18} className="me-2" /> View wallet · \${currentUser.balance.toFixed(2)}</button>}
+            <div className="col-lg-7">
+              <div className="cb-eyebrow"><span className="cb-live-dot" /> DIGITAL ASSET WORKSPACE</div>
+              <h1 className="cb-bitcypo-title">Trade smarter.<br /><span>Move with clarity.</span></h1>
+              <p className="cb-bitcypo-lead">A focused workspace for exploring crypto markets, managing your account and following your trading activity.</p>
+              <div className="d-flex flex-wrap gap-3 mt-4">
+                <button onClick={() => openTrade()} className="btn cb-gold-button btn-lg">Open trading terminal <ArrowUpRight size={18} className="ms-2" /></button>
+                {!currentUser
+                  ? <button onClick={() => onNavigate('register')} className="btn cb-outline-button btn-lg">Create account <ChevronRight size={18} className="ms-1" /></button>
+                  : <button onClick={() => onNavigate('wallet')} className="btn cb-outline-button btn-lg"><Wallet size={17} className="me-2" /> Wallet · {formatPrice(currentUser.balance)}</button>}
               </div>
-              <div className="row g-3 mt-4 pt-4 border-top border-light border-opacity-10">
-                <div className="col-6 col-md-4"><div className="small text-white-50 mb-1">Market access</div><div className="fs-5 fw-bold text-white">Multiple crypto pairs</div></div>
-                <div className="col-6 col-md-4"><div className="small text-white-50 mb-1">Account tools</div><div className="fs-5 fw-bold text-white">Wallet & activity</div></div>
-                <div className="col-12 col-md-4"><div className="small text-white-50 mb-1">Workspace</div><div className="fs-5 fw-bold text-white">Customer · Agent · Admin</div></div>
+              <div className="cb-hero-trustline">
+                <span><ShieldCheck size={16} /> Account controls</span>
+                <span><LockKeyhole size={16} /> Role-based access</span>
+                <span><Globe2 size={16} /> Market overview</span>
               </div>
             </div>
-            <div className="col-lg-4 d-none d-lg-block"><div className="cb-hero-panel rounded-4 p-4">
-              <div className="d-flex justify-content-between align-items-center mb-3"><span className="small text-white-50">Market overview</span><span className="badge text-bg-success bg-opacity-25 text-success">Watchlist</span></div>
-              {topCoins.slice(0, 3).map(coin => <div key={coin.symbol} className="d-flex justify-content-between align-items-center py-3 border-bottom border-light border-opacity-10"><div><div className="fw-semibold text-white">{coin.symbol}</div><div className="small text-white-50">{coin.name}</div></div><div className="text-end"><div className="fw-semibold text-white">{formatPrice(coin.currentPrice)}</div><div className={coin.change24h >= 0 ? 'small text-success' : 'small text-danger'}>{coin.change24h >= 0 ? '+' : ''}{coin.change24h}%</div></div></div>)}
-              <button onClick={() => onNavigate('markets')} className="btn btn-link link-info text-decoration-none px-0 pt-3">Explore markets <ArrowUpRight size={15} className="ms-1" /></button>
-            </div></div>
+            <div className="col-lg-5">
+              <div className="cb-market-glass">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <div><div className="cb-panel-kicker">MARKET SNAPSHOT</div><div className="text-white fw-semibold">Selected assets</div></div>
+                  <span className="cb-data-tag">INDICATIVE DATA</span>
+                </div>
+                {topCoins.slice(0, 3).map((coin) => (
+                  <button type="button" key={coin.symbol} className="cb-asset-row" onClick={() => openTrade(coin.symbol)}>
+                    <span className="cb-asset-mark">{coin.symbol.slice(0, 1)}</span>
+                    <span className="flex-grow-1 text-start"><strong>{coin.symbol}</strong><small>{coin.name}</small></span>
+                    <span className="text-end"><strong>{formatPrice(coin.currentPrice)}</strong><small className={coin.change24h >= 0 ? 'text-success' : 'text-danger'}>{coin.change24h >= 0 ? '+' : ''}{coin.change24h}%</small></span>
+                    <ArrowUpRight size={15} className="ms-2 text-white-50" />
+                  </button>
+                ))}
+                <button onClick={() => onNavigate('markets')} className="cb-text-link mt-3">View all markets <ArrowUpRight size={15} /></button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-      <section className="container-xl mb-5">
-        <div className="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-3"><div><h2 className="h3 fw-bold text-white mb-1">Market highlights</h2><p className="text-white-50 mb-0">Explore available trading pairs</p></div><button onClick={() => onNavigate('markets')} className="btn btn-sm btn-outline-info">All markets <ArrowUpRight size={15} className="ms-1" /></button></div>
-        <div className="row g-3">{topCoins.map(coin => <div className="col-12 col-sm-6 col-xl-3" key={coin.symbol}>
-          <button type="button" className="card cb-market-card h-100 text-start p-3" onClick={() => { onSelectCoinForTrade?.(coin.symbol); onNavigate('trade'); }}>
-            <div className="card-body p-1"><div className="d-flex justify-content-between align-items-start mb-3"><div><div className="fw-bold text-white">{coin.symbol}</div><div className="small text-white-50">{coin.name}</div></div><span className={coin.change24h >= 0 ? 'badge text-bg-success bg-opacity-25' : 'badge text-bg-danger bg-opacity-25'}>{coin.change24h >= 0 ? '+' : ''}{coin.change24h}%</span></div>
-              <div className="fs-3 fw-bold text-white mb-3">{formatPrice(coin.currentPrice)}</div><div className="d-flex justify-content-between align-items-center border-top border-light border-opacity-10 pt-3 small"><span className="text-white-50">24h volume · {coin.volume24h}</span><span className="text-info fw-semibold">Trade <ArrowUpRight size={14} /></span></div>
+
+      <section className="container-xl cb-home-section">
+        <div className="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+          <div><div className="cb-section-kicker">MARKET WATCH</div><h2 className="cb-section-title">Explore the market</h2><p className="cb-section-copy mb-0">Select an asset to open its trading workspace.</p></div>
+          <button onClick={() => onNavigate('markets')} className="btn cb-outline-button">Browse markets <ArrowUpRight size={16} className="ms-2" /></button>
+        </div>
+        <div className="row g-3">
+          {topCoins.map((coin) => (
+            <div className="col-12 col-sm-6 col-xl-3" key={coin.symbol}>
+              <button type="button" className="cb-coin-card w-100 h-100 text-start" onClick={() => openTrade(coin.symbol)}>
+                <div className="d-flex justify-content-between align-items-start"><div><span className="cb-coin-symbol">{coin.symbol}</span><span className="cb-coin-name">{coin.name}</span></div><span className={coin.change24h >= 0 ? 'cb-change positive' : 'cb-change negative'}>{coin.change24h >= 0 ? '+' : ''}{coin.change24h}%</span></div>
+                <div className="cb-coin-price">{formatPrice(coin.currentPrice)}</div>
+                <div className="cb-coin-meta"><span>24h volume · {coin.volume24h}</span><span className="cb-gold-link">Trade <ArrowUpRight size={14} /></span></div>
+              </button>
             </div>
-          </button>
-        </div>)}</div>
+          ))}
+        </div>
+        <p className="cb-market-disclaimer"><Activity size={14} /> Demo/indicative figures from the current app dataset; they are not verified live exchange quotes.</p>
       </section>
-      <section className="container-xl"><div className="row g-3">
-        <div className="col-12 col-md-4"><div className="card cb-feature-card h-100 p-4"><div className="cb-feature-icon mb-3"><Zap size={22} /></div><h3 className="h5 fw-bold text-white">Trading workspace</h3><p className="text-white-50 mb-0">Review supported markets and access the trading interface with clear, focused tools.</p></div></div>
-        <div className="col-12 col-md-4"><div className="card cb-feature-card h-100 p-4"><div className="cb-feature-icon mb-3"><Users size={22} /></div><h3 className="h5 fw-bold text-white">Account management</h3><p className="text-white-50 mb-0">Customer and sub-agent workspaces keep account activity and assigned customer records organized.</p></div></div>
-        <div className="col-12 col-md-4"><div className="card cb-feature-card h-100 p-4"><div className="cb-feature-icon mb-3"><ShieldCheck size={22} /></div><h3 className="h5 fw-bold text-white">Operations controls</h3><p className="text-white-50 mb-0">Administrative tools bring user management, transaction review, reporting and platform settings together.</p></div></div>
-      </div><div className="d-flex align-items-center gap-2 text-white-50 small mt-4"><BarChart3 size={15} /> Market values are indicative; verify quotes before making financial decisions.</div></section>
+
+      <section className="container-xl cb-home-section cb-capabilities">
+        <div className="row g-3">
+          <div className="col-12 col-md-4"><article className="cb-capability-card"><span className="cb-capability-icon"><Zap size={21} /></span><h3>Trading workspace</h3><p>Open supported pairs, review the trading interface and move between market views.</p><button onClick={() => onNavigate('trade')}>Open terminal <ArrowUpRight size={15} /></button></article></div>
+          <div className="col-12 col-md-4"><article className="cb-capability-card"><span className="cb-capability-icon"><Users size={21} /></span><h3>Customer & agent tools</h3><p>Account, wallet and assigned-customer views are available through role-based navigation.</p><button onClick={() => onNavigate(currentUser ? 'profile' : 'login')}>{currentUser ? 'Manage account' : 'Sign in'} <ArrowUpRight size={15} /></button></article></div>
+          <div className="col-12 col-md-4"><article className="cb-capability-card"><span className="cb-capability-icon"><BarChart3 size={21} /></span><h3>Operations console</h3><p>Authorized staff can access administrative workflows and platform records.</p><button onClick={() => onNavigate('admin-login')}>Staff access <ArrowUpRight size={15} /></button></article></div>
+        </div>
+      </section>
     </div>
   );
 };
