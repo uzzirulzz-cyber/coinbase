@@ -97,3 +97,53 @@
   .cb-dashboard-shell h1 { font-size: 1.45rem; line-height: 1.25; }
   .cb-dashboard-shell .grid { min-width: 0; }
 }
+
+
+/* BitCYPO-inspired Bootstrap landing skin: charcoal, deep navy and restrained gold. */
+.cb-bitcypo-home { --bc-gold: #face34; --bc-ink: #080d18; --bc-panel: #101827; padding: 2.5rem 0 4rem; color: #f8fafc; background: radial-gradient(ellipse at 78% 8%, rgba(250,206,52,.075), transparent 32%), #080d18; }
+.cb-bitcypo-hero-wrap { margin-bottom: 4.5rem; }
+.cb-bitcypo-hero { position: relative; isolation: isolate; overflow: hidden; padding: clamp(2rem, 5vw, 5rem); border: 1px solid rgba(250,206,52,.22); border-radius: 1.5rem; background: linear-gradient(115deg, rgba(17,27,43,.98), rgba(7,13,24,.96)); box-shadow: 0 28px 90px rgba(0,0,0,.28); }
+.cb-bitcypo-hero-grid { position: absolute; inset: 0; z-index: -1; opacity: .22; background-image: linear-gradient(rgba(250,206,52,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(250,206,52,.08) 1px, transparent 1px); background-size: 42px 42px; mask-image: linear-gradient(90deg, black, transparent 88%); }
+.cb-eyebrow,.cb-section-kicker,.cb-panel-kicker { color: var(--bc-gold); font-size: .72rem; font-weight: 800; letter-spacing: .16em; }
+.cb-eyebrow { display: inline-flex; align-items: center; gap: .65rem; padding: .6rem .9rem; border: 1px solid rgba(250,206,52,.26); border-radius: 99px; background: rgba(250,206,52,.07); }
+.cb-live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--bc-gold); box-shadow: 0 0 12px rgba(250,206,52,.8); }
+.cb-bitcypo-title { margin: 1.5rem 0 1rem; color: #fff; font-size: clamp(2.7rem, 5.7vw, 5rem); line-height: 1.02; font-weight: 800; letter-spacing: -.055em; }
+.cb-bitcypo-title span { color: var(--bc-gold); }
+.cb-bitcypo-lead { max-width: 600px; color: #aab6c7; font-size: 1.08rem; line-height: 1.8; }
+.cb-gold-button { color: #10151d; background: var(--bc-gold); border: 1px solid var(--bc-gold); border-radius: .7rem; font-weight: 800; box-shadow: 0 8px 28px rgba(250,206,52,.12); }
+.cb-gold-button:hover,.cb-gold-button:focus { color: #10151d; background: #ffdc65; border-color: #ffdc65; transform: translateY(-1px); }
+.cb-outline-button { color: #e8edf5; background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.17); border-radius: .7rem; font-weight: 650; }
+.cb-outline-button:hover { color: var(--bc-gold); border-color: rgba(250,206,52,.55); background: rgba(250,206,52,.06); }
+.cb-hero-trustline { display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 2.5rem; padding-top: 1.2rem; border-top: 1px solid rgba(255,255,255,.09); color: #9ba9bc; font-size: .82rem; }
+.cb-hero-trustline span { display: inline-flex; align-items: center; gap: .5rem; }
+.cb-hero-trustline svg { color: var(--bc-gold); }
+.cb-market-glass { padding: 1.4rem; border: 1px solid rgba(255,255,255,.1); border-radius: 1rem; background: rgba(4,10,19,.72); box-shadow: 0 18px 45px rgba(0,0,0,.24); backdrop-filter: blur(12px); }
+.cb-data-tag { padding: .35rem .5rem; border-radius: .3rem; color: var(--bc-gold); background: rgba(250,206,52,.09); font-size: .58rem; font-weight: 800; letter-spacing: .1em; }
+.cb-asset-row { display: flex; width: 100%; align-items: center; gap: .75rem; padding: .95rem .2rem; border: 0; border-bottom: 1px solid rgba(255,255,255,.075); color: #fff; background: transparent; }
+.cb-asset-row:hover { background: rgba(255,255,255,.035); }
+.cb-asset-row strong,.cb-asset-row small { display: block; }
+.cb-asset-row strong { font-size: .88rem; }
+.cb-asset-row small { margin-top: .18rem; color: #8794a8; font-size: .75rem; }
+.cb-asset-mark { display: grid; width: 2.25rem; height: 2.25rem; place-items: center; border: 1px solid rgba(250,206,52,.3); border-radius: 50%; color: var(--bc-gold); background: rgba(250,206,52,.08); font-weight: 800; }
+.cb-text-link,.cb-capability-card button { display: inline-flex; align-items: center; gap: .45rem; padding: 0; border: 0; color: var(--bc-gold); background: transparent; font-size: .85rem; font-weight: 700; }
+.cb-home-section { margin-bottom: 4rem; }
+.cb-section-title { margin: .45rem 0; color: #fff; font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -.035em; }
+.cb-section-copy { color: #8e9bad; }
+.cb-coin-card { display: block; padding: 1.3rem; border: 1px solid rgba(255,255,255,.1); border-radius: .95rem; background: linear-gradient(145deg, #121c2c, #0c1421); transition: border-color .2s, transform .2s, box-shadow .2s; }
+.cb-coin-card:hover { border-color: rgba(250,206,52,.48); transform: translateY(-3px); box-shadow: 0 14px 32px rgba(0,0,0,.2); }
+.cb-coin-symbol,.cb-coin-name { display: block; }
+.cb-coin-symbol { color: #f8fafc; font-weight: 800; }
+.cb-coin-name { margin-top: .15rem; color: #8492a6; font-size: .78rem; }
+.cb-change { padding: .3rem .45rem; border-radius: .35rem; font-size: .72rem; font-weight: 800; }
+.cb-change.positive { color: #56d6a2; background: rgba(45,190,130,.1); }
+.cb-change.negative { color: #ff8585; background: rgba(235,85,85,.1); }
+.cb-coin-price { margin: 1.5rem 0; color: #fff; font-size: 1.65rem; font-weight: 800; letter-spacing: -.04em; }
+.cb-coin-meta { display: flex; justify-content: space-between; gap: .5rem; padding-top: .85rem; border-top: 1px solid rgba(255,255,255,.08); color: #8190a4; font-size: .7rem; }
+.cb-gold-link { display: inline-flex; align-items: center; gap: .2rem; color: var(--bc-gold); font-weight: 750; }
+.cb-market-disclaimer { display: flex; align-items: center; gap: .5rem; margin-top: 1rem; color: #77869a; font-size: .75rem; }
+.cb-market-disclaimer svg { color: var(--bc-gold); }
+.cb-capability-card { height: 100%; padding: 1.6rem; border: 1px solid rgba(255,255,255,.09); border-radius: 1rem; background: #101927; }
+.cb-capability-icon { display: grid; width: 2.7rem; height: 2.7rem; place-items: center; margin-bottom: 1.25rem; border: 1px solid rgba(250,206,52,.25); border-radius: .7rem; color: var(--bc-gold); background: rgba(250,206,52,.07); }
+.cb-capability-card h3 { color: #fff; font-size: 1.05rem; font-weight: 800; }
+.cb-capability-card p { min-height: 4.4rem; color: #91a0b4; font-size: .88rem; line-height: 1.7; }
+@media (max-width: 767px) { .cb-bitcypo-home { padding-top: 1rem; } .cb-bitcypo-hero-wrap { margin-bottom: 3rem; } .cb-hero-trustline { gap: .75rem; } .cb-hero-trustline span { font-size: .73rem; } .cb-home-section { margin-bottom: 3rem; } .cb-capability-card p { min-height: 0; } }
