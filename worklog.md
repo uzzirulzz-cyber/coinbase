@@ -333,6 +333,35 @@ Stage Summary:
 - Pushed to GitHub: github.com/uzzirulzz-cyber/buzz (clean history, no secrets).
 
 ---
+Task ID: 10
+Agent: orchestrator (main)
+Task: Add canonical route coverage, storefront/admin URL routing, and MongoDB-backed live market data
+Date: 2026-07-07
+
+Work Log:
+- Added and verified the public route map for the storefront and staff/customer entry points: /, /storefront, /home, /admin, /admin-login, /login, /register, /trade, and /wallet.
+- Added SEO endpoints /robots.txt and /sitemap.xml.
+- Added MongoDB Atlas market-data integration:
+  - src/lib/mongodb.ts connection helper.
+  - src/lib/use-live-market.ts hooks for live prices and historical market data.
+  - /api/market/live endpoint for live prices across 10 coins, refreshed by the client polling flow.
+  - /api/market/history endpoint supporting 7D, 1M, 3M, and 6M historical ranges.
+- Added Next.js rewrites so storefront, admin, login, registration, trading, and wallet paths resolve to the correct view-state.
+- Updated the auth store with URL synchronization and role-based view gating (syncFromUrl + gateView).
+- Historical commit message records HTTP 200 checks for the listed pages and market endpoints at the time of that commit. This is historical evidence, not a claim that every route is currently live.
+
+Evidence:
+- Source repository commit: 1d047109894f71a21ba21692a736d43207acec51
+- Source commit title: "BlockExchange — reindex /storefront + /admin + MongoDB real-time data"
+
+Stage Summary:
+- Canonical storefront, staff portal, customer auth, trade, and wallet URL paths were wired.
+- SEO robots and sitemap routes were included.
+- Live and historical market-data endpoints were connected to MongoDB Atlas.
+- URL synchronization and role-aware view gating were added to the auth store.
+
+---
+---
 Task ID: 11
 Agent: orchestrator (main)
 Task: Brock Exchange rebrand + full frontend/backend integration update
@@ -470,3 +499,57 @@ SECTION_META updated:
 tsc: 0 errors
 lint: 0 errors
 build: succeeds
+
+---
+Task ID: 13
+Agent: orchestrator (main)
+Task: Record follow-on KYC, customer account, messaging, wallet, trading, and deployment-hardening work
+Date: 2026-07-09 to 2026-07-16
+
+Work Log:
+- KYC workflow:
+  - Added customer KYC document submission for passport, driving licence, and national ID.
+  - Added admin KYC review with document preview and approve/reject actions.
+  - KYC review actions notify the affected customer.
+- Customer account and profile:
+  - Added profile photo upload and activated profile/settings flows.
+  - Added direct customer-to-customer messaging with inbox, conversation, and send endpoints.
+  - Locked registered email and phone fields against self-service edits.
+  - Added invitation/referral code, linked sub-agent, last-login, and member-since details to admin user profiles.
+  - Added mobile bottom navigation and completed responsive customer-view refinements.
+- Wallet and transaction improvements:
+  - Made transaction history functional and corrected wallet balance refresh after admin actions.
+  - Added balance-reset actions in dashboard, wallet, and assets views.
+  - Applied VIP-level naming/symbol updates and exposed VIP level in admin user management.
+  - Follow-up wallet fixes and theme refinements were recorded in the July 12 sync commit.
+- Trading reliability:
+  - Fixed automatic trade settlement in the dashboard.
+  - Prevented duplicate settlement and added recovery/resumption of active trades.
+  - Added BTS (BitShares) and BTG (Bitcoin Gold) to the supported coin list.
+  - Made Coins / Tokens / Sites tabs functional in the trade view.
+- Database and deployment hardening:
+  - Switched authentication and registration to the new Neon database.
+  - Added health checks that surface database/table status and improved deployment diagnostics.
+  - Added Prisma generation to build/postinstall and corrected standalone bundling for Prisma, bcryptjs, and MongoDB.
+  - Added environment-variable template/configuration and updated ignore rules to keep local secrets and uploaded files out of Git.
+  - Added ads.txt and additional wallet/theme fixes in the July 12 sync.
+  - Later credential maintenance enabled a forced password-change flag for the Super Admin account. Credential values are intentionally not copied into this worklog.
+
+Evidence (source repository commits):
+- KYC submission + admin review: a66f4f05
+- Profile photo/settings: 665f4a96
+- Direct messages: af120ac9
+- Transaction history: 3ce11e96
+- VIP levels/admin actions: 109b5a93, ea033e3e
+- Trade settlement recovery: 11176a3c
+- Coin additions: ef2dcadc
+- Neon database switch: 91ff4dee
+- Database health/build hardening: 343c0924, 94a9b0d0, 517bfce0
+- Wallet/theme/ads follow-up: b2fca8f4
+- Forced password-change maintenance: 692cc2ca
+
+Stage Summary:
+- The source repository history contains implementation work that was not recorded in the prior worklog text: KYC document submission/review, direct messages, profile photo/settings, transaction-history and wallet fixes, trading settlement safeguards, additional assets, Neon database migration, health/build hardening, and later credential-maintenance work.
+- This entry records the source history for handover traceability. It does not assert that these source-repository implementations have been ported to or verified in the Coinbase application.
+
+---
