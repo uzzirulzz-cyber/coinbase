@@ -1,20 +1,7 @@
 import React from 'react';
 import { AppView, User } from '../../types';
 import { INITIAL_COINS, formatPrice } from '../../lib/market-data';
-import { 
-  TrendingUp, 
-  ArrowUpRight, 
-  ShieldCheck, 
-  Zap, 
-  Users, 
-  Wallet, 
-  BarChart2, 
-  Lock, 
-  ChevronRight,
-  Sparkles,
-  Construction,
-  AlertTriangle
-} from 'lucide-react';
+import { ArrowUpRight, ShieldCheck, Zap, Users, ChevronRight } from 'lucide-react';
 
 interface HomeViewProps {
   onNavigate: (view: AppView) => void;
@@ -22,198 +9,71 @@ interface HomeViewProps {
   onSelectCoinForTrade?: (symbol: string) => void;
 }
 
-export const HomeView: React.FC<HomeViewProps> = ({
-  onNavigate,
-  currentUser,
-  onSelectCoinForTrade
-}) => {
+export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, currentUser, onSelectCoinForTrade }) => {
   const topCoins = INITIAL_COINS.slice(0, 4);
 
   return (
-    <div className="space-y-12 py-6">
-      {/* High-Visibility Center Construction Notice */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl bg-gradient-to-b from-amber-950/70 via-amber-900/30 to-slate-950 border-2 border-amber-500/80 p-8 sm:p-12 text-center shadow-[0_0_50px_rgba(245,158,11,0.35)] backdrop-blur-md overflow-hidden">
-          {/* Ambient Glow */}
-          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative z-10 flex flex-col items-center justify-center space-y-4 max-w-3xl mx-auto">
-            {/* Pulsing Pill Badge */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 text-xs sm:text-sm font-mono font-bold tracking-wider uppercase">
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
-              <Construction className="w-4 h-4 text-amber-400" />
-              NOTICE: WORK IN PROGRESS
-              <AlertTriangle className="w-4 h-4 text-amber-400" />
-            </div>
-
-            {/* Big Centered Headline */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-amber-300 tracking-tight leading-tight uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-              THIS IS A TEST PROJECT UNDER CONSTRUCTION
-            </h1>
-
-            {/* Clear Context Subtext */}
-            <p className="text-sm sm:text-base text-amber-100/90 leading-relaxed font-mono max-w-2xl">
-              This system is an experimental staging demonstration environment. All features, market data feeds, simulated balances, and contract options are strictly for testing and development review.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Hero Section */}
+    <div className="cb-home-page space-y-12 py-6">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl cb-glass-card border border-blue-500/30 p-8 sm:p-12 lg:p-16 overflow-hidden shadow-2xl">
-          {/* Subtle Ambient Background Gradients */}
+        <div className="cb-hero relative rounded-3xl cb-glass-card border border-blue-500/30 p-8 sm:p-12 lg:p-16 overflow-hidden shadow-2xl">
           <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
-
+          <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono font-bold">
-              <span className="w-2 h-2 rounded-full bg-blue-400 cb-pulse-dot" />
-              COINBASE ENTERPRISE LIQUIDITY & TRADING TERMINAL
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-bold tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 cb-pulse-dot" />
+              DIGITAL ASSET MARKETS
             </div>
-
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
-              Trade Cryptocurrencies with <span className="cb-gradient-text">Institutional Precision</span>
+              Your markets. <span className="cb-gradient-text">Your next move.</span>
             </h1>
-
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl font-sans">
-              Access lightning-speed execution, technical indicators, 30s/60s contract options, and multi-tier sub-agent broker accounts on Coinbase.
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
+              Explore cryptocurrency markets, follow the assets you care about, and manage your trading activity from one intuitive workspace.
             </p>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <button
-                onClick={() => onNavigate('trade')}
-                className="px-6 py-3.5 rounded-xl font-bold text-sm text-white cb-blue-gradient cb-blue-gradient-hover cb-glow shadow-xl flex items-center gap-2 transition-all"
-              >
-                Launch Trading Terminal <ArrowUpRight className="w-4 h-4" />
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <button onClick={() => onNavigate('trade')} className="btn btn-primary cb-primary-action px-4 py-3 rounded-xl font-bold text-sm text-white flex items-center gap-2 transition-all">
+                Open trading terminal <ArrowUpRight className="w-4 h-4" />
               </button>
-
               {!currentUser ? (
-                <button
-                  onClick={() => onNavigate('register')}
-                  className="px-6 py-3.5 rounded-xl font-bold text-sm text-slate-200 hover:text-white bg-slate-900/80 hover:bg-slate-800 border border-white/10 transition-all flex items-center gap-2"
-                >
-                  Invitation Registration <ChevronRight className="w-4 h-4 text-blue-400" />
+                <button onClick={() => onNavigate('register')} className="btn btn-outline-light px-4 py-3 rounded-xl font-bold text-sm flex items-center gap-2">
+                  Create an account <ChevronRight className="w-4 h-4" />
                 </button>
               ) : (
-                <button
-                  onClick={() => onNavigate('wallet')}
-                  className="px-6 py-3.5 rounded-xl font-bold text-sm text-slate-200 hover:text-white bg-slate-900/80 hover:bg-slate-800 border border-white/10 transition-all flex items-center gap-2"
-                >
-                  Custodial Wallet (${currentUser.balance.toFixed(2)})
+                <button onClick={() => onNavigate('wallet')} className="btn btn-outline-light px-4 py-3 rounded-xl font-bold text-sm">
+                  View wallet · ${currentUser.balance.toFixed(2)}
                 </button>
               )}
             </div>
-
-            {/* Platform Metrics Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-white/10 font-mono">
-              <div>
-                <span className="text-xs text-slate-400">24h Trading Volume</span>
-                <div className="text-xl sm:text-2xl font-black text-white">$2,418,900,000+</div>
-              </div>
-              <div>
-                <span className="text-xs text-slate-400">Order Latency</span>
-                <div className="text-xl sm:text-2xl font-black text-emerald-400">0.38 ms</div>
-              </div>
-              <div>
-                <span className="text-xs text-slate-400">Reserve Backing</span>
-                <div className="text-xl sm:text-2xl font-black text-blue-400">100% 1:1 Proof</div>
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/10">
+              <div><span className="text-xs text-slate-400">Market access</span><div className="text-lg font-bold text-white mt-1">Multiple crypto pairs</div></div>
+              <div><span className="text-xs text-slate-400">Account tools</span><div className="text-lg font-bold text-white mt-1">Wallet & activity</div></div>
+              <div><span className="text-xs text-slate-400">Workspace</span><div className="text-lg font-bold text-white mt-1">Customer · Agent · Admin</div></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Live Market Cards Strip */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-xl font-bold text-white tracking-tight">Market Highlights</h2>
-            <p className="text-xs text-slate-400">Top liquidity pairs with real-time indicators</p>
-          </div>
-          <button
-            onClick={() => onNavigate('markets')}
-            className="text-xs text-blue-400 hover:text-blue-300 font-mono font-bold flex items-center gap-1"
-          >
-            All Markets →
-          </button>
+        <div className="flex items-center justify-between gap-3">
+          <div><h2 className="text-xl font-bold text-white tracking-tight">Market highlights</h2><p className="text-xs text-slate-400">Explore available trading pairs</p></div>
+          <button onClick={() => onNavigate('markets')} className="text-xs text-blue-400 hover:text-blue-300 font-bold">All markets →</button>
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {topCoins.map(coin => {
             const isPositive = coin.change24h >= 0;
-            return (
-              <div
-                key={coin.symbol}
-                className="p-5 rounded-2xl cb-glass-card border border-blue-500/20 hover:border-blue-400/40 transition-all space-y-4 group cursor-pointer"
-                onClick={() => {
-                  if (onSelectCoinForTrade) onSelectCoinForTrade(coin.symbol);
-                  onNavigate('trade');
-                }}
-              >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-bold text-white group-hover:text-blue-400 transition-colors">
-                      {coin.symbol}
-                    </h3>
-                    <span className="text-xs text-slate-400">{coin.name}</span>
-                  </div>
-                  <span className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold ${
-                    isPositive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
-                  }`}>
-                    {isPositive ? '+' : ''}{coin.change24h}%
-                  </span>
-                </div>
-
-                <div className="text-2xl font-black font-mono text-white">
-                  {formatPrice(coin.currentPrice)}
-                </div>
-
-                <div className="flex items-center justify-between text-xs text-slate-400 font-mono pt-2 border-t border-white/5">
-                  <span>24h Vol: {coin.volume24h}</span>
-                  <span className="text-blue-400 font-bold group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
-                    Trade <ArrowUpRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </div>
-            );
+            return <button key={coin.symbol} type="button" onClick={() => { onSelectCoinForTrade?.(coin.symbol); onNavigate('trade'); }} className="cb-market-card text-left p-5 rounded-2xl cb-glass-card border border-blue-500/20 hover:border-blue-400/50 transition-all space-y-4 group">
+              <div className="flex justify-between items-start"><div><h3 className="font-bold text-white group-hover:text-blue-300">{coin.symbol}</h3><span className="text-xs text-slate-400">{coin.name}</span></div><span className={`px-2 py-1 rounded-lg text-xs font-bold ${isPositive ? 'bg-emerald-500/15 text-emerald-400' : 'bg-rose-500/15 text-rose-400'}`}>{isPositive ? '+' : ''}{coin.change24h}%</span></div>
+              <div className="text-2xl font-black text-white">{formatPrice(coin.currentPrice)}</div>
+              <div className="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-white/10"><span>24h volume: {coin.volume24h}</span><span className="text-blue-300 font-bold flex items-center gap-1">Trade <ArrowUpRight className="w-3.5 h-3.5" /></span></div>
+            </button>;
           })}
         </div>
       </section>
 
-      {/* Platform Architecture & Sub-Agent Feature Spotlight */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-2xl cb-glass-card border border-blue-500/20 space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-400/30 flex items-center justify-center text-blue-400">
-              <Zap className="w-6 h-6" />
-            </div>
-            <h3 className="text-base font-bold text-white">High-Yield Contract Options</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Trade 30s, 60s, and 120s binary forecast contracts with up to 85% payouts and instant automated settlement.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl cb-glass-card border border-blue-500/20 space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-purple-600/20 border border-purple-400/30 flex items-center justify-center text-purple-400">
-              <Users className="w-6 h-6" />
-            </div>
-            <h3 className="text-base font-bold text-white">Sub-Agent Broker Network</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Exclusive invitation codes connect certified sub-agents to isolated customer books, earning spread revenue shares.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl cb-glass-card border border-blue-500/20 space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-emerald-600/20 border border-emerald-400/30 flex items-center justify-center text-emerald-400">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <h3 className="text-base font-bold text-white">Super Admin Operations Desk</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Enterprise management suite with balance adjustments, withdrawal verification, risk freezes, and real-time chat support.
-            </p>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="cb-feature-card p-6 rounded-2xl cb-glass-card space-y-3"><div className="w-11 h-11 rounded-xl bg-blue-600/20 flex items-center justify-center text-blue-300"><Zap className="w-5 h-5" /></div><h3 className="font-bold text-white">Trading workspace</h3><p className="text-sm text-slate-400 leading-relaxed">Review supported markets and access the trading interface with clear, focused tools.</p></div>
+          <div className="cb-feature-card p-6 rounded-2xl cb-glass-card space-y-3"><div className="w-11 h-11 rounded-xl bg-violet-600/20 flex items-center justify-center text-violet-300"><Users className="w-5 h-5" /></div><h3 className="font-bold text-white">Account management</h3><p className="text-sm text-slate-400 leading-relaxed">Customer and sub-agent workspaces keep account activity and assigned customer records organized.</p></div>
+          <div className="cb-feature-card p-6 rounded-2xl cb-glass-card space-y-3"><div className="w-11 h-11 rounded-xl bg-emerald-600/20 flex items-center justify-center text-emerald-300"><ShieldCheck className="w-5 h-5" /></div><h3 className="font-bold text-white">Operations controls</h3><p className="text-sm text-slate-400 leading-relaxed">Administrative tools bring user management, transaction review, reporting and platform settings together.</p></div>
         </div>
       </section>
     </div>
