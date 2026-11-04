@@ -182,7 +182,7 @@ export const DeviceAnalyticsSection: React.FC<DeviceAnalyticsSectionProps> = ({ 
   };
 
   return (
-    <div className="space-y-6">
+    <div className="cb-ops-dashboard space-y-6">
       {/* Header & Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -237,7 +237,7 @@ export const DeviceAnalyticsSection: React.FC<DeviceAnalyticsSectionProps> = ({ 
       {/* KPI Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Actively Running Devices */}
-        <div className="p-4 rounded-2xl bg-slate-900/80 border border-blue-500/20 shadow-lg space-y-2">
+        <div className="cb-ops-kpi p-4 rounded-2xl bg-slate-900/80 border border-blue-500/20 shadow-lg space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
             <span>RUNNING DEVICES</span>
             <Laptop className="w-4 h-4 text-blue-400" />
@@ -257,7 +257,7 @@ export const DeviceAnalyticsSection: React.FC<DeviceAnalyticsSectionProps> = ({ 
         </div>
 
         {/* Global Locations */}
-        <div className="p-4 rounded-2xl bg-slate-900/80 border border-emerald-500/20 shadow-lg space-y-2">
+        <div className="cb-ops-kpi p-4 rounded-2xl bg-slate-900/80 border border-emerald-500/20 shadow-lg space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
             <span>ACTIVE LOCATIONS</span>
             <Globe className="w-4 h-4 text-emerald-400" />
@@ -272,7 +272,7 @@ export const DeviceAnalyticsSection: React.FC<DeviceAnalyticsSectionProps> = ({ 
         </div>
 
         {/* Avg Latency */}
-        <div className="p-4 rounded-2xl bg-slate-900/80 border border-purple-500/20 shadow-lg space-y-2">
+        <div className="cb-ops-kpi p-4 rounded-2xl bg-slate-900/80 border border-purple-500/20 shadow-lg space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
             <span>AVG PING LATENCY</span>
             <Wifi className="w-4 h-4 text-purple-400" />
@@ -287,7 +287,7 @@ export const DeviceAnalyticsSection: React.FC<DeviceAnalyticsSectionProps> = ({ 
         </div>
 
         {/* Security Guard */}
-        <div className="p-4 rounded-2xl bg-slate-900/80 border border-amber-500/20 shadow-lg space-y-2">
+        <div className="cb-ops-kpi p-4 rounded-2xl bg-slate-900/80 border border-amber-500/20 shadow-lg space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
             <span>SESSION ENCRYPTION</span>
             <ShieldCheck className="w-4 h-4 text-amber-400" />
@@ -303,7 +303,7 @@ export const DeviceAnalyticsSection: React.FC<DeviceAnalyticsSectionProps> = ({ 
       </div>
 
       {/* Sub-Tabs: Actively Running Devices vs Geolocation vs Platform Analytics */}
-      <div className="flex items-center gap-2 border-b border-white/10 pb-3">
+      <div className="cb-ops-tabs flex items-center gap-2 border-b border-white/10 pb-3">
         <button
           onClick={() => setActiveTab('RUNNING_DEVICES')}
           className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-colors flex items-center gap-2 ${
@@ -383,7 +383,7 @@ export const DeviceAnalyticsSection: React.FC<DeviceAnalyticsSectionProps> = ({ 
           </div>
 
           {/* Running Devices Table */}
-          <div className="overflow-x-auto cb-scroll rounded-2xl border border-white/5 bg-slate-900/60">
+          <div className="cb-ops-table overflow-x-auto cb-scroll rounded-2xl border border-white/5 bg-slate-900/60">
             <table className="w-full text-left text-xs font-mono">
               <thead>
                 <tr className="border-b border-white/5 text-slate-400 bg-slate-950/40">
@@ -539,7 +539,7 @@ export const DeviceAnalyticsSection: React.FC<DeviceAnalyticsSectionProps> = ({ 
         <div className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Country Breakdown Table */}
-            <div className="lg:col-span-2 p-5 rounded-2xl bg-slate-900/80 border border-white/10 space-y-4 shadow-xl">
+            <div className="cb-ops-panel lg:col-span-2 cb-ops-panel p-5 rounded-2xl bg-slate-900/80 border border-white/10 space-y-4 shadow-xl">
               <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                 <Globe className="w-4 h-4 text-emerald-400" /> Active Geographic Clusters ({countryChartData.length} Countries)
               </h3>
@@ -590,7 +590,7 @@ export const DeviceAnalyticsSection: React.FC<DeviceAnalyticsSectionProps> = ({ 
             </div>
 
             {/* Geographical Density Bar Chart */}
-            <div className="p-5 rounded-2xl bg-slate-900/80 border border-white/10 space-y-4 shadow-xl">
+            <div className="cb-ops-panel p-5 rounded-2xl bg-slate-900/80 border border-white/10 space-y-4 shadow-xl">
               <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 text-blue-400" /> Device Density by Region
               </h3>
@@ -619,7 +619,7 @@ export const DeviceAnalyticsSection: React.FC<DeviceAnalyticsSectionProps> = ({ 
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Operating System Distribution */}
-            <div className="p-5 rounded-2xl bg-slate-900/80 border border-white/10 space-y-4 shadow-xl">
+            <div className="cb-ops-panel p-5 rounded-2xl bg-slate-900/80 border border-white/10 space-y-4 shadow-xl">
               <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                 <Cpu className="w-4 h-4 text-purple-400" /> Operating System Breakdown
               </h3>
@@ -658,7 +658,7 @@ export const DeviceAnalyticsSection: React.FC<DeviceAnalyticsSectionProps> = ({ 
             </div>
 
             {/* Hardware & Security Telemetry Specs */}
-            <div className="p-5 rounded-2xl bg-slate-900/80 border border-white/10 space-y-4 shadow-xl">
+            <div className="cb-ops-panel p-5 rounded-2xl bg-slate-900/80 border border-white/10 space-y-4 shadow-xl">
               <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" /> Device Integrity & Defense Specs
               </h3>

@@ -209,3 +209,42 @@ main > .cb-admin-shell {
 @media (max-width: 640px) {
   main > .cb-admin-shell { border-radius: .85rem; }
 }
+/* Match the attached Operations Dashboard card, tabs, and table treatment. */
+.cb-ops-dashboard { color: #e5eaf8; }
+.cb-ops-dashboard .cb-ops-kpi {
+  position: relative; overflow: hidden; border-radius: 1rem;
+  background: linear-gradient(180deg, #111936, #0e1530) !important;
+  border-color: rgba(126,148,205,.18) !important;
+  box-shadow: 0 14px 30px rgba(0,0,0,.2);
+}
+.cb-ops-dashboard .cb-ops-kpi::before {
+  content: ""; position: absolute; inset: 0 0 auto; height: 3px;
+  background: var(--ops-kpi-accent, #3b6bff);
+}
+.cb-ops-dashboard .cb-ops-kpi:nth-child(1) { --ops-kpi-accent: #3b6bff; }
+.cb-ops-dashboard .cb-ops-kpi:nth-child(2) { --ops-kpi-accent: #22c55e; }
+.cb-ops-dashboard .cb-ops-kpi:nth-child(3) { --ops-kpi-accent: #8b5cf6; }
+.cb-ops-dashboard .cb-ops-kpi:nth-child(4) { --ops-kpi-accent: #f5b83d; }
+.cb-ops-dashboard .cb-ops-tabs {
+  padding: .3rem; border: 1px solid rgba(126,148,205,.17); border-radius: .8rem;
+  background: #0e1530;
+}
+.cb-ops-dashboard .cb-ops-tabs button { border-radius: .6rem; transition: .2s ease; }
+.cb-ops-dashboard .cb-ops-tabs button[class*="bg-blue-600"] {
+  background: linear-gradient(90deg, #3b6bff, #5145cd) !important;
+  box-shadow: 0 6px 20px -6px rgba(59,107,255,.8);
+}
+.cb-ops-dashboard .cb-ops-table, .cb-ops-dashboard .cb-ops-panel {
+  border: 1px solid rgba(126,148,205,.16) !important;
+  border-radius: 1rem; background: #111936 !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+}
+.cb-ops-dashboard table thead { position: sticky; top: 0; background: #111936; }
+.cb-ops-dashboard table tbody tr { transition: background-color .18s ease; }
+.cb-ops-dashboard table tbody tr:hover { background: rgba(59,107,255,.08); }
+.cb-ops-dashboard input, .cb-ops-dashboard select {
+  background-color: #0e1530 !important; border-color: rgba(126,148,205,.2) !important;
+}
+.cb-ops-dashboard input:focus, .cb-ops-dashboard select:focus {
+  border-color: #3b6bff !important; box-shadow: 0 0 0 .2rem rgba(59,107,255,.16);
+}
