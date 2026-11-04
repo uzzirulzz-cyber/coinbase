@@ -157,15 +157,3 @@ header.sticky nav button:hover, header.sticky .text-blue-400, header.sticky .tex
 header.sticky .cb-glass:focus-visible, header.sticky button:focus-visible { outline-color: #dd3209; }
 header.sticky .cb-blue-gradient { color: #10151d !important; background: #dd3209 !important; border-color: #dd3209 !important; box-shadow: none !important; }
 header.sticky .cb-blue-gradient:hover { background: #f05a35 !important; border-color: #f05a35 !important; }
-
-/* FlexBiz theme for the storefront and admin dashboard */
-.cb-admin-shell { font-family: "Roboto", system-ui, sans-serif; --cb-admin-accent: #dd3209; }
-.cb-admin-shell h1, .cb-admin-shell h2, .cb-admin-shell h3 { font-family: "Lato", sans-serif; }
-.cb-admin-shell .cb-glass-card { border-color: rgba(221, 50, 9, .2); }
-.cb-admin-shell [class~="bg-blue-600"], .cb-admin-shell [class~="bg-blue-500"] { background-color: #dd3209 !important; }
-.cb-admin-shell [class~="hover:bg-blue-500"]:hover, .cb-admin-shell [class~="hover:bg-blue-600"]:hover { background-color: #f05a35 !important; }
-.cb-admin-shell [class~="text-blue-300"], .cb-admin-shell [class~="text-blue-400"] { color: #f05a35 !important; }
-.cb-admin-shell [class~="border-blue-500/20"], .cb-admin-shell [class~="border-blue-500/30"], .cb-admin-shell [class~="border-blue-500/40"] { border-color: rgba(221, 50, 9, .28) !important; }
-.cb-admin-shell input:focus, .cb-admin-shell select:focus, .cb-admin-shell textarea:focus { border-color: #dd3209 !important; box-shadow: 0 0 0 .18rem rgba(221, 50, 9, .16); }
-.cb-admin-shell .cb-blue-gradient, .cb-admin-shell .cb-primary-action { color: #fff !important; background: linear-gradient(135deg, #dd3209, #b92a0a) !important; border-color: rgba(221, 50, 9, .42) !important; }
-.cb-admin-shell .cb-blue-gradient:hover, .cb-admin-shell .cb-primary-action:hover { background: linear-gradient(135deg, #f05a35, #d8421d) !important; }
