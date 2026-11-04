@@ -69,7 +69,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#050b18] text-slate-100 font-sans selection:bg-blue-600 selection:text-white">
+    <div className={`min-h-screen flex flex-col bg-[#050b18] text-slate-100 font-sans selection:bg-blue-600 selection:text-white ${currentView === 'admin' ? 'cb-admin-app' : ''}`}>
       {/* Persistent Global Navigation */}
       <Navbar
         currentView={currentView}
