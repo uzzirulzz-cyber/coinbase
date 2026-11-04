@@ -157,3 +157,55 @@ header.sticky nav button:hover, header.sticky .text-blue-400, header.sticky .tex
 header.sticky .cb-glass:focus-visible, header.sticky button:focus-visible { outline-color: #dd3209; }
 header.sticky .cb-blue-gradient { color: #10151d !important; background: #dd3209 !important; border-color: #dd3209 !important; box-shadow: none !important; }
 header.sticky .cb-blue-gradient:hover { background: #f05a35 !important; border-color: #f05a35 !important; }
+
+/* Operations Dashboard theme: scoped to the live React admin dashboard. */
+.cb-admin-shell {
+  --ops-bg: #0a0f1f;
+  --ops-card: #111936;
+  --ops-card-alt: #0e1530;
+  --ops-line: rgba(255,255,255,.08);
+  --ops-blue: #3b6bff;
+  --ops-violet: #8b5cf6;
+  color: #e6eaf5;
+  font-family: Inter, system-ui, sans-serif;
+}
+main > .cb-admin-shell {
+  min-height: calc(100vh - 8rem);
+  background: radial-gradient(ellipse at 78% 0%, rgba(59,107,255,.14), transparent 34%), #0a0f1f;
+  border: 1px solid rgba(91,120,205,.14);
+  border-radius: 1.25rem;
+}
+.cb-admin-shell .cb-glass-card {
+  background: linear-gradient(155deg, rgba(17,25,54,.96), rgba(11,17,38,.98));
+  border-color: var(--ops-line);
+  box-shadow: 0 14px 38px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.025);
+  backdrop-filter: blur(14px);
+}
+.cb-admin-shell [class~="bg-slate-900"], .cb-admin-shell [class~="bg-slate-950"] {
+  background-color: var(--ops-card-alt) !important;
+}
+.cb-admin-shell [class~="bg-blue-600"] { background-color: var(--ops-blue) !important; }
+.cb-admin-shell [class~="hover:bg-blue-500"]:hover { background-color: #527cff !important; }
+.cb-admin-shell [class~="text-blue-400"] { color: #8ba8ff !important; }
+.cb-admin-shell [class~="text-blue-300"] { color: #adc0ff !important; }
+.cb-admin-shell [class~="border-blue-500/20"], .cb-admin-shell [class~="border-blue-500/30"], .cb-admin-shell [class~="border-blue-500/40"] {
+  border-color: rgba(91,125,255,.24) !important;
+}
+.cb-admin-shell input:focus, .cb-admin-shell select:focus, .cb-admin-shell textarea:focus {
+  border-color: var(--ops-blue) !important;
+  box-shadow: 0 0 0 .2rem rgba(59,107,255,.17);
+}
+.cb-admin-shell .cb-blue-gradient, .cb-admin-shell .cb-primary-action,
+.cb-admin-shell button[class*="from-blue-600"] {
+  background-image: linear-gradient(120deg, var(--ops-blue), #5145cd) !important;
+  border-color: rgba(139,92,246,.4) !important;
+}
+.cb-admin-shell .cb-blue-gradient:hover, .cb-admin-shell .cb-primary-action:hover,
+.cb-admin-shell button[class*="from-blue-600"]:hover {
+  background-image: linear-gradient(120deg, #527cff, #745ce8) !important;
+}
+.cb-admin-shell table { color: #dce4f8; }
+.cb-admin-shell thead { color: #9caacd; }
+@media (max-width: 640px) {
+  main > .cb-admin-shell { border-radius: .85rem; }
+}
