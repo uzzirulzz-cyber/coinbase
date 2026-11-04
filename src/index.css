@@ -158,93 +158,114 @@ header.sticky .cb-glass:focus-visible, header.sticky button:focus-visible { outl
 header.sticky .cb-blue-gradient { color: #10151d !important; background: #dd3209 !important; border-color: #dd3209 !important; box-shadow: none !important; }
 header.sticky .cb-blue-gradient:hover { background: #f05a35 !important; border-color: #f05a35 !important; }
 
-/* Operations Dashboard theme: scoped to the live React admin dashboard. */
-.cb-admin-shell {
-  --ops-bg: #0a0f1f;
-  --ops-card: #111936;
-  --ops-card-alt: #0e1530;
-  --ops-line: rgba(255,255,255,.08);
-  --ops-blue: #3b6bff;
-  --ops-violet: #8b5cf6;
-  color: #e6eaf5;
-  font-family: Inter, system-ui, sans-serif;
+/* FlexBiz Bootstrap redesign for the live operations dashboard only. */
+.cb-admin-shell.cb-flexbiz-ops {
+  --fb-accent: #dd3209;
+  --fb-accent-dark: #b92906;
+  --fb-accent-soft: #fdeee9;
+  --fb-ink: #171717;
+  --fb-body: #444;
+  --fb-muted: #8d7771;
+  --fb-line: #f0e2de;
+  --fb-surface: #fff;
+  --fb-alt: #f9f5f4;
+  background: var(--fb-alt);
+  border: 1px solid var(--fb-line);
+  border-radius: 1rem;
+  color: var(--fb-body);
+  font-family: "Roboto", system-ui, sans-serif;
+  box-shadow: 0 16px 48px rgba(56,24,15,.06);
 }
-main > .cb-admin-shell {
-  min-height: calc(100vh - 8rem);
-  background: radial-gradient(ellipse at 78% 0%, rgba(59,107,255,.14), transparent 34%), #0a0f1f;
-  border: 1px solid rgba(91,120,205,.14);
-  border-radius: 1.25rem;
+.cb-admin-shell.cb-flexbiz-ops h1,
+.cb-admin-shell.cb-flexbiz-ops h2,
+.cb-admin-shell.cb-flexbiz-ops h3,
+.cb-admin-shell.cb-flexbiz-ops h4 { color: var(--fb-ink); font-family: "Lato", sans-serif; }
+.cb-admin-shell.cb-flexbiz-ops .text-white { color: var(--fb-ink) !important; }
+.cb-admin-shell.cb-flexbiz-ops [class~="text-slate-300"],
+.cb-admin-shell.cb-flexbiz-ops [class~="text-slate-400"] { color: #666 !important; }
+.cb-admin-shell.cb-flexbiz-ops [class~="text-blue-400"],
+.cb-admin-shell.cb-flexbiz-ops [class~="text-blue-300"] { color: var(--fb-accent) !important; }
+.cb-admin-shell.cb-flexbiz-ops .cb-glass-card,
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-table,
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-panel {
+  background: var(--fb-surface) !important;
+  border: 1px solid var(--fb-line) !important;
+  border-radius: 1rem;
+  box-shadow: 0 8px 28px rgba(22,22,22,.045);
 }
-.cb-admin-shell .cb-glass-card {
-  background: linear-gradient(155deg, rgba(17,25,54,.96), rgba(11,17,38,.98));
-  border-color: var(--ops-line);
-  box-shadow: 0 14px 38px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.025);
-  backdrop-filter: blur(14px);
+.cb-admin-shell.cb-flexbiz-ops [class~="bg-slate-900"],
+.cb-admin-shell.cb-flexbiz-ops [class~="bg-slate-900/80"],
+.cb-admin-shell.cb-flexbiz-ops [class~="bg-slate-900/60"],
+.cb-admin-shell.cb-flexbiz-ops [class~="bg-slate-950"],
+.cb-admin-shell.cb-flexbiz-ops [class~="bg-slate-800"] {
+  background: var(--fb-surface) !important;
 }
-.cb-admin-shell [class~="bg-slate-900"], .cb-admin-shell [class~="bg-slate-950"] {
-  background-color: var(--ops-card-alt) !important;
+.cb-admin-shell.cb-flexbiz-ops [class~="border-blue-500/20"],
+.cb-admin-shell.cb-flexbiz-ops [class~="border-blue-500/30"],
+.cb-admin-shell.cb-flexbiz-ops [class~="border-white/5"],
+.cb-admin-shell.cb-flexbiz-ops [class~="border-white/10"] { border-color: var(--fb-line) !important; }
+.cb-admin-shell.cb-flexbiz-ops [class~="bg-blue-600"],
+.cb-admin-shell.cb-flexbiz-ops [class*="from-blue-600"] {
+  background-color: var(--fb-accent) !important;
+  background-image: linear-gradient(120deg, var(--fb-accent), #bf2c0a) !important;
+  color: #fff !important;
 }
-.cb-admin-shell [class~="bg-blue-600"] { background-color: var(--ops-blue) !important; }
-.cb-admin-shell [class~="hover:bg-blue-500"]:hover { background-color: #527cff !important; }
-.cb-admin-shell [class~="text-blue-400"] { color: #8ba8ff !important; }
-.cb-admin-shell [class~="text-blue-300"] { color: #adc0ff !important; }
-.cb-admin-shell [class~="border-blue-500/20"], .cb-admin-shell [class~="border-blue-500/30"], .cb-admin-shell [class~="border-blue-500/40"] {
-  border-color: rgba(91,125,255,.24) !important;
+.cb-admin-shell.cb-flexbiz-ops [class~="hover:bg-blue-500"]:hover,
+.cb-admin-shell.cb-flexbiz-ops [class~="hover:bg-slate-800/60"]:hover {
+  background: var(--fb-accent-soft) !important;
+  color: var(--fb-accent) !important;
 }
-.cb-admin-shell input:focus, .cb-admin-shell select:focus, .cb-admin-shell textarea:focus {
-  border-color: var(--ops-blue) !important;
-  box-shadow: 0 0 0 .2rem rgba(59,107,255,.17);
-}
-.cb-admin-shell .cb-blue-gradient, .cb-admin-shell .cb-primary-action,
-.cb-admin-shell button[class*="from-blue-600"] {
-  background-image: linear-gradient(120deg, var(--ops-blue), #5145cd) !important;
-  border-color: rgba(139,92,246,.4) !important;
-}
-.cb-admin-shell .cb-blue-gradient:hover, .cb-admin-shell .cb-primary-action:hover,
-.cb-admin-shell button[class*="from-blue-600"]:hover {
-  background-image: linear-gradient(120deg, #527cff, #745ce8) !important;
-}
-.cb-admin-shell table { color: #dce4f8; }
-.cb-admin-shell thead { color: #9caacd; }
-@media (max-width: 640px) {
-  main > .cb-admin-shell { border-radius: .85rem; }
-}
-/* Match the attached Operations Dashboard card, tabs, and table treatment. */
-.cb-ops-dashboard { color: #e5eaf8; }
-.cb-ops-dashboard .cb-ops-kpi {
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-kpi {
   position: relative; overflow: hidden; border-radius: 1rem;
-  background: linear-gradient(180deg, #111936, #0e1530) !important;
-  border-color: rgba(126,148,205,.18) !important;
-  box-shadow: 0 14px 30px rgba(0,0,0,.2);
+  background: var(--fb-surface) !important; border: 1px solid var(--fb-line) !important;
+  box-shadow: 0 6px 22px rgba(22,22,22,.035); transition: transform .2s, box-shadow .2s, border-color .2s;
 }
-.cb-ops-dashboard .cb-ops-kpi::before {
-  content: ""; position: absolute; inset: 0 0 auto; height: 3px;
-  background: var(--ops-kpi-accent, #3b6bff);
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-kpi:hover {
+  transform: translateY(-3px); border-color: rgba(221,50,9,.4) !important; box-shadow: 0 12px 28px rgba(22,22,22,.07);
 }
-.cb-ops-dashboard .cb-ops-kpi:nth-child(1) { --ops-kpi-accent: #3b6bff; }
-.cb-ops-dashboard .cb-ops-kpi:nth-child(2) { --ops-kpi-accent: #22c55e; }
-.cb-ops-dashboard .cb-ops-kpi:nth-child(3) { --ops-kpi-accent: #8b5cf6; }
-.cb-ops-dashboard .cb-ops-kpi:nth-child(4) { --ops-kpi-accent: #f5b83d; }
-.cb-ops-dashboard .cb-ops-tabs {
-  padding: .3rem; border: 1px solid rgba(126,148,205,.17); border-radius: .8rem;
-  background: #0e1530;
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-kpi::before {
+  content: ""; position: absolute; inset: 0 0 auto; height: 3px; background: var(--fb-kpi-accent, var(--fb-accent));
 }
-.cb-ops-dashboard .cb-ops-tabs button { border-radius: .6rem; transition: .2s ease; }
-.cb-ops-dashboard .cb-ops-tabs button[class*="bg-blue-600"] {
-  background: linear-gradient(90deg, #3b6bff, #5145cd) !important;
-  box-shadow: 0 6px 20px -6px rgba(59,107,255,.8);
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-kpi:nth-child(1) { --fb-kpi-accent: #dd3209; }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-kpi:nth-child(2) { --fb-kpi-accent: #0f8a4d; }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-kpi:nth-child(3) { --fb-kpi-accent: #b97b0a; }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-kpi:nth-child(4) { --fb-kpi-accent: #161616; }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-tabs {
+  display: inline-flex; flex-wrap: wrap; gap: .25rem; padding: .3rem;
+  border: 1px solid var(--fb-line); border-radius: 50rem; background: #fff;
 }
-.cb-ops-dashboard .cb-ops-table, .cb-ops-dashboard .cb-ops-panel {
-  border: 1px solid rgba(126,148,205,.16) !important;
-  border-radius: 1rem; background: #111936 !important;
-  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-tabs button { border-radius: 50rem; font-family: Inter, sans-serif; }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-tabs button[class*="bg-blue-600"] {
+  color: #fff !important; background: var(--fb-accent) !important; box-shadow: 0 6px 16px rgba(221,50,9,.2);
 }
-.cb-ops-dashboard table thead { position: sticky; top: 0; background: #111936; }
-.cb-ops-dashboard table tbody tr { transition: background-color .18s ease; }
-.cb-ops-dashboard table tbody tr:hover { background: rgba(59,107,255,.08); }
-.cb-ops-dashboard input, .cb-ops-dashboard select {
-  background-color: #0e1530 !important; border-color: rgba(126,148,205,.2) !important;
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-table { overflow: auto; }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard table { color: var(--fb-body); }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard thead { background: var(--fb-alt); }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard th {
+  position: sticky; top: 0; background: var(--fb-alt); color: var(--fb-muted);
+  font-family: Inter, sans-serif; font-size: .75rem; letter-spacing: .05em; text-transform: uppercase;
 }
-.cb-ops-dashboard input:focus, .cb-ops-dashboard select:focus {
-  border-color: #3b6bff !important; box-shadow: 0 0 0 .2rem rgba(59,107,255,.16);
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard td { border-color: var(--fb-line); }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard tbody tr:hover { background: var(--fb-accent-soft); }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard input,
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard select {
+  color: var(--fb-body) !important; background: #fff !important; border-color: var(--fb-line) !important; border-radius: .6rem;
+}
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard input::placeholder { color: #a99a96; }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard input:focus,
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard select:focus {
+  border-color: var(--fb-accent) !important; box-shadow: 0 0 0 .2rem rgba(221,50,9,.12);
+}
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard button { transition: transform .18s ease, box-shadow .18s ease, color .18s ease, background-color .18s ease; }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard button:hover { transform: translateY(-1px); }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-kpi .text-white { color: var(--fb-ink) !important; }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .text-emerald-400,
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .text-emerald-300 { color: #0f8a4d !important; }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .text-amber-400,
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .text-amber-300 { color: #9a6500 !important; }
+.cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .text-rose-300 { color: #b4232c !important; }
+@media (max-width: 640px) {
+  .cb-admin-shell.cb-flexbiz-ops { border-radius: .75rem; }
+  .cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-tabs { border-radius: .8rem; }
+  .cb-admin-shell.cb-flexbiz-ops .cb-ops-dashboard .cb-ops-tabs button { padding: .45rem .65rem; }
 }
